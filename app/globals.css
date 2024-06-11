@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply rounded-lg text-base/5 transition-colors duration-300 ease-in-out py-2.5 px-8 font-medium
+    }
+
+    .custom-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+}
