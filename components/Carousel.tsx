@@ -22,7 +22,6 @@ type features = {
     image: React.ReactNode;
 };
 const Carousel = (): JSX.Element => {
-    const [slidesPerScreen, setSlidesPerScreen] = useState(1);
     const parentContainer = useRef<HTMLDivElement>(null);
 
     const features = [
@@ -100,9 +99,9 @@ const Carousel = (): JSX.Element => {
                 {features.map(feature => (
                     <div className="relative min-w-full bg-black/100 text-white/100 rounded-[40px] p-8 lg:px-12 lg:pt-12 lg:pb-44 lg:mt-14 lg:mb-16" key={feature.id}>
                         <div className="">
-                            <h3 className="font-bold text-xl/8 lg:text-3xl lg:w-1/2">
+                            <h2 className="font-bold text-xl/8 lg:text-3xl lg:w-1/2">
                                 {feature.header}
-                            </h3>
+                            </h2>
 
                             <p className="text-white/90 font-[450] text-sm/7 mt-4 lg:text-base lg:w-1/2">
                                 {feature.text}

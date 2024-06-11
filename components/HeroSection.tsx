@@ -7,7 +7,7 @@ const HeroSection = (): JSX.Element => {
                 Connecting Businesses for Simplified Payments.
             </h1>
 
-            <p className="text-lg/8 mt-2 mb-4 lg:text-xl/8 lg:mt-4 lg:mb-6 w-[90%] mx-auto text-white/90 block">
+            <p className="text-lg/7 mt-2 mb-4 lg:text-xl/8 lg:mt-4 lg:mb-6 w-[90%] mx-auto text-white/90 block">
                 Create and send invoices, manage your finance, track sales, and get paid faster.
             </p>
 

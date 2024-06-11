@@ -35,19 +35,19 @@ const Footer = (): JSX.Element => {
 
             <footer className="px-6 pt-6 pb-8 flex items-center justify-between flex-col gap-6 lg:p-12 md:flex-row">
                 <div className="flex items-center gap-4">
-                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="">
+                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="" aria-label="Connet with us on Facebook">
                         <FacebookIcon size={18} />
                     </Link>
 
-                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="">
+                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="" aria-label="Connect with us on Twitter">
                         <TwitterIcon size={18} />
                     </Link>
 
-                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="">
+                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="" aria-label="Connect with us on Instagram">
                         <InstagramIcon size={18} />
                     </Link>
 
-                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="">
+                    <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="" aria-label="Connect with us on LinkedIn">
                         <LinkedinIcon size={18} />
                     </Link>
                 </div>

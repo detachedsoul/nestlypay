@@ -7,6 +7,18 @@
         @apply rounded-lg text-base/5 transition-colors duration-300 ease-in-out py-2.5 px-8 font-medium
     }
 
+    .input {
+        @apply text-black/70 bg-white/100 border-[1.2px] border-[rgba(241,_241,_241,_1)] rounded-lg w-full block px-6 py-4 focus:outline-none focus:ring-1 focus:border-brand-blue/20 focus:ring-brand-blue/20 focus:ring-offset-2 hover:ring-1 hover:border-brand-blue/20 hover:ring-brand-blue/20 ring-offset-2 placeholder:text-[rgba(151,_151,_151,_1)] font-medium
+    }
+
+    .input-select {
+        @apply form-select input
+    }
+
+    .submit-btn {
+        @apply input bg-brand-blue text-white hover:bg-brand-blue/80 transition-colors duration-300 ease-in-out
+    }
+
     .custom-scrollbar {
         scrollbar-width: none;
         -ms-overflow-style: none;
