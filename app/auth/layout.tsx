@@ -5,7 +5,7 @@ import Faces from "@/assets/img/faces.svg";
 const AuthLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
     return (
         <main className="grid max-h-screen overflow-hidden lg:grid-cols-2">
-            <section className="bg-brand-blue px-6 lg:px-16 h-screen hidden lg:block">
+            <section className="bg-brand-blue px-5 lg:px-14 h-screen hidden lg:block">
                 <Link className="font-medium text-xl/10 inline-flex items-center gap-4 text-white/100 mt-8" href="/auth">
                     <span>
                         N E S T L Y
@@ -42,7 +42,7 @@ const AuthLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                     </span>
                 </Link>
 
-                <div className="overflow-y-auto custom-scrollbar mt-6 lg:mt-0">
+                <div className="overflow-y-auto custom-scrollbar mt-6 pb-3 px-1 lg:mt-0">
                     {children}
                 </div>
             </section>
