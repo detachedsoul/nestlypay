@@ -30,7 +30,7 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
 
                     <div className="flex items-center gap-4">
                         <button type="button" aria-label="Toggle notifications popup">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="20" fill="#0C46D3" fillOpacity="0.05" />
                                 <g clipPath="url(#clip0_2475_692)">
                                     <path d="M19.9997 27.236C20.2797 27.2295 20.5483 27.1243 20.7582 26.9388C20.968 26.7534 21.1055 26.4997 21.1464 26.2227H18.8086C18.8506 26.5072 18.9945 26.7669 19.2136 26.9533C19.4327 27.1397 19.7121 27.2401 19.9997 27.236Z" fill="#0C46D3" />
@@ -45,15 +45,15 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                             </svg>
                         </button>
 
-                        <button type="button" aria-label="Toggle settings">
+                        <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle settings">
                             <SettingsIcon size={28} strokeWidth={1.2} />
                         </button>
 
-                        <button type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
+                        <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
                             {isOpen ? (
                                 <XIcon size={30} strokeWidth={1.2} />
                             ) : (
-                                <MenuIcon size={30} strokeWidth={1.2} />
+                                <MenuIcon size={28} strokeWidth={1.2} />
                             )}
                         </button>
                     </div>
