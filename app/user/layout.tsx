@@ -12,6 +12,14 @@ import { useState, useEffect } from "react";
 const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
 
+    useEffect(() => {
+        if (isOpen) {
+            document.documentElement.classList.add("overflow-hidden");
+        } else {
+            document.documentElement.classList.remove("overflow-hidden");
+        }
+    }, [isOpen]);
+
     return (
         <>
             <header className="sticky top-0 z-[1024]">
@@ -38,7 +46,7 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                         </button>
 
                         <button type="button" aria-label="Toggle settings">
-                            <SettingsIcon size={30} strokeWidth={1.2} />
+                            <SettingsIcon size={28} strokeWidth={1.2} />
                         </button>
 
                         <button type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
@@ -89,7 +97,7 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                     </div>
                 </div>
 
-                <main className="bg-[rgba(250,_250,_250,_1)] p-6 lg:p-8 min-h-screen">
+                <main className="bg-[rgba(250,_250,_250,_1)] px-6 py-8 lg:px-8 min-h-screen">
                     {children}
                 </main>
             </div>
