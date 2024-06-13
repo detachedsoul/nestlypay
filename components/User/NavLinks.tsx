@@ -5,7 +5,7 @@ import Link from "next/link";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
 import { useId } from "react";
 import { usePathname } from "next/navigation";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 
 type link = {
     id: string;

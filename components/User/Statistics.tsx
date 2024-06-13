@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Filler,
-  Legend,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Tooltip,
+    Filler,
+    Legend,
 } from 'chart.js';
 import { Line } from "react-chartjs-2";
 
@@ -45,12 +45,7 @@ const Statistics = (): JSX.Element => {
                 grid: {
                     display: false,
                 },
-            },
-            y: {
-                grid: {
-                    display: false,
-                },
-            },
+            }
         },
         plugins: {
             legend: {
@@ -62,7 +57,7 @@ const Statistics = (): JSX.Element => {
         },
     };
 
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    const labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     const data = {
         labels,
@@ -74,7 +69,7 @@ const Statistics = (): JSX.Element => {
                 borderColor: 'rgba(12, 70, 211, 1)',
                 lineTension: 0.4,
                 segment: {
-                    backgroundColor: 'rgba(12, 70, 211, 0.1)',
+                    backgroundColor: 'rgba(12, 70, 211, 0.05)',
                     borderColor: 'rgba(12, 70, 211, 1)',
                 },
             },
@@ -82,7 +77,7 @@ const Statistics = (): JSX.Element => {
     };
 
     return (
-        <div className="overflow-x-auto custom-scrollbar w-full h-[250px] lg:h-[400px]">
+        <div className="overflow-x-auto custom-scrollbar w-full h-[300px] lg:h-[400px]">
             <Line data={data} options={options} />
         </div>
     );

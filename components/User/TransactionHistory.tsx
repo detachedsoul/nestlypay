@@ -44,7 +44,7 @@ const TransactionHistory = (): JSX.Element => {
                             Wisdom Ojimah
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-8 pr-8 text-black/80 no-underline last:pb-0">
                             ojimahwisdom01@gmail.com
                         </td>
 
@@ -74,7 +74,7 @@ const TransactionHistory = (): JSX.Element => {
                             Jane Ojimah
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-8 pr-8 text-black/80 no-underline last:pb-0">
                             janeojimah@gmail.com
                         </td>
 
@@ -104,7 +104,7 @@ const TransactionHistory = (): JSX.Element => {
                             Dominic Praise
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-8 pr-8 text-black/80 no-underline last:pb-0">
                             dom@nestlypay.com
                         </td>
 

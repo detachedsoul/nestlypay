@@ -5,7 +5,7 @@ import Image from "next/image";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
 import UserImage from "@/assets/img/user-img.jpg";
 import NavLinks from "@/components/User/NavLinks";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 import { MenuIcon, SettingsIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 

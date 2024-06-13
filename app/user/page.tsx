@@ -2,8 +2,9 @@ import Link from "next/link";
 import IndexCards from "@/components/User/IndexCards";
 import TransactionHistory from "@/components/User/TransactionHistory";
 import Statistics from "@/components/User/Statistics";
+import IndexDatePicker from "@/components/User/IndexDatePicker";
 import { CircleAlertIcon } from "lucide-react";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 
 const Index = (): JSX.Element => {
     return (
@@ -32,8 +33,10 @@ const Index = (): JSX.Element => {
                         <h2 className="font-bold text-lg/10 flex items-center gap-2">
                             Statistics
 
-                            <CircleAlertIcon />
+                            <CircleAlertIcon size={18} strokeWidth={1.5} />
                         </h2>
+
+                        <IndexDatePicker />
                     </div>
 
                     <Statistics />
