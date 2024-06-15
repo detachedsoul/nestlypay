@@ -36,7 +36,7 @@ const Index = (): JSX.Element => {
                     Don’t have an account? <Link className="text-brand-blue underline-offset-8 hover:underline hover:decoration-wavy" href="/auth/business/personal-info">Create One</Link>
                 </p>
 
-                <Link className="text-[rgba(243,_133,_133,_1)] text-center block mx-auto underline-offset-8 hover:underline hover:decoration-wavy" href="/auth/business/reset-password">
+                <Link className="text-brand-red font-medium text-center block mx-auto underline-offset-8 hover:underline hover:decoration-wavy" href="/auth/business/reset-password">
                     Forgot Password
                 </Link>
             </div>

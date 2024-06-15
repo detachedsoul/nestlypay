@@ -31,12 +31,14 @@ type NavLinks = {
 const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
     const pathname = usePathname();
 
-    const closeNavBar = () => {
-        setIsOpen(false);
-    };
-
     useEffect(() => {
-        closeNavBar();
+        setIsOpen(false);
+
+        // For some reasons Nextjs doesn't scroll to the top of the page when you navigate to a new page. This fixes it
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     }, [pathname]);
 
     const links: navLink[] = [

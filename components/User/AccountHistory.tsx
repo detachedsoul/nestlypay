@@ -1,5 +1,3 @@
-
-
 const AccountHistory = (): JSX.Element => {
     return (
         <div className="overflow-x-auto custom-scrollbar">
