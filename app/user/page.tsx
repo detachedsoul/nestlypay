@@ -17,7 +17,7 @@ const Index = (): JSX.Element => {
         <>
             <div className="flex items-center gap-6 flex-wrap justify-between">
                 <div>
-                    <h1 className="text-black/100 font-bold text-xl/10">
+                    <h1 className="text-black/100 font-bold text-2xl/10">
                         Welcome to NestlyPay, Wisdom 🎊
                     </h1>
 
