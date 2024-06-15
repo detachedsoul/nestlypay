@@ -36,7 +36,7 @@ const Index = (): JSX.Element => {
 
                 <section className="space-y-7">
                     <div className="flex items-center gap-4 justify-between text-black/100">
-                        <h2 className="font-bold text-lg/10 flex items-center gap-2">
+                        <h2 className="font-bold text-xl/10 flex items-center gap-2">
                             Statistics
 
                             <CircleAlertIcon size={18} strokeWidth={1.5} />
@@ -50,7 +50,7 @@ const Index = (): JSX.Element => {
 
                 <section className="space-y-7">
                     <div className="flex items-center gap-4 justify-between text-black/100">
-                        <h2 className="font-bold text-lg/10 text-black/100">
+                        <h2 className="font-bold text-xl/10 text-black/100">
                             Transaction History
                         </h2>
 

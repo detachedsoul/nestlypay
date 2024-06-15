@@ -5,15 +5,18 @@ import Image from "next/image";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
 import UserImage from "@/assets/img/user-img.jpg";
 import NavLinks from "@/components/User/NavLinks";
-import { usePathname } from "next/navigation";
+import SettingsDropdown from "@/components/User/SettingsDropdown";
+import NotificationsDropdown from "@/components/User/NotificationsDropdown";
 import { cn } from "@/lib/utils";
 import { MenuIcon, SettingsIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
-    const pathname = usePathname;
-
     const [isOpen, setIsOpen] = useState(false);
+
+    const [dropdownIsActive, setDropdownIsActive] = useState(false);
+
+    const [notificationsIsActive, setNotificationIsActive] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
@@ -31,8 +34,8 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                         <Image className="w-10 h-auto" src={DashboardLogo} alt="NestlyPay" quality={100} />
                     </Link>
 
-                    <div className="flex items-center gap-4">
-                        <button type="button" aria-label="Toggle notifications popup">
+                    <div className="flex items-center gap-4 relative">
+                        <button type="button" aria-label="Toggle notifications popup" onClick={() => setNotificationIsActive(!notificationsIsActive)}>
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="20" fill="#0C46D3" fillOpacity="0.05" />
                                 <g clipPath="url(#clip0_2475_692)">
@@ -48,9 +51,13 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                             </svg>
                         </button>
 
-                        <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle settings">
+                        <NotificationsDropdown isOpen={notificationsIsActive} />
+
+                        <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle settings" onClick={() => setDropdownIsActive(!dropdownIsActive)}>
                             <SettingsIcon size={28} strokeWidth={0.8} />
                         </button>
+
+                        <SettingsDropdown isOpen={dropdownIsActive} />
 
                         <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
                             {isOpen ? (
@@ -75,9 +82,9 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                         </label>
                     </form>
 
-                    <div className="flex items-center gap-8">
-                        <button type="button" aria-label="Toggle notifications popup">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <div className="flex items-center gap-8 relative">
+                        <button type="button" aria-label="Toggle notifications popup" onClick={() => setNotificationIsActive(!notificationsIsActive)}>
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="20" fill="#0C46D3" fillOpacity="0.05" />
                                 <g clipPath="url(#clip0_2475_692)">
                                     <path d="M19.9997 27.236C20.2797 27.2295 20.5483 27.1243 20.7582 26.9388C20.968 26.7534 21.1055 26.4997 21.1464 26.2227H18.8086C18.8506 26.5072 18.9945 26.7669 19.2136 26.9533C19.4327 27.1397 19.7121 27.2401 19.9997 27.236Z" fill="#0C46D3" />
@@ -92,9 +99,14 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                             </svg>
                         </button>
 
-                        <button type="button" aria-label="Toggle settings">
+                        <NotificationsDropdown isOpen={notificationsIsActive} />
+
+
+                        <button type="button" aria-label="Toggle settings" onClick={() => setDropdownIsActive(!dropdownIsActive)}>
                             <Image className="w-12 h-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt="Wisdom Ojimah" />
                         </button>
+
+                        <SettingsDropdown isOpen={dropdownIsActive} />
                     </div>
                 </div>
 

@@ -21,6 +21,7 @@ type navLink = {
     icon?: JSX.Element;
     categoryName?: string;
     links?: link[];
+    relatedLinks?: string[]
 };
 
 type NavLinks = {
@@ -58,7 +59,10 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                         </clipPath>
                     </defs>
                 </svg>
-            )
+            ),
+            relatedLinks: [
+                "/user/transactions"
+            ],
         },
         {
             id: useId(),
@@ -190,7 +194,7 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                                         <Link className={
                                             cn(
                                                 "dashboard-link", {
-                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route
+                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || navLink?.relatedLinks?.includes(pathname)
                                             }
                                             )
                                         } href={link.route}>
@@ -206,7 +210,7 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                         <Link className={
                             cn(
                                 "dashboard-link", {
-                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === navLink.route
+                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": (pathname === navLink.route) || navLink?.relatedLinks?.includes(pathname)
                             })
                         } href={navLink.route ? navLink.route : ""} key={navLink.id}>
                             {navLink.icon}
