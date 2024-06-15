@@ -5,11 +5,14 @@ import Image from "next/image";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
 import UserImage from "@/assets/img/user-img.jpg";
 import NavLinks from "@/components/User/NavLinks";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { MenuIcon, SettingsIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
+    const pathname = usePathname;
+
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -46,22 +49,20 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                         </button>
 
                         <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle settings">
-                            <SettingsIcon size={28} strokeWidth={1.2} />
+                            <SettingsIcon size={28} strokeWidth={0.8} />
                         </button>
 
                         <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
                             {isOpen ? (
-                                <XIcon size={30} strokeWidth={1.2} />
+                                <XIcon size={30} strokeWidth={0.8} />
                             ) : (
-                                <MenuIcon size={28} strokeWidth={1.2} />
+                                <MenuIcon size={28} strokeWidth={0.8} />
                             )}
                         </button>
                     </div>
                 </div>
 
-                <div className={cn("fixed w-full overflow-y-auto h-[calc(100%-4.55rem)] transition-all ease-in-out duration-500 z-50 custom-scrollbar lg:w-80 lg:bottom-0 lg:h-full lg:block", {"bottom-0": isOpen, "-bottom-full": !isOpen})}>
-                    <NavLinks />
-                </div>
+                <NavLinks isOpen={isOpen} setIsOpen={setIsOpen} />
             </header>
 
             <div className="w-full z-50 lg:w-[calc(100%-20rem)] lg:ml-auto">

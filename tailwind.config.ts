@@ -19,8 +19,8 @@ const config: Config = {
         extend: {
             colors: {
                 "brand-blue": "rgba(12, 70, 211, 1)",
-                "brand-red": "rgba(255, 0, 0, 0.7)",
-                "brand-green": "rgba(39, 174, 96, 0.7)",
+                "brand-red": "rgba(255, 0, 0, 1)",
+                "brand-green": "rgba(69, 184, 69, 1)",
                 "brand-yellow": "rgba(225, 152, 27, 1)"
             },
             backgroundImage: {

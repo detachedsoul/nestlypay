@@ -7,7 +7,7 @@ const IndexCards = (): JSX.Element => {
                 </h2>
 
                 <p className="font-bold text-lg/10">
-                    ₦131,900,092.00
+                    ₦ 131,900,092.00
                 </p>
             </div>
 

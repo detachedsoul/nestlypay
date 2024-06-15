@@ -34,91 +34,91 @@ const TransactionHistory = (): JSX.Element => {
 
                 <tbody>
                     <tr className="cursor-pointer">
-                        <td className="font-medium pb-8 pr-6 last:pb-0">
+                        <td className="font-medium pb-6 pr-6 last:pb-0">
                             <div className="bg-brand-yellow text-white w-10 h-10 rounded-full font-black grid place-content-center">
                                 W
                             </div>
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             Wisdom Ojimah
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 no-underline last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 no-underline last:pb-0">
                             ojimahwisdom01@gmail.com
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             ₦ 39,000.00
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             13/06/2024
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80">
-                            <p className="bg-brand-yellow/10 text-brand-yellow py-2.5 px-5 rounded-[5px] text-sm font-medium">
+                        <td className="pb-6 pr-8 text-black/80">
+                            <p className="bg-brand-yellow/10 text-brand-yellow py-2.5 px-5 rounded-[5px] text-sm font-medium text-center">
                                 Pending
                             </p>
                         </td>
                     </tr>
 
                     <tr className="cursor-pointer">
-                        <td className="font-medium pb-8 pr-6 last:pb-0">
+                        <td className="font-medium pb-6 pr-6 last:pb-0">
                             <div className="bg-brand-green text-white w-10 h-10 rounded-full font-black grid place-content-center">
                                 J
                             </div>
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             Jane Ojimah
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 no-underline last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 no-underline last:pb-0">
                             janeojimah@gmail.com
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             ₦ 39,000.00
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             13/06/2024
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80">
-                            <p className="bg-brand-green/10 text-brand-green py-2.5 px-5 rounded-[5px] text-sm font-medium">
+                        <td className="pb-6 pr-8 text-black/80">
+                            <p className="bg-brand-green/10 text-brand-green py-2.5 px-5 rounded-[5px] text-sm font-medium text-center">
                                 Success
                             </p>
                         </td>
                     </tr>
 
                     <tr className="cursor-pointer">
-                        <td className="font-medium pb-8 pr-6 last:pb-0">
+                        <td className="font-medium pb-6 pr-6 last:pb-0">
                             <div className="bg-brand-red text-white w-10 h-10 rounded-full font-black grid place-content-center">
                                 D
                             </div>
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             Dominic Praise
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 no-underline last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 no-underline last:pb-0">
                             dom@nestlypay.com
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             ₦ 39,000.00
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80 last:pb-0">
+                        <td className="pb-6 pr-8 text-black/80 last:pb-0">
                             13/06/2024
                         </td>
 
-                        <td className="pb-8 pr-8 text-black/80">
-                            <p className="bg-brand-red/10 text-brand-red py-2.5 px-5 rounded-[5px] text-sm font-medium">
-                                Success
+                        <td className="pb-6 pr-8 text-black/80">
+                            <p className="bg-brand-red/10 text-brand-red py-2.5 px-5 rounded-[5px] text-sm font-medium text-center">
+                                Cancelled
                             </p>
                         </td>
                     </tr>

@@ -5,6 +5,12 @@ import Statistics from "@/components/User/Statistics";
 import IndexDatePicker from "@/components/User/IndexDatePicker";
 import { CircleAlertIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "NestlyPay | User Dashboard",
+    description: "NestlyPay - Connecting business for simplified payments"
+};
 
 const Index = (): JSX.Element => {
     return (
@@ -20,7 +26,7 @@ const Index = (): JSX.Element => {
                     </p>
                 </div>
 
-                <Link className={cn("btn bg-white/100 border-2 border-brand-blue font-medium text-brand-blue hover:bg-brand-blue hover:text-white hover:border-white py-[1.2rem] rounded-xl inline-block")} href="/user">
+                <Link className={cn("btn bg-white/100 border-2 border-brand-blue font-medium text-brand-blue hover:bg-brand-blue hover:text-white hover:border-white py-4 rounded-xl inline-block")} href="/user">
                     Create Invoice
                 </Link>
             </div>
@@ -44,11 +50,11 @@ const Index = (): JSX.Element => {
 
                 <section className="space-y-7">
                     <div className="flex items-center gap-4 justify-between text-black/100">
-                        <h2 className="font-bold text-lg/10">
+                        <h2 className="font-bold text-lg/10 text-black/100">
                             Transaction History
                         </h2>
 
-                        <Link className="underline-offset-8 hover:underline hover:decoration-wavy" href="/user/transaction-history">
+                        <Link className="underline-offset-8 hover:underline hover:decoration-wavy text-black/100" href="/user/transactions">
                             View All
                         </Link>
                     </div>

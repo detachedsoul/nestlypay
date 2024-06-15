@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
-import { useId } from "react";
+import { useId, useEffect, Dispatch, SetStateAction } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -23,8 +23,21 @@ type navLink = {
     links?: link[];
 };
 
-const NavLinks = (): JSX.Element => {
+type NavLinks = {
+    isOpen: boolean,
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
     const pathname = usePathname();
+
+    const closeNavBar = () => {
+        setIsOpen(false);
+    };
+
+    useEffect(() => {
+        closeNavBar();
+    }, [pathname]);
 
     const links: navLink[] = [
         {
@@ -144,7 +157,7 @@ const NavLinks = (): JSX.Element => {
     ];
 
     return (
-        <>
+        <div className={cn("fixed w-full overflow-y-auto h-[calc(100%-4.55rem)] transition-all ease-in-out duration-500 z-50 custom-scrollbar lg:w-80 lg:bottom-0 lg:h-full lg:block", { "bottom-0": isOpen, "-bottom-full": !isOpen })}>
             <div className="px-[10%] sticky top-0 hidden bg-white/100 py-4 lg:block">
                 <div className="flex items-center gap-4">
                     <Image className="w-14 h-auto" src={DashboardLogo} alt="NestlyPay" quality={100} />
@@ -193,7 +206,7 @@ const NavLinks = (): JSX.Element => {
                                 "dashboard-link", {
                                 "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === navLink.route
                             })
-                        } href="" key={navLink.id}>
+                        } href={navLink.route ? navLink.route : ""} key={navLink.id}>
                             {navLink.icon}
 
                             {navLink.routeName}
@@ -201,7 +214,7 @@ const NavLinks = (): JSX.Element => {
                     )
                 )}
             </nav>
-        </>
+        </div>
     );
 };
 
