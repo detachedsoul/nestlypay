@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { MenuIcon, SettingsIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
+const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [dropdownIsActive, setDropdownIsActive] = useState(false);

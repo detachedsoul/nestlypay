@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
 import { useId, useEffect, Dispatch, SetStateAction } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type link = {
@@ -12,6 +12,7 @@ type link = {
     route: string;
     routeName: string;
     icon: JSX.Element;
+    relatedLinks?: string[];
 };
 
 type navLink = {
@@ -31,6 +32,8 @@ type NavLinks = {
 
 const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
     const pathname = usePathname();
+
+    const segment = useSelectedLayoutSegments();
 
     useEffect(() => {
         setIsOpen(false);
@@ -124,7 +127,10 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                                 <path d="M16.25 22.0004C16.25 22.3449 16.2863 22.6865 16.3588 23.0252C16.4308 23.3644 16.5447 23.6895 16.7004 24.0004H11.734C11.3452 24.0004 11.0145 23.8644 10.742 23.5924C10.47 23.3199 10.334 22.9892 10.334 22.6004V15.434C10.334 15.0447 10.47 14.714 10.742 14.442C11.0145 14.17 11.3452 14.034 11.734 14.034H14.234V12.734C14.234 12.3452 14.37 12.0145 14.642 11.742C14.914 11.47 15.2447 11.334 15.634 11.334H18.3668C18.7561 11.334 19.0868 11.47 19.3588 11.742C19.6308 12.0145 19.7668 12.3452 19.7668 12.734V14.034H22.2668C22.6556 14.034 22.9863 14.17 23.2588 14.442C23.5308 14.714 23.6668 15.0447 23.6668 15.434V18.0668C23.278 17.8001 22.8559 17.5975 22.4004 17.4588C21.9449 17.3196 21.4783 17.25 21.0004 17.25C19.6895 17.25 18.57 17.714 17.642 18.642C16.714 19.57 16.25 20.6895 16.25 22.0004ZM15.634 14.034H18.3668V12.734H15.634V14.034ZM21.0004 25.3508C20.0783 25.3508 19.2895 25.0228 18.634 24.3668C17.978 23.7113 17.65 22.9225 17.65 22.0004C17.65 21.0671 17.978 20.2753 18.634 19.6252C19.2895 18.9751 20.0783 18.65 21.0004 18.65C21.9337 18.65 22.7255 18.9751 23.3756 19.6252C24.0257 20.2753 24.3508 21.0671 24.3508 22.0004C24.3508 22.9225 24.0228 23.7113 23.3668 24.3668C22.7113 25.0228 21.9225 25.3508 21.0004 25.3508ZM22.1004 23.6836L22.5668 23.2172L21.2836 21.9508V20.0172H20.634V22.2004L22.1004 23.6836Z" fill="#0C46D3" />
                             </g>
                         </svg>
-                    )
+                    ),
+                    relatedLinks: [
+                        `/user/${segment[0]}/${segment[1]}`
+                    ]
                 },
                 {
                     id: useId(),
@@ -189,12 +195,12 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                             </p>
 
                             <ul className="grid gap-1">
-                                {navLink!.links!.map((link: link): JSX.Element => (
+                                {navLink?.links?.map((link: link): JSX.Element => (
                                     <li key={link.id}>
                                         <Link className={
                                             cn(
                                                 "dashboard-link", {
-                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || navLink?.relatedLinks?.includes(pathname)
+                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || link?.relatedLinks?.includes(pathname)
                                             }
                                             )
                                         } href={link.route}>
