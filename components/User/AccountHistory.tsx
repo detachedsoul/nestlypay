@@ -49,7 +49,7 @@ const AccountHistory = (): JSX.Element => {
                     <tbody>
                         <tr>
                             <td className="font-medium pb-6 pr-4 last:pb-0">
-                                <div className="bg-purple-500 text-white w-10 h-10 rounded-full font-black grid place-content-center">
+                                <div className="bg-purple-500 text-white size-10 rounded-full font-black grid place-content-center">
                                     W
                                 </div>
                             </td>

@@ -31,7 +31,7 @@ const PopWrapper: React.FC<PopupWrapper> = ({
             >
                 <div className="relative mb-4">
                     <button
-                        className="absolute right-0 top-[calc(1.25rem/4)]"
+                        className="absolute right-0"
                         type="button"
                         onClick={() => toggleIsActive(false)}
                         aria-label="Close modal"

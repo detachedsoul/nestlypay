@@ -73,7 +73,7 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
             </header>
 
             <div className="w-full z-50 lg:w-[calc(100%-20rem)] lg:ml-auto">
-                <div className="bg-white/100 py-4 px-8 hidden lg:flex items-center justify-between gap-4 sticky top-0">
+                <div className="bg-white/100 py-4 px-8 hidden lg:flex items-center justify-between gap-4 sticky z-[1024] top-0">
                     <form className="w-1/2">
                         <label className={cn("input", "w-full shrink-0 flex items-center py-0")}htmlFor="search">
                             <input className="py-3 focus:outline-none w-full" type="search" placeholder="Search" name="search" id="search" />
@@ -103,7 +103,7 @@ const UserLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
 
 
                         <button type="button" aria-label="Toggle settings" onClick={() => setDropdownIsActive(!dropdownIsActive)}>
-                            <Image className="w-12 h-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt="Wisdom Ojimah" />
+                            <Image className="size-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt="Wisdom Ojimah" />
                         </button>
 
                         <SettingsDropdown isOpen={dropdownIsActive} />
