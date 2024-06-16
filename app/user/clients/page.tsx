@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const Index = (): JSX.Element => {
     return (
-        <section className="space-y-12">
+        <section className="grid gap-12">
             <div className="flex items-center gap-4 justify-between flex-wrap text-black/100">
                 <h1 className="font-bold text-xl/10 text-black/100">
                     Clients

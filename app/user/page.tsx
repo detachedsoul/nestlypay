@@ -48,7 +48,7 @@ const Index = (): JSX.Element => {
                     <Statistics />
                 </section>
 
-                <section className="space-y-7">
+                <section className="grid gap-7">
                     <div className="flex items-center gap-4 justify-between text-black/100">
                         <h2 className="font-bold text-xl/10 text-black/100">
                             Transaction History
