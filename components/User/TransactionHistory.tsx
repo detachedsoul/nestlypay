@@ -1,6 +1,6 @@
 "use client";
 
-import PopupWrapper from "../PopupWrapper";
+import PopupWrapper from "@/components/PopupWrapper";
 import { useState } from "react";
 
 const TransactionHistory = (): JSX.Element => {
@@ -133,7 +133,7 @@ const TransactionHistory = (): JSX.Element => {
             </div>
 
             <PopupWrapper isActive={popupIsActive} toggleIsActive={() => setPopupIsActive(false)}>
-                <div className="space-y-16 p-4 lg:p-8 mt-4">
+                <div className="space-y-16">
                     <div className="grid place-content-center">
                         <div className="flex items-center gap-4">
                             <div className="bg-[rgba(255,_184,_0,_1)] rounded-xl grid place-content-center px-4 py-3.5 text-xl text-white/100 font-bold">

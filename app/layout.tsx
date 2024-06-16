@@ -39,7 +39,7 @@ export default function RootLayout({
                 <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
             </head>
 
-            <body className={`antialiased scroll-smooth text-base font-normal text-black/70 selection:bg-brand-blue selection:text-white break-words [word-break:break-word] [word-wrap:break-word] overflow-clip isolate ${circularSTD.className}`}>
+            <body className={`antialiased scroll-smooth text-base font-normal text-black/70 selection:bg-brand-blue selection:text-white break-words [word-break:break-word] [word-wrap:break-word] ${circularSTD.className}`}>
                 {children}
             </body>
         </html>
