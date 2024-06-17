@@ -8,7 +8,7 @@ import NavLinks from "@/components/User/NavLinks";
 import SettingsDropdown from "@/components/User/SettingsDropdown";
 import NotificationsDropdown from "@/components/User/NotificationsDropdown";
 import { cn } from "@/lib/utils";
-import { MenuIcon, SettingsIcon, SearchIcon, XIcon } from "lucide-react";
+import { LayoutDashboardIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element => {
@@ -30,12 +30,19 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
         <>
             <header className="sticky top-0 z-[1024]">
                 <div className="flex items-center gap-4 justify-between py-4 px-6 bg-white/100 border-b border-[rgba(241,_241,_241,_1)] lg:hidden">
-                    <Link href="/user">
-                        <Image className="w-10 h-auto" src={DashboardLogo} alt="NestlyPay" quality={100} />
-                    </Link>
+                    <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
+                        {isOpen ? (
+                            <XIcon size={30} strokeWidth={0.8} />
+                        ) : (
+                            <LayoutDashboardIcon size={28} strokeWidth={0.8} />
+                        )}
+                    </button>
 
                     <div className="flex items-center gap-4 relative">
-                        <button type="button" aria-label="Toggle notifications popup" onClick={() => setNotificationIsActive(!notificationsIsActive)}>
+                        <button type="button" aria-label="Toggle notifications popup" onClick={() => {
+                            setDropdownIsActive(false);
+                            setNotificationIsActive(!notificationsIsActive)
+                        }}>
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="20" fill="#0C46D3" fillOpacity="0.05" />
                                 <g clipPath="url(#clip0_2475_692)">
@@ -53,19 +60,14 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
 
                         <NotificationsDropdown isOpen={notificationsIsActive} />
 
-                        <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle settings" onClick={() => setDropdownIsActive(!dropdownIsActive)}>
-                            <SettingsIcon size={28} strokeWidth={0.8} />
+                        <button type="button" aria-label="Toggle settings" onClick={() => {
+                            setNotificationIsActive(false);
+                            setDropdownIsActive(!dropdownIsActive);
+                        }}>
+                            <Image className="size-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt="Wisdom Ojimah" />
                         </button>
 
                         <SettingsDropdown isOpen={dropdownIsActive} />
-
-                        <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
-                            {isOpen ? (
-                                <XIcon size={30} strokeWidth={0.8} />
-                            ) : (
-                                <MenuIcon size={28} strokeWidth={0.8} />
-                            )}
-                        </button>
                     </div>
                 </div>
 

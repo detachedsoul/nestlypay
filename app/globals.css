@@ -8,7 +8,7 @@
     }
 
     .input {
-        @apply text-black/70 bg-white/100 border-[1.2px] border-[rgba(241,_241_241,_1)] rounded-lg w-full block px-6 py-4 focus:outline-none focus:ring-1 focus:border-brand-blue/20 focus:ring-brand-blue/20 focus:ring-offset-2 hover:ring-1 hover:border-brand-blue/20 hover:ring-brand-blue/20 focus-within:ring-1 focus-within:border-brand-blue/20 focus-within:ring-brand-blue/20 focus-within:ring-offset-2 ring-offset-2 placeholder:text-[rgba(151,_151,_151,_1)] font-medium
+        @apply text-black/70 bg-white/100 border-[1.2px] border-[rgba(241,_241,_241,_1)] rounded-lg w-full block px-6 py-4 focus:outline-none focus:ring-1 focus:border-brand-blue/20 focus:ring-brand-blue/20 focus:ring-offset-2 hover:ring-1 hover:border-brand-blue/20 hover:ring-brand-blue/20 focus-within:ring-1 focus-within:border-brand-blue/20 focus-within:ring-brand-blue/20 focus-within:ring-offset-2 ring-offset-2 placeholder:text-[rgba(151,_151,_151,_1)] font-medium
     }
 
     .input-select {

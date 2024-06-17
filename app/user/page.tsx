@@ -35,7 +35,7 @@ const Index = (): JSX.Element => {
                 <IndexCards />
 
                 <section className="space-y-7">
-                    <div className="flex items-center gap-4 justify-between text-black/100">
+                    <div className="flex items-center flex-wrap gap-4 justify-between text-black/100">
                         <h2 className="font-bold text-xl/10 flex items-center gap-2">
                             Statistics
 

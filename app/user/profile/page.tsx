@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const UserProfile = (): JSX.Element => {
     return (
-        <section className="grid">
+        <section>
             <Profile />
         </section>
     );
