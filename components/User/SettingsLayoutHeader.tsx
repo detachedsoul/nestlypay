@@ -32,8 +32,8 @@ const SettingsLayoutHeader = (): JSX.Element => {
         },
         {
             id: useId(),
-            routeName: "Preference",
-            route: "/user/settings/preference"
+            routeName: "Preferences",
+            route: "/user/settings/preferences"
         },
     ];
 

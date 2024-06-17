@@ -15,6 +15,10 @@
         @apply form-select input cursor-pointer
     }
 
+    .input-checkbox {
+        @apply form-checkbox cursor-pointer rounded-md border-[1.2px] border-black/20 p-2.5 focus:outline-none focus:ring-1 focus:border-brand-blue/20 focus:ring-brand-blue/20 focus:ring-offset-2 hover:ring-1 hover:border-brand-blue/20 hover:ring-brand-blue/20 focus-within:ring-1 focus-within:border-brand-blue/20 focus-within:ring-brand-blue/20 focus-within:ring-offset-2 ring-offset-2
+    }
+
     .submit-btn {
         @apply input bg-brand-blue text-white hover:bg-brand-blue/80 transition-colors duration-300 ease-in-out
     }

@@ -2,8 +2,8 @@ import ProfileSettings from "@/components/User/ProfileSettings";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "NestlyPay | User Account Settings",
-    description: "Edit your account setting"
+    title: "NestlyPay | User Profile Settings",
+    description: "Edit your profile setting"
 };
 
 const Settings = (): JSX.Element => {
