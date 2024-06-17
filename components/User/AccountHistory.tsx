@@ -20,27 +20,27 @@ const AccountHistory = (): JSX.Element => {
                 <table className="w-full border-collapse whitespace-nowrap table-auto">
                     <thead className="text-left">
                         <tr>
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
 
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Invoice ID
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Due Date
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Issue Date
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Amount
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Status
                             </th>
                         </tr>
@@ -48,29 +48,29 @@ const AccountHistory = (): JSX.Element => {
 
                     <tbody>
                         <tr>
-                            <td className="font-medium pb-6 pr-4 last:pb-0">
+                            <td className="font-medium pb-6 pr-4">
                                 <div className="bg-purple-500 text-white size-10 rounded-full font-black grid place-content-center">
                                     W
                                 </div>
                             </td>
 
-                            <td className="pb-6 pr-8 last:pb-0 cursor-pointer text-brand-blue" onClick={() => router.push(`/user/invoice-history/${cleanedID}`)}>
+                            <td className="py-3 pr-8 cursor-pointer text-brand-blue" onClick={() => router.push(`/user/invoice-history/${cleanedID}`)}>
                                 NES989238093
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="py-3 pr-8 text-black/80">
                                 15/6/2024
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="py-3 pr-8 text-black/80">
                                 15/6/2024
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="py-3 pr-8 text-black/80">
                                 13/06/2024
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 flex items-center gap-4">
+                            <td className="py-3 pr-8 text-black/80 flex items-center gap-4">
                                 <button type="button" aria-label="Confirm payment" onClick={() => {
                                     setModalType("Confirm");
                                     setPopupIsActive(true);
@@ -103,11 +103,11 @@ const AccountHistory = (): JSX.Element => {
                 </table>
             </div>
 
-            <PopupWrapper isActive={popupIsActive} toggleIsActive={() => setPopupIsActive(false)}>
+            <PopupWrapper isActive={popupIsActive} toggleIsActive={() => setPopupIsActive(false)} className="lg:w-1/3">
                 <div className="space-y-8">
                     {modalType === "Cancel" && (
                         <>
-                            <svg width="40" height="40" viewBox="0 0 70 70" fill="none">
+                            <svg width="60" height="60" viewBox="0 0 70 70" fill="none">
                                 <g clipPath="url(#clip0_1155_6747)">
                                     <path d="M34.9998 3.88867C28.8466 3.88867 22.8316 5.71331 17.7154 9.13184C12.5992 12.5504 8.6116 17.4093 6.25688 23.0941C3.90215 28.7789 3.28605 35.0343 4.48648 41.0693C5.68691 47.1042 8.64995 52.6477 13.0009 56.9987C17.3519 61.3496 22.8954 64.3127 28.9303 65.5131C34.9653 66.7135 41.2207 66.0974 46.9055 63.7427C52.5903 61.388 57.4492 57.4004 60.8677 52.2842C64.2863 47.168 66.1109 41.153 66.1109 34.9998C66.1109 26.7486 62.8331 18.8354 56.9987 13.0009C51.1642 7.16644 43.251 3.88867 34.9998 3.88867ZM50.5553 46.8609C51.071 47.3766 51.3608 48.076 51.3608 48.8053C51.3608 49.5346 51.071 50.2341 50.5553 50.7498C50.0396 51.2655 49.3402 51.5552 48.6109 51.5552C47.8816 51.5552 47.1822 51.2655 46.6665 50.7498L34.9998 39.0831L23.3331 50.7887C23.0778 51.044 22.7746 51.2466 22.441 51.3848C22.1074 51.523 21.7498 51.5941 21.3887 51.5941C21.0276 51.5941 20.67 51.523 20.3364 51.3848C20.0027 51.2466 19.6996 51.044 19.4442 50.7887C19.1889 50.5333 18.9863 50.2302 18.8481 49.8965C18.71 49.5629 18.6388 49.2053 18.6388 48.8442C18.6388 48.4831 18.71 48.1255 18.8481 47.7919C18.9863 47.4583 19.1889 47.1551 19.4442 46.8998L31.1109 35.1553L19.1137 23.0609C18.598 22.5452 18.3083 21.8458 18.3083 21.1164C18.3083 20.3871 18.598 19.6877 19.1137 19.172C19.6294 18.6563 20.3288 18.3666 21.0581 18.3666C21.7874 18.3666 22.4869 18.6563 23.0026 19.172L34.9998 31.3053L46.997 19.3081C47.2524 19.0528 47.5555 18.8502 47.8891 18.712C48.2228 18.5738 48.5803 18.5027 48.9415 18.5027C49.3026 18.5027 49.6602 18.5738 49.9938 18.712C50.3274 18.8502 50.6306 19.0528 50.8859 19.3081C51.1413 19.5635 51.3438 19.8666 51.482 20.2002C51.6202 20.5339 51.6913 20.8914 51.6913 21.2526C51.6913 21.6137 51.6202 21.9713 51.482 22.3049C51.3438 22.6385 51.1413 22.9417 50.8859 23.197L38.8887 35.1553L50.5553 46.8609Z" fill="#EE6A5F" />
                                 </g>
@@ -119,7 +119,7 @@ const AccountHistory = (): JSX.Element => {
                             </svg>
 
                             <div>
-                                <h2 className="font-medium text-black/100 text-lg/10">
+                                <h2 className="font-medium text-black/100 text-xl/10">
                                     Cancel Payment
                                 </h2>
 
@@ -142,13 +142,13 @@ const AccountHistory = (): JSX.Element => {
 
                     {modalType === "Confirm" && (
                         <>
-                            <svg width="50" height="50" viewBox="0 0 70 70" fill="none">
+                            <svg width="60" height="60" viewBox="0 0 70 70" fill="none">
                                 <circle cx="35" cy="35" r="35" fill="#388C00" fillOpacity="0.05"/>
                                 <path d="M42.796 27.0468C43.1658 26.6947 43.6578 26.5001 44.1684 26.504C44.6789 26.5078 45.168 26.7099 45.5324 27.0675C45.8968 27.4251 46.1081 27.9102 46.1216 28.4206C46.135 28.931 45.9497 29.4267 45.6047 29.803L35.131 42.9018C34.9509 43.0957 34.7335 43.2514 34.4919 43.3595C34.2503 43.4675 33.9893 43.5258 33.7247 43.5307C33.46 43.5356 33.1971 43.487 32.9516 43.388C32.7061 43.289 32.4831 43.1414 32.296 42.9543L25.3502 36.0085C25.1568 35.8283 25.0017 35.6109 24.8941 35.3694C24.7865 35.1279 24.7286 34.8672 24.7239 34.6029C24.7193 34.3385 24.7679 34.076 24.8669 33.8308C24.9659 33.5857 25.1133 33.363 25.3003 33.176C25.4872 32.9891 25.7099 32.8417 25.955 32.7427C26.2002 32.6437 26.4628 32.595 26.7271 32.5997C26.9915 32.6044 27.2522 32.6622 27.4937 32.7698C27.7352 32.8774 27.9525 33.0326 28.1327 33.226L33.6295 38.7201L42.7461 27.1045C42.7625 27.0843 42.7801 27.065 42.7986 27.0468H42.796Z" fill="#388C00"/>
                             </svg>
 
                             <div>
-                                <h2 className="font-medium text-black/100 text-lg/10">
+                                <h2 className="font-medium text-black/100 text-xl/10">
                                     Confirm Payment
                                 </h2>
 

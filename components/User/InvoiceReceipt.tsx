@@ -3,7 +3,6 @@
 import PopupWrapper from "@/components/PopupWrapper";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { CopyIcon } from "lucide-react";
 
 const InvoiceReceipt = (): JSX.Element => {
     const [popupIsActive, setPopupIsActive] = useState(false);

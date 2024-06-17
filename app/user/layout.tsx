@@ -28,7 +28,7 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
 
     return (
         <>
-            <header className="sticky top-0 z-50">
+            <header className="sticky top-0 z-[1024]">
                 <div className="flex items-center gap-4 justify-between py-4 px-6 bg-white/100 border-b border-[rgba(241,_241,_241,_1)] lg:hidden">
                     <Link href="/user">
                         <Image className="w-10 h-auto" src={DashboardLogo} alt="NestlyPay" quality={100} />

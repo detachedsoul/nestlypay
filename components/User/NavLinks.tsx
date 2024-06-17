@@ -135,7 +135,7 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                 {
                     id: useId(),
                     route: "/user/clients",
-                    routeName: "Client",
+                    routeName: "Clients",
                     icon: (
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
                             <circle cx="17.5" cy="17.5" r="17.5" fill="#0C46D3" fillOpacity="0.05" />

@@ -12,27 +12,27 @@ const TransactionHistory = (): JSX.Element => {
                 <table className="w-full border-collapse whitespace-nowrap table-auto">
                     <thead className="text-left">
                         <tr>
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
 
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Client Name
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Email Address
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Amount
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Date
                             </th>
 
-                            <th className="text-black/100 font-medium pb-6 pr-8">
+                            <th className="text-black/100 font-medium py-3 pr-8">
                                 Status
                             </th>
                         </tr>
@@ -40,25 +40,25 @@ const TransactionHistory = (): JSX.Element => {
 
                     <tbody>
                         <tr className="cursor-pointer" onClick={() => setPopupIsActive(!popupIsActive)}>
-                            <td className="font-medium pb-6 pr-6 last:pb-0">
+                            <td className="font-medium pb-6 pr-6">
                                 <div className="bg-brand-yellow text-white w-10 h-10 rounded-full font-black grid place-content-center">
                                     W
                                 </div>
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 Wisdom Ojimah
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 no-underline last:pb-0">
+                            <td className="pb-6 pr-8 text-black/80 no-underline">
                                 ojimahwisdom01@gmail.com
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 ₦ 39,000.00
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 13/06/2024
                             </td>
 
@@ -70,25 +70,25 @@ const TransactionHistory = (): JSX.Element => {
                         </tr>
 
                         <tr className="cursor-pointer" onClick={() => setPopupIsActive(!popupIsActive)}>
-                            <td className="font-medium pb-6 pr-6 last:pb-0">
+                            <td className="font-medium pb-6 pr-6">
                                 <div className="bg-brand-green text-white w-10 h-10 rounded-full font-black grid place-content-center">
                                     J
                                 </div>
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 Jane Ojimah
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 no-underline last:pb-0">
+                            <td className="pb-6 pr-8 text-black/80 no-underline">
                                 janeojimah@gmail.com
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 ₦ 39,000.00
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 13/06/2024
                             </td>
 
@@ -100,25 +100,25 @@ const TransactionHistory = (): JSX.Element => {
                         </tr>
 
                         <tr className="cursor-pointer" onClick={() => setPopupIsActive(!popupIsActive)}>
-                            <td className="font-medium pb-6 pr-6 last:pb-0">
+                            <td className="font-medium pb-6 pr-6">
                                 <div className="bg-brand-red text-white w-10 h-10 rounded-full font-black grid place-content-center">
                                     D
                                 </div>
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 Dominic Praise
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 no-underline last:pb-0">
+                            <td className="pb-6 pr-8 text-black/80 no-underline">
                                 dom@nestlypay.com
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 ₦ 39,000.00
                             </td>
 
-                            <td className="pb-6 pr-8 text-black/80 last:pb-0">
+                            <td className="pb-3 pr-8 text-black/80">
                                 13/06/2024
                             </td>
 
