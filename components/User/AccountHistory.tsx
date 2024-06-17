@@ -48,7 +48,7 @@ const AccountHistory = (): JSX.Element => {
 
                     <tbody>
                         <tr>
-                            <td className="font-medium pb-6 pr-4">
+                            <td className="font-medium py-6 pr-4">
                                 <div className="bg-purple-500 text-white size-10 rounded-full font-black grid place-content-center">
                                     W
                                 </div>
@@ -70,8 +70,8 @@ const AccountHistory = (): JSX.Element => {
                                 13/06/2024
                             </td>
 
-                            <td className="py-3 pr-8 text-black/80 flex items-center gap-4">
-                                <button type="button" aria-label="Confirm payment" onClick={() => {
+                            <td className="py-3 pr-8 text-black/80">
+                                <button className="mr-4" type="button" aria-label="Confirm payment" onClick={() => {
                                     setModalType("Confirm");
                                     setPopupIsActive(true);
                                 }}>

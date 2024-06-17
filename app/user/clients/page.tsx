@@ -1,5 +1,4 @@
 import ClientsTable from "@/components/User/ClientsTable";
-import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -42,7 +42,7 @@ const AuthLayout = ({children}: {children: React.ReactNode}): JSX.Element => {
                     </span>
                 </Link>
 
-                <div className="overflow-y-auto custom-scrollbar mt-6 pb-3 px-1 lg:mt-0">
+                <div className="overflow-y-auto custom-scrollbar mt-16 pb-3 px-1 lg:mt-0">
                     {children}
                 </div>
             </section>

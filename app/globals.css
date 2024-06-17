@@ -23,6 +23,10 @@
         @apply text-black/100 py-4 px-6 flex items-center gap-4 hover:bg-dashboard-navlink border-l-[6px] border-transparent hover:border-brand-blue lg:py-2.5 lg:px-8
     }
 
+    .settings-card {
+        @apply bg-white/100 shadow-[0px_5px_10px_0px_rgba(0,_0,_0,_0.05)] rounded-xl p-8
+    }
+
     .custom-scrollbar {
         scrollbar-width: none;
         -ms-overflow-style: none;
