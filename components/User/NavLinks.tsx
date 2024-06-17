@@ -35,6 +35,8 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
 
     const segment = useSelectedLayoutSegments();
 
+    console.log(pathname, segment)
+
     useEffect(() => {
         setIsOpen(false);
 
@@ -200,7 +202,7 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                                         <Link className={
                                             cn(
                                                 "dashboard-link", {
-                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || link?.relatedLinks?.includes(pathname)
+                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || (link?.relatedLinks?.includes(pathname) && pathname.split("/")[2] !== "settings")
                                             }
                                             )
                                         } href={link.route}>
