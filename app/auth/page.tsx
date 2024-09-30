@@ -17,7 +17,7 @@ const Index = (): JSX.Element => {
             </h1>
 
             <p className="mt-1">
-                Get a downloadable receipts on every invoice payment as a reference to help your business in management and accounting.
+                Get a downloadable receipt on every invoice payment as a reference to help your business in management and accounting.
             </p>
 
             <div className="space-y-8 mt-12">

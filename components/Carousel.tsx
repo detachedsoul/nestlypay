@@ -144,7 +144,7 @@ const Carousel = (): JSX.Element => {
 				))}
 			</div>
 
-			<div className="flex items-center gap-6 sm:pl-8 lg:pl-12">
+			<div className="flex items-center gap-6 flex-wrap sm:pl-8 lg:pl-12">
 				{features.map((_, index) => (
 					<button
 						className={cn(

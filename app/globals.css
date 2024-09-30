@@ -35,7 +35,7 @@
         @apply px-6 sm:px-12 lg:px-16 xl:px-[10%] 2xl:px-[20%]
     }
 
-    .a {
+    .hero-image-pattern {
         clip-path: polygon(48% 0, 100% 0, 100% 74%, 100% 80%, 35% 100%, 0 100%, 0 0);
     }
 
