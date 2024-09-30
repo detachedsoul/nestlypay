@@ -10,7 +10,7 @@ import FeatureSeven from "@/assets/img/features-7.png";
 import FeatureEight from "@/assets/img/features-8.png";
 import FeatureNine from "@/assets/img/features-9.png";
 import FeatureTen from "@/assets/img/features-10.png";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useId, useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
@@ -18,11 +18,11 @@ type features = {
     id: string;
     header: string;
     text: string;
-    image: React.ReactNode;
+    image: StaticImageData;
 };
 
 const Carousel = (): JSX.Element => {
-    const features = [
+    const features: features[] = [
         {
             id: useId(),
             header: "Effortlessly Track Bills and Time",
@@ -113,7 +113,6 @@ const Carousel = (): JSX.Element => {
 		return () => clearInterval(autoSlide);
 	}, [nextSlide]);
 
-
     return (
 		<section className="section-padding">
 			<div
@@ -121,7 +120,7 @@ const Carousel = (): JSX.Element => {
 				id="slides"
 				ref={parentContainer}
 			>
-				{features.map((feature) => (
+				{features.map((feature: features) => (
 					<div
 						className="min-w-full relative my-12 bg-black/100 text-white/100 rounded-[40px] p-8 sm:pb-24 lg:px-12 lg:pt-12 lg:pb-48 xl:pb-44"
 						key={feature.id}
@@ -160,15 +159,18 @@ const Carousel = (): JSX.Element => {
 						key={_.id}
 						aria-label={`Slide to ${index}`}
 						onClick={() => {
-                            setActiveSlide(index);
+							setActiveSlide(index);
 
-                            const slideWidth = parentContainer!.current!.offsetWidth;
-                            const gap = 8; // 8px for gap-2
+							const slideWidth =
+								parentContainer!.current!.offsetWidth;
+							const gap = 8; // 8px for gap-2
 
-                            const newScrollPosition = (slideWidth + gap) * index;
+							const newScrollPosition =
+								(slideWidth + gap) * index;
 
-                            parentContainer!.current!.scrollLeft = newScrollPosition;
-                        }}
+							parentContainer!.current!.scrollLeft =
+								newScrollPosition;
+						}}
 					></button>
 				))}
 			</div>

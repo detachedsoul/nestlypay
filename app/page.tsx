@@ -10,14 +10,14 @@ import { ArrowRightIcon } from "lucide-react";
 const Index = (): JSX.Element => {
 	return (
 		<>
-			<div className="bg-brand-blue pb-[5%] section-padding">
+			<div className="bg-brand-blue pb-[7%] sm:pb-[5%] section-padding">
 				<NavBar />
 
 				<HeroSection />
 			</div>
 
-			<main className="pb-12 -translate-y-[1%] lg:-translate-y-[1.5%]">
-				<div className="relative h-full section-padding after:absolute after:h-1/2 after:bg-brand-blue after:w-full after:top-0 after:left-0 mb-12">
+			<main className="pb-12 sm:-translate-y-[1%] lg:-translate-y-[1.5%]">
+				<div className="relative h-full section-padding after:absolute after:h-1/2 after:bg-brand-blue after:a after:bottom-0 after:w-full after:top-0 after:left-0 mb-12">
 					<Image
 						className="w-full h-auto relative z-50"
 						src={HeroImage}
