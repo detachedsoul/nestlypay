@@ -7,7 +7,7 @@ import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from "lucide-r
 const Footer = (): JSX.Element => {
     return (
         <>
-            <div className="bg-brand-blue px-6 pt-6 relative lg:px-16 lg:pt-16">
+            <div className="bg-brand-blue pt-6 relative lg:pt-16 section-padding">
                 <div className="lg:w-1/2">
                     <h2 className="font-medium text-3xl/10 lg:text-5xl/tight text-white">
                         Ready to Grow Your Business in One Solution?
@@ -33,7 +33,7 @@ const Footer = (): JSX.Element => {
                 </div>
             </div>
 
-            <footer className="px-6 pt-6 pb-8 flex items-center justify-between flex-col gap-6 lg:p-12 md:flex-row">
+            <footer className="py-6 flex items-center justify-between flex-col gap-8 sm:flex-row sm:flex-wrap section-padding">
                 <div className="flex items-center gap-4">
                     <Link className="text-brand-blue rounded-full w-10 h-10 grid place-items-center bg-brand-blue/10 hover:bg-brand-blue hover:text-white transition-colors duration-300 ease-in-out" href="" aria-label="Connet with us on Facebook">
                         <FacebookIcon size={18} />
@@ -56,7 +56,7 @@ const Footer = (): JSX.Element => {
                     help@nestlypay.co
                 </Link>
 
-                <p>
+                <p className="sm:w-full sm:mx-auto sm:flex sm:place-content-center lg:w-auto lg:mx-0 lg:block">
                     © 2022. NestlyPay Limited All rights reserved
                 </p>
             </footer>

@@ -31,6 +31,10 @@
         @apply bg-white/100 shadow-[0px_5px_10px_0px_rgba(0,_0,_0,_0.05)] rounded-xl p-8
     }
 
+    .section-padding {
+        @apply px-6 sm:px-12 lg:px-16 xl:px-[10%] 2xl:px-[20%]
+    }
+
     .custom-scrollbar {
         scrollbar-width: none;
         -ms-overflow-style: none;

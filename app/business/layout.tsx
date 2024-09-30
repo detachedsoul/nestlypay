@@ -1,15 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import UserImage from "@/assets/img/user-img.jpg";
-import UserNavLink from "@/components/User/UserNavLinks";
+import BusinessNavLink from "@/components/Business/BusinessNavLink";
 import SettingsDropdown from "@/components/User/SettingsDropdown";
 import NotificationsDropdown from "@/components/User/NotificationsDropdown";
 import { cn } from "@/lib/utils";
 import { LayoutDashboardIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element => {
+const BusinessLayout = ({ children }: { children: React.ReactNode; }): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [dropdownIsActive, setDropdownIsActive] = useState(false);
@@ -69,7 +70,7 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
                     </div>
                 </div>
 
-                <UserNavLink isOpen={isOpen} setIsOpen={setIsOpen} />
+                <BusinessNavLink isOpen={isOpen} setIsOpen={setIsOpen} />
             </header>
 
             <div className="w-full z-50 lg:w-[calc(100%-20rem)] lg:ml-auto">
@@ -118,4 +119,4 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
     );
 };
 
-export default UserLayout;
+export default BusinessLayout;

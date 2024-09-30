@@ -6,7 +6,7 @@ const NavBar = (): JSX.Element => {
     return (
         <header className="flex items-center gap-4 justify-between py-5">
             <Link href="/">
-                <Image className="h-7" src={Logo} alt="NestlyPay" quality={10} />
+                <Image className="h-7" src={Logo} alt="NestlyPay" quality={100} priority />
             </Link>
 
             <Link className="text-white border-2 border-white hover:bg-white hover:text-brand-blue btn" href="/auth">

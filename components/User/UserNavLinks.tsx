@@ -25,12 +25,12 @@ type navLink = {
     relatedLinks?: string[]
 };
 
-type NavLinks = {
+type UserNavLink = {
     isOpen: boolean,
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
+const UserNavLink: React.FC<UserNavLink> = ({isOpen, setIsOpen}: UserNavLink) => {
     const pathname = usePathname();
 
     const segment = useSelectedLayoutSegments();
@@ -131,7 +131,7 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                         </svg>
                     ),
                     relatedLinks: [
-                        `/user/${segment[0]}/${segment[1]}`
+                        `/user/invoice-history/${segment[1]}`
                     ]
                 },
                 {
@@ -202,9 +202,8 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
                                         <Link className={
                                             cn(
                                                 "dashboard-link", {
-                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || (link?.relatedLinks?.includes(pathname) && pathname.split("/")[2] !== "settings")
-                                            }
-                                            )
+                                                "bg-dashboard-navlink border-l-[6px] border-brand-blue": pathname === link.route || (link?.relatedLinks?.includes(pathname))
+                                            })
                                         } href={link.route}>
                                             {link.icon}
 
@@ -232,4 +231,4 @@ const NavLinks: React.FC<NavLinks> = ({isOpen, setIsOpen}: NavLinks) => {
     );
 };
 
-export default NavLinks;
+export default UserNavLink;

@@ -8,35 +8,47 @@ import Footer from "@/components/Footer";
 import { ArrowRightIcon } from "lucide-react";
 
 const Index = (): JSX.Element => {
-    return (
-        <>
-            <div className="bg-brand-blue px-6 lg:px-16 pb-[5%] mb-[45%] lg:mb-[35%]">
-                <NavBar />
+	return (
+		<>
+			<div className="bg-brand-blue pb-[5%] section-padding">
+				<NavBar />
 
-                <HeroSection />
+				<HeroSection />
+			</div>
 
-                <Image className="w-full mt-12 -mb-[40%] lg:mt-20" src={HeroImage} alt="NestlyPay dashboard" placeholder="blur" />
-            </div>
+			<main className="pb-12 -translate-y-[1%] lg:-translate-y-[1.5%]">
+				<div className="relative h-full section-padding after:absolute after:h-1/2 after:bg-brand-blue after:w-full after:top-0 after:left-0 mb-12">
+					<Image
+						className="w-full h-auto relative z-50"
+						src={HeroImage}
+						alt="NestlyPay dashboard"
+						placeholder="blur"
+					/>
+				</div>
 
-            <main className="px-6 pb-12 space-y-12 lg:px-16">
-                <div>
-                    <p className="font-[450]">
-                        Never chase a client again. Speed up your cash flow and manage our business at your fingertips. Let Nestlypay help with the hard work, while you focus on your business.
-                    </p>
+				<div className="space-y-3 section-padding">
+					<p className="font-[450]">
+						Never chase a client again. Speed up your cash flow and
+						manage your business at your fingertips. Let Nestlypay
+						help with the hard work, while you focus on your
+						business.
+					</p>
 
-                    <Link className="text-[rgba(7,_7,_7,_1)] inline-flex items-center gap-2 font-medium mt-3 transition-all hover:gap-4 ease-in-out duration-300 text-lg" href="/auth/personal">
-                        Get a fast invoice today
+					<Link
+						className="text-[rgba(7,_7,_7,_1)] inline-flex items-center gap-2 font-medium transition-all hover:gap-4 ease-in-out duration-300 text-lg"
+						href="/auth/personal"
+					>
+						Get a fast invoice today
+						<ArrowRightIcon strokeWidth={1.5} />
+					</Link>
+				</div>
 
-                        <ArrowRightIcon strokeWidth={1.5} />
-                    </Link>
-                </div>
+				<Carousel />
+			</main>
 
-                <Carousel />
-            </main>
-
-            <Footer />
-        </>
-    );
+			<Footer />
+		</>
+	);
 };
 
 export default Index;
