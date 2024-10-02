@@ -122,6 +122,18 @@ const Index = (): JSX.Element => {
 					</label>
 				</div>
 
+				<label
+					className="block sm:col-span-2"
+					htmlFor="website"
+				>
+					<input
+						className="input"
+						type="text"
+						placeholder="Website (Optional)"
+						name="website"
+					/>
+				</label>
+
 				<button
 					className="submit-btn sm:col-span-2"
 					type="submit"

@@ -35,7 +35,7 @@ const AuthLayout = ({
 				</div>
 			</section>
 
-			<div className="fixed bg-white/100 top-0 w-full left-0 pt-6 px-7 lg:hidden">
+			<div className="fixed bg-white/100 top-0 w-full left-0 pt-6 section-padding lg:hidden sm:px-[15%]">
 				<Link
 					className="font-medium text-xl/10 inline-flex items-center gap-4 text-brand-blue"
 					href="/auth"
@@ -45,8 +45,8 @@ const AuthLayout = ({
 				</Link>
 			</div>
 
-			<section className="bg-white/100 flex flex-col place-content-center overflow-hidden pb-12 h-[calc(100vh-6.5rem)] pt-24 sm:h-[calc(100vh-3rem)] lg:mt-0 lg:h-screen lg:pt-12 section-padding">
-				<div className="overflow-y-auto custom-scrollbar px-1">
+			<section className="bg-white/100 flex flex-col place-content-center overflow-hidden h-[calc(100vh-6.5rem)] sm:h-[calc(100vh-3rem)] lg:h-screen">
+				<div className="overflow-y-auto custom-scrollbar section-padding pb-12 pt-24 lg:pt-12  sm:px-[15%]">
 					{children}
 				</div>
 			</section>
