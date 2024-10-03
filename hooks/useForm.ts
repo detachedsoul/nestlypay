@@ -1,17 +1,22 @@
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 
-const initialState = {
+const initialState: {
+    status: "" | "success" | "error",
+    message: string,
+    data: any
+} = {
 	status: "",
 	message: "",
 	data: undefined,
 };
 
 const useForm = (action: any, resetState: boolean = false) => {
-	const [getState, formAction, isPending] = useFormState(
+	const [getState, formAction] = useFormState(
 		action,
 		initialState,
-	);
+    );
+
 	const [values, setValues] = useState(initialState);
 
 	const state = resetState ? values : getState;
@@ -21,10 +26,9 @@ const useForm = (action: any, resetState: boolean = false) => {
 			state.status !== "" &&
 			resetState
 		) {
-            // Delay must be greater than 5 sceonds to enable the alert component close before resetting the state
 			const timer = setTimeout(() => {
 				setValues(initialState);
-			}, 7000);
+			}, 5000);
 
 			return () => clearTimeout(timer);
 		}
@@ -42,7 +46,6 @@ const useForm = (action: any, resetState: boolean = false) => {
 	return {
 		state,
 		formAction,
-		isPending,
 	};
 };
 

@@ -6,60 +6,56 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface IAlert {
-	statusType: "success" | "error" | string;
+	statusType: "success" | "error" | "";
 	message: string;
 }
 
 const Alert: React.FC<IAlert> = ({ statusType, message }) => {
-	const [status, setStatus] = useState({
-		status: statusType,
-		isActive: false,
-	});
+	const [status, setStatus] = useState(statusType);
+
+    const [localParams, setLocalParams] = useState({
+        message: message,
+        status: statusType
+    });
 
 	useEffect(() => {
-		if (statusType !== "") {
-			setStatus({
-				isActive: true,
-				status: statusType,
+        setStatus(statusType);
+
+        if (statusType === "") {
+			setLocalParams((prev) => prev);
+        } else {
+            setLocalParams({
+				message: message,
+				status: status,
 			});
-		}
-	}, [statusType]);
-
-	useEffect(() => {
-		if (status.status !== "") {
-			const timer = setTimeout(() => {
-				setStatus({
-					isActive: false,
-					status: "",
-				});
-			}, 5000);
-
-			return () => clearTimeout(timer);
-		}
-	}, [status.status]);
+        }
+    }, [statusType, status, message]);
 
 	return (
 		<div
 			className={cn(
-				"bg-white shadow-[0px_5px_10px_0px_#0000000D] fixed top-4 left-6 w-[calc(100%-3rem)] isolate rounded-lg px-3.5 py-6 flex items-center gap-9 border-l-8 sm:translate-x-full sm:right-12 sm:w-max transition-transform -translate-y-[150%]",
+				"bg-white shadow-[0px_5px_10px_0px_#0000000D] fixed top-6 left-6 w-[calc(100%-3rem)] isolate rounded-lg px-3.5 py-6 flex items-center gap-8 border-l-8 sm:right-[15%] transition-transform -translate-y-[150%] duration-300 ease-linear sm:left-auto sm:w-[calc(70%)] lg:right-16 lg:w-[calc(50%-12rem)] xl:right-[5%] xl:w-[calc(50%-25%)] 2xl:right-[10%]",
 				{
-					"border-brand-green": status.status === "success",
-					"border-brand-red": status.status === "error",
-					"translate-y-0": !status.isActive,
+					"border-brand-green": status === "success",
+					"border-brand-red": status === "error",
+					"translate-y-0": status !== "",
 				},
 			)}
 		>
-			{status.status === "success" ? (
-				<SuccessIcon className="shrink-0" />
-			) : (
+            {localParams.status === "success" && (
+                <SuccessIcon className="shrink-0" />
+            )}
+
+            {localParams.status === "error" && (
 				<FailedIcon className="shrink-0" />
 			)}
 
 			<div className="space-y-1">
 				<h3 className="text-black text-lg">
-					{status.status === "success" ? "Success" : "Error"}
+					{localParams.status === "success" && "Success"}
+					{localParams.status === "error" && "Error"}
 				</h3>
-				<p className="text-black/70 text-sm">{message}</p>
+				<p className="text-black/70 text-sm">{localParams.message}</p>
 			</div>
 		</div>
 	);

@@ -46,7 +46,7 @@ const AuthLayout = ({
 			</div>
 
 			<section className="bg-white/100 flex flex-col place-content-center overflow-hidden h-[calc(100vh-6.5rem)] sm:h-[calc(100vh-3rem)] lg:h-screen">
-				<div className="overflow-y-auto custom-scrollbar section-padding pb-12 pt-24 lg:pt-12  sm:px-[15%]">
+				<div className="overflow-y-auto custom-scrollbar section-padding pb-12 pt-24 lg:pt-12 sm:px-[15%] lg:px-16 xl:px-[10%] 2xl:px-[20%]">
 					{children}
 				</div>
 			</section>

@@ -1,106 +1,66 @@
 "use client";
 
+import LoginFormChild from "./LoginFormChild";
 import Link from "next/link";
 import Alert from "@/components/Alert";
 import useForm from "@/hooks/useForm";
 import { businessLogin } from "@/lib/actions";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const LoginForm = () => {
-    const { state, formAction } = useForm(businessLogin, true);
+	const { state, formAction } = useForm(businessLogin, true);
+    const router = useRouter();
 
-    const [formValues, setFormValues] = useState({
-        email: "",
-        password: ""
-    });
+	useEffect(() => {
+		if (state.status === "success") {
+            const timer = setTimeout(() => {
+                router.replace("/business");
+            }, 3000);
+
+            return () => clearTimeout(timer);
+		}
+	}, [state.status, router]);
 
 	return (
-		<form
-			action={formAction}
-			className="w-full"
-		>
-			<h1 className="text-black/100 font-medium text-2xl/10">
-				Welcome Back!
-			</h1>
+		<>
+			<form
+				action={formAction}
+				className="w-full"
+			>
+				<h1 className="text-black/100 font-medium text-2xl/10">
+					Welcome Back!
+				</h1>
 
-			<p className="mt-1">Pick up where you left off.</p>
+				<p className="mt-1">Pick up where you left off.</p>
 
-			<div className="space-y-8 mt-8">
-				<label
-					className="block"
-					htmlFor="email"
-				>
-					<input
-						className="input"
-						type="email"
-						placeholder="Email Address"
-						name="email"
-						value={formValues.email}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setFormValues({
-								...formValues,
-								email: e.target.value,
-							})
-						}
-					/>
-				</label>
+				<LoginFormChild />
 
-				<label
-					className="block"
-					htmlFor="password"
-				>
-					<input
-						className="input"
-						type="password"
-						placeholder="Password"
-						name="password"
-						value={formValues.password}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setFormValues({
-								...formValues,
-								password: e.target.value,
-							})
-						}
-					/>
-				</label>
+				<div className="space-y-4 mt-8">
+					<p className="font-medium text-black/100 text-center">
+						Don’t have an account?{" "}
+						<Link
+							className="text-brand-blue underline-offset-8 hover:underline hover:decoration-wavy"
+							href="/auth/business/personal-info"
+						>
+							Create One
+						</Link>
+					</p>
 
-				<button
-					className="submit-btn"
-					type="submit"
-					disabled={
-						!Object.values(formValues).every(
-							(value) => value !== "",
-						)
-					}
-				>
-					Sign In
-				</button>
-			</div>
-
-			<div className="space-y-4 mt-8">
-				<p className="font-medium text-black/100 text-center">
-					Don’t have an account?{" "}
 					<Link
-						className="text-brand-blue underline-offset-8 hover:underline hover:decoration-wavy"
-						href="/auth/business/personal-info"
+						className="text-brand-red font-medium text-center block mx-auto underline-offset-8 hover:underline hover:decoration-wavy"
+						href="/auth/business/reset-password"
 					>
-						Create One
+						Forgot Password
 					</Link>
-				</p>
-
-				<Link
-					className="text-brand-red font-medium text-center block mx-auto underline-offset-8 hover:underline hover:decoration-wavy"
-					href="/auth/business/reset-password"
-				>
-					Forgot Password
-				</Link>
-			</div>
+				</div>
+			</form>
 
 			<Alert
 				statusType={state.status}
 				message={state.message}
 			/>
-		</form>
+		</>
 	);
 };
 

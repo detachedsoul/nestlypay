@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer components {
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+        @apply hidden;
+    }
+
     .btn {
         @apply rounded-lg text-base/5 transition-colors duration-300 ease-in-out py-2.5 px-6 font-medium
     }
