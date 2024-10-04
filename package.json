@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "migrate": "npx prisma migrate dev --init",
+        "migrate": "npx prisma migrate dev",
         "studio": "npx prisma studio",
         "push": "npx prisma db push",
         "postinstall": "prisma generate && prisma migrate deploy"

@@ -11,9 +11,9 @@ generator client {
 // }
 
 datasource db {
-  provider = "postgresql"
-  url = env("db_PRISMA_URL") // uses connection pooling
-  directUrl = env("db_URL_NON_POOLING") // uses a direct connection
+    provider  = "postgres"
+    url       = env("db_PRISMA_URL")
+    directUrl = env("db_URL_NON_POOLING")
 }
 
 model Business {
