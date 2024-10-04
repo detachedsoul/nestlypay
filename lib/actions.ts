@@ -23,14 +23,14 @@ export const businessLogin = async (_: any, data: FormData) => {
 	try {
 		const getUser = await prisma.business.findUniqueOrThrow({
 			where: {
-				companyEmail: data.get("email")?.toString() ?? "" ?? "",
+				email: data.get("email")?.toString() ?? "" ?? "",
 				password: data.get("password")?.toString() ?? "" ?? "",
 			},
         });
 
         const updateSessionID = await prisma.business.update({
 			where: {
-				companyEmail: data.get("email")?.toString() ?? "" ?? "",
+				email: data.get("email")?.toString() ?? "" ?? "",
 				password: data.get("password")?.toString() ?? "" ?? "",
 			},
 			data: {
