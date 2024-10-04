@@ -20,7 +20,7 @@ const NotFound = () => {
                 </h1>
 
                 <p>
-                    Sorry, the page you're looking for doesn’t exist or has been moved. We’re still developing the site though, so be sure to check back later.
+                    Sorry, the page you’re looking for doesn’t exist or has been moved. We’re still developing the site though, so be sure to check back later.
                 </p>
             </div>
         </div>
