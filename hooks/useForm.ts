@@ -1,31 +1,34 @@
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 
+interface IForm {
+	state: {
+		status: "" | "success" | "error";
+		message: string;
+		data: any;
+	};
+	formAction: (payload: FormData) => void;
+}
+
 const initialState: {
     status: "" | "success" | "error",
     message: string,
     data: any
 } = {
-	status: "",
-	message: "",
-	data: undefined,
+    status: "",
+    message: "",
+    data: undefined,
 };
 
-const useForm = (action: any, resetState: boolean = false) => {
-	const [getState, formAction] = useFormState(
-		action,
-		initialState,
-    );
+const useForm = (action: any, resetState: boolean = false): IForm => {
+	const [getState, formAction] = useFormState(action, initialState);
 
 	const [values, setValues] = useState(initialState);
 
 	const state = resetState ? values : getState;
 
 	useEffect(() => {
-		if (
-			state.status !== "" &&
-			resetState
-		) {
+		if (state.status !== "" && resetState) {
 			const timer = setTimeout(() => {
 				setValues(initialState);
 			}, 5000);
@@ -35,10 +38,7 @@ const useForm = (action: any, resetState: boolean = false) => {
 	}, [state, resetState, values]);
 
 	useEffect(() => {
-		if (
-			getState.status !== "" &&
-			resetState
-		) {
+		if (getState.status !== "" && resetState) {
 			setValues(getState);
 		}
 	}, [getState, resetState]);

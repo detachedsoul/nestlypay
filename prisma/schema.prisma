@@ -14,14 +14,15 @@ model Business {
     id           String  @id @default(uuid())
     firstName    String
     lastName     String
+    email        String  @unique
     companyName  String  @unique
     companyEmail String  @unique
-    addressOne   String
-    addressTwo   String?
+    address      String
     city         String
-    State        String
+    state        String
     postalCode   String
     country      String
     website      String?
     password     String
+    sessionID    String  @default(uuid())
 }

@@ -40,7 +40,7 @@ const LoginFormChild = () => {
 				htmlFor="password"
 			>
 				<input
-					className="input bg-red-500 pr-16"
+					className="input pr-16"
 					type={passwordIsVisible ? "text" : "password"}
 					placeholder="Password"
 					name="password"
@@ -60,9 +60,9 @@ const LoginFormChild = () => {
 					onClick={() => setPasswordIsVisible(!passwordIsVisible)}
 				>
 					{passwordIsVisible ? (
-						<EyeIcon strokeWidth={1.5} />
+						<EyeIcon strokeWidth={1} />
 					) : (
-						<EyeOffIcon strokeWidth={1.5} />
+						<EyeOffIcon strokeWidth={1} />
 					)}
 				</button>
 			</label>
