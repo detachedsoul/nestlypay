@@ -3,13 +3,16 @@
 import Alert from "@/components/Alert";
 import useBusinessForm from "@/hooks/useBusinessForm";
 import useForm from "@/hooks/useForm";
-import { createBusinessAccount } from "@/lib/actions";
+import useAuth from "@/hooks/useAuth";
+import zodValidator from "@/lib/zodValidator";
+import formHasErrors from "@/lib/formHasErrors";
+import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import { createBusinessAccount } from "@/lib/businessAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { z } from "zod";
 import { useRouter, redirect } from "next/navigation";
-import useAuth from "@/hooks/useAuth";
 
 const schema = z.object({
 	password: z.string().min(1, "Password is required"),
@@ -27,6 +30,8 @@ const CreateBusinessAccount = () => {
     const { replace } = useRouter();
 	const { state, formAction } = useForm(createBusinessAccount, true);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const [formData, setFormData] = useState<FormData>(new FormData());
 
 	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
@@ -41,36 +46,30 @@ const CreateBusinessAccount = () => {
 		confirmPassword: "",
 	});
 
-	const zodValidation = (name: keyof typeof formValues, value: string) => {
-		try {
-			schema.shape[name].parse(value);
-
-			setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-
-			setBusinessInfo({
-				...businessInfo,
-				[name]: value
-			});
-		} catch (err) {
-			if (err instanceof z.ZodError) {
-				const fieldError = err.errors[0]?.message;
-
-				setErrors((prevErrors) => ({
-					...prevErrors,
-					[name]: fieldError,
-				}));
-
-				setBusinessInfo({
-					...businessInfo,
-					[name]: "",
-				});
-			}
-		}
-	};
-
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		zodValidation(name as keyof FormValues, value);
+
+		const { errors, formValue } = zodValidator({
+			name: name as keyof FormValues,
+			value: value,
+			formValues: formValues,
+			schema: schema,
+		});
+
+		setFormValues(formValue);
+		setErrors(errors);
+
+		if (!errors[name as keyof FormValues]) {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: value,
+			});
+		} else {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: "",
+			});
+		}
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,19 +77,33 @@ const CreateBusinessAccount = () => {
 
 		setFormValues((prevValues) => ({
 			...prevValues,
-			[name]: value
+			[name]: value,
 		}));
 
-		zodValidation(name as keyof FormValues, value);
+		const { errors } = zodValidator({
+			name: name as keyof FormValues,
+			value: value,
+			formValues: formValues,
+			schema: schema,
+		});
+
+		setErrors(errors);
+
+		if (!errors[name as keyof FormValues]) {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: value,
+			});
+		} else {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: "",
+			});
+		}
 	};
 
-	const hasErrors = Object.values(errors).some((error) => error !== "");
-
-	const isFormComplete = Object.values(formValues).every(
-		(value) => value !== "",
-    );
-
-    const [isLoading, setIsLoading] = useState(true);
+	const hasErrors = formHasErrors(errors);
+	const isFormComplete = isFormFieldsComplete(formValues);
 
 	// Check if personal information is set before rendering the page
     useEffect(() => {
@@ -155,12 +168,14 @@ const CreateBusinessAccount = () => {
 	useEffect(() => {
 		if (state.status === "success") {
 			const timer = setTimeout(() => {
-				localStorage.removeItem("business-info");
-
 				setAuthInfo({
 					sessionID: state.data.sessionID,
 					userID: state.data.id,
+					name: `${businessInfo.firstName} ${businessInfo.lastName}`,
+                    email: businessInfo.email
 				});
+
+				localStorage.removeItem("business-info");
 
 				replace("/business");
 			}, 2000);

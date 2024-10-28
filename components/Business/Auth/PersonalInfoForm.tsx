@@ -1,6 +1,9 @@
 "use client";
 
 import useBusinessForm from "@/hooks/useBusinessForm";
+import zodValidator from "@/lib/zodValidator";
+import formHasErrors from "@/lib/formHasErrors";
+import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { z } from "zod";
@@ -34,36 +37,30 @@ const PersonalInfoForm = (): JSX.Element => {
 		email: "",
 	});
 
-	const zodValidation = (name: keyof typeof formValues, value: string) => {
-		try {
-			schema.shape[name].parse(value);
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
 
-			setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+        const { errors, formValue } = zodValidator({
+			name: name as keyof FormValues,
+			value: value,
+			formValues: formValues,
+			schema: schema,
+		});
 
+        setFormValues(formValue);
+        setErrors(errors);
+
+        if (!errors[name as keyof FormValues]) {
 			setBusinessInfo({
 				...businessInfo,
 				[name]: value,
 			});
-		} catch (err) {
-			if (err instanceof z.ZodError) {
-				const fieldError = err.errors[0]?.message;
-
-				setErrors((prevErrors) => ({
-					...prevErrors,
-					[name]: fieldError,
-				}));
-
-                setBusinessInfo({
-					...businessInfo,
-					[name]: "",
-				});
-			}
+		} else {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: "",
+			});
 		}
-    };
-
-	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		zodValidation(name as keyof FormValues, value);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,14 +71,30 @@ const PersonalInfoForm = (): JSX.Element => {
 			[name]: value,
         }));
 
-		zodValidation(name as keyof FormValues, value);
+		const { errors } = zodValidator({
+			name: name as keyof FormValues,
+			value: value,
+			formValues: formValues,
+			schema: schema,
+		});
+
+		setErrors(errors);
+
+        if (!errors[name as keyof FormValues]) {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: value,
+			});
+		} else {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: "",
+			});
+		}
 	};
 
-    const hasErrors = Object.values(errors).some((error) => error !== "");
-
-	const isFormComplete = Object.values(formValues).every(
-		(value) => value !== "",
-    );
+    const hasErrors = formHasErrors(errors);
+	const isFormComplete = isFormFieldsComplete(formValues);
 
 	return (
 		<>

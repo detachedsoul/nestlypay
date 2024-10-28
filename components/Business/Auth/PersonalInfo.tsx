@@ -4,7 +4,7 @@ import useForm from "@/hooks/useForm";
 import PersonalInfoForm from "./PersonalInfoForm";
 import Link from "next/link";
 import Alert from "@/components/Alert";
-import { checkBusinessUserEmail } from "@/lib/actions";
+import { checkBusinessUserEmail } from "@/lib/businessAction";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

@@ -4,6 +4,8 @@ import { persist } from "zustand/middleware";
 type AuthInfo = {
 	userID: string | null;
 	sessionID: string | null;
+    name: string | null;
+    email: string | null;
 };
 
 type AuthInfoState = {

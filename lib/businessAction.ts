@@ -21,14 +21,14 @@ const createBusinessSchema = z.object({
 
 export const businessLogin = async (_: any, data: FormData) => {
 	try {
-		const getUser = await prisma.business.findUniqueOrThrow({
+		const businessDetals = await prisma.business.findUniqueOrThrow({
 			where: {
 				email: data.get("email")?.toString() ?? "" ?? "",
 				password: data.get("password")?.toString() ?? "" ?? "",
 			},
         });
 
-        const updateSessionID = await prisma.business.update({
+        const updatedUser = await prisma.business.update({
 			where: {
 				email: data.get("email")?.toString() ?? "" ?? "",
 				password: data.get("password")?.toString() ?? "" ?? "",
@@ -40,8 +40,13 @@ export const businessLogin = async (_: any, data: FormData) => {
 
 		return {
 			status: "success",
-			message: "Login successful. Redirecting to dashboard...",
-			data: updateSessionID,
+			message: "Login successful. Redirecting to dashboard",
+			data: {
+				userID: businessDetals.id,
+				sessionID: updatedUser.sessionID,
+				name: `${businessDetals.firstName} ${businessDetals.lastName}`,
+				email: businessDetals.email,
+			},
 		};
 	} catch (error: any) {
 		if (error.name === "NotFoundError") {
