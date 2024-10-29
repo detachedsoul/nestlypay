@@ -94,7 +94,7 @@ const CreateAccount = () => {
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, permanentRedirect]);
+	}, [state, setAuthInfo, formValues]);
 
     return (
 		<>

@@ -181,7 +181,7 @@ const CreateBusinessAccount = () => {
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, permanentRedirect, businessInfo]);
+	}, [state, setAuthInfo, businessInfo]);
 
 	if (isLoading) {
 		return null;

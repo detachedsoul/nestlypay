@@ -29,7 +29,7 @@ const LoginForm = () => {
 
             return () => clearTimeout(timer);
 		}
-	}, [state, permanentRedirect, setAuthInfo]);
+	}, [state, setAuthInfo]);
 
 	return (
 		<>

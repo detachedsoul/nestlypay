@@ -1,5 +1,6 @@
 "use client";
 
+import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
@@ -11,6 +12,8 @@ const LoginFormChild = () => {
 		email: "",
 		password: "",
     });
+
+    const isFormComplete = isFormFieldsComplete(formValues);
 
     const { pending } = useFormStatus();
 
@@ -70,10 +73,7 @@ const LoginFormChild = () => {
 			<button
 				className="submit-btn"
 				type="submit"
-				disabled={
-					!Object.values(formValues).every((value) => value !== "") ||
-					pending
-				}
+				disabled={!isFormComplete || pending}
 			>
 				{pending ? "Signing In..." : "Sign In"}
 			</button>
