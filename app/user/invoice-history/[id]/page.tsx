@@ -2,9 +2,9 @@ import InvoiceReceipt from "@/components/User/InvoiceReceipt";
 import { Metadata } from "next";
 
 type historyProps = {
-    params: {
+    params: Promise<{
         id: string
-    }
+    }>
 };
 
 export const metadata: Metadata = {
@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 const Index: React.FC<historyProps> = ({params}: historyProps) => {
+    console.log(params.id);
+
     return (
         <InvoiceReceipt />
     );
