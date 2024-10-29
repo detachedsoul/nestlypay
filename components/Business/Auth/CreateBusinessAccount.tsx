@@ -12,7 +12,7 @@ import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { z } from "zod";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter, permanentRedirect } from "next/navigation";
 
 const schema = z.object({
 	password: z.string().min(1, "Password is required"),
@@ -27,7 +27,6 @@ type FormValues = {
 const CreateBusinessAccount = () => {
     const { businessInfo, setBusinessInfo } = useBusinessForm();
     const { setAuthInfo } = useAuth();
-    const { replace } = useRouter();
 	const { state, formAction } = useForm(createBusinessAccount, true);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -157,7 +156,7 @@ const CreateBusinessAccount = () => {
                 );
 
 				if (!isStateDataSet) {
-					redirect("/auth/business/business-info");
+					permanentRedirect("/auth/business/business-info");
 				} else {
 					setIsLoading(false);
 				}
@@ -172,17 +171,17 @@ const CreateBusinessAccount = () => {
 					sessionID: state.data.sessionID,
 					userID: state.data.id,
 					name: `${businessInfo.firstName} ${businessInfo.lastName}`,
-                    email: businessInfo.email
+					email: businessInfo.email,
 				});
 
 				localStorage.removeItem("business-info");
 
-				replace("/business");
+				permanentRedirect("/business");
 			}, 2000);
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, replace]);
+	}, [state, setAuthInfo, permanentRedirect, businessInfo]);
 
 	if (isLoading) {
 		return null;
@@ -315,8 +314,6 @@ export const SubmitButton = ({
     isFormComplete: boolean;
 }) => {
     const { pending } = useFormStatus();
-
-    const { businessInfo } = useBusinessForm();
 
 	return (
 		<button

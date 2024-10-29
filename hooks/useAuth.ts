@@ -19,6 +19,8 @@ const useAuth = create<AuthInfoState>()(
 			authInfo: {
 				sessionID: null,
 				userID: null,
+                name: null,
+                email: null
 			},
 
 			setAuthInfo: (info: AuthInfo) =>

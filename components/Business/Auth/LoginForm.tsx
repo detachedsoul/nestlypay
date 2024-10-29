@@ -6,15 +6,13 @@ import Alert from "@/components/Alert";
 import useForm from "@/hooks/useForm";
 import useAuth from "@/hooks/useAuth";
 import { businessLogin } from "@/lib/businessAction";
-import { useRouter } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 import { useEffect } from "react";
 
 const LoginForm = () => {
     const { state, formAction } = useForm(businessLogin, true);
 
     const { setAuthInfo } = useAuth();
-
-    const router = useRouter();
 
 	useEffect(() => {
         if (state.status === "success") {
@@ -26,12 +24,12 @@ const LoginForm = () => {
                     email: state.data.email
                 });
 
-                router.replace("/business");
+                permanentRedirect("/business");
             }, 3000);
 
             return () => clearTimeout(timer);
 		}
-	}, [state.status, router]);
+	}, [state, permanentRedirect, setAuthInfo]);
 
 	return (
 		<>

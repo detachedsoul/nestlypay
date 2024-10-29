@@ -1,5 +1,4 @@
-import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useActionState } from "react";
 
 interface IForm {
 	state: {
@@ -21,7 +20,7 @@ const initialState: {
 };
 
 const useForm = (action: any, resetState: boolean = false): IForm => {
-	const [getState, formAction] = useFormState(action, initialState);
+	const [getState, formAction] = useActionState(action, initialState);
 
 	const [values, setValues] = useState(initialState);
 

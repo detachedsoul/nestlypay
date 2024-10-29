@@ -21,7 +21,7 @@ const createBusinessSchema = z.object({
 
 export const businessLogin = async (_: any, data: FormData) => {
 	try {
-		const businessDetals = await prisma.business.findUniqueOrThrow({
+		const businessDetails = await prisma.business.findUniqueOrThrow({
 			where: {
 				email: data.get("email")?.toString() ?? "" ?? "",
 				password: data.get("password")?.toString() ?? "" ?? "",
@@ -42,10 +42,10 @@ export const businessLogin = async (_: any, data: FormData) => {
 			status: "success",
 			message: "Login successful. Redirecting to dashboard",
 			data: {
-				userID: businessDetals.id,
+				userID: businessDetails.id,
 				sessionID: updatedUser.sessionID,
-				name: `${businessDetals.firstName} ${businessDetals.lastName}`,
-				email: businessDetals.email,
+				name: `${businessDetails.firstName} ${businessDetails.lastName}`,
+				email: businessDetails.email,
 			},
 		};
 	} catch (error: any) {
