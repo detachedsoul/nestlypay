@@ -5,8 +5,8 @@ import Link from "next/link";
 import useForm from "@/hooks/useForm";
 import Alert from "@/components/Alert";
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { checkBusinessDetails } from "@/lib/actions";
+import { permanentRedirect, useRouter } from "next/navigation";
+import { checkBusinessDetails } from "@/lib/businessAction";
 
 const BusinessInfo = () => {
 	const { state, formAction } = useForm(checkBusinessDetails, true);
@@ -30,7 +30,7 @@ const BusinessInfo = () => {
                 !formState?.lastName ||
                 !formState?.email
             ) {
-                redirect("/auth/business/personal-info");
+                permanentRedirect("/auth/business/personal-info");
             } else {
                 setIsLoading(false);
             }

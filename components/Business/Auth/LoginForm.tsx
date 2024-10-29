@@ -4,23 +4,32 @@ import LoginFormChild from "./LoginFormChild";
 import Link from "next/link";
 import Alert from "@/components/Alert";
 import useForm from "@/hooks/useForm";
-import { businessLogin } from "@/lib/actions";
-import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
+import { businessLogin } from "@/lib/businessAction";
+import { permanentRedirect } from "next/navigation";
 import { useEffect } from "react";
 
 const LoginForm = () => {
-	const { state, formAction } = useForm(businessLogin, true);
-    const router = useRouter();
+    const { state, formAction } = useForm(businessLogin, true);
+
+    const { setAuthInfo } = useAuth();
 
 	useEffect(() => {
-		if (state.status === "success") {
+        if (state.status === "success") {
             const timer = setTimeout(() => {
-                router.replace("/business");
+                setAuthInfo({
+					sessionID: state.data.sessionID,
+					userID: state.data.userID,
+					name: state.data.name,
+                    email: state.data.email
+                });
+
+                permanentRedirect("/business");
             }, 3000);
 
             return () => clearTimeout(timer);
 		}
-	}, [state.status, router]);
+	}, [state, setAuthInfo]);
 
 	return (
 		<>

@@ -1,6 +1,9 @@
 "use client";
 
 import useBusinessForm from "@/hooks/useBusinessForm";
+import formHasErrors from "@/lib/formHasErrors";
+import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import zodValidator from "@/lib/zodValidator";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { z } from "zod";
@@ -54,40 +57,37 @@ const BusinessInfoForm = () => {
         website: "",
 	});
 
-	const zodValidation = (name: keyof typeof formValues, value: string) => {
-		try {
-			schema.shape[name].parse(value);
+	const handleBlur = (
+		e: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLSelectElement>,
+	) => {
+		const { name, value } = e.target;
 
-			setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+		const { errors, formValue } = zodValidator({
+			name: name as keyof FormValues,
+			value: value,
+			formValues: formValues,
+			schema: schema,
+		});
 
+		setFormValues(formValue);
+		setErrors(errors);
+
+		if (!errors[name as keyof FormValues]) {
 			setBusinessInfo({
 				...businessInfo,
-				[name]: value
+				[name]: value,
 			});
-		} catch (err) {
-			if (err instanceof z.ZodError) {
-				const fieldError = err.errors[0]?.message;
-
-				setErrors((prevErrors) => ({
-					...prevErrors,
-					[name]: fieldError,
-				}));
-
-				setBusinessInfo({
-					...businessInfo,
-					[name]: "",
-				});
-			}
+		} else {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: "",
+			});
 		}
 	};
 
-	const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-
-		zodValidation(name as keyof FormValues, value);
-	};
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
+	) => {
 		const { name, value } = e.target;
 
 		setFormValues((prevValues) => ({
@@ -95,12 +95,31 @@ const BusinessInfoForm = () => {
 			[name]: value,
 		}));
 
-		zodValidation(name as keyof FormValues, value);
+		const { errors } = zodValidator({
+			name: name as keyof FormValues,
+			value: value,
+			formValues: formValues,
+			schema: schema,
+		});
+
+		setErrors(errors);
+
+		if (!errors[name as keyof FormValues]) {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: value,
+			});
+		} else {
+			setBusinessInfo({
+				...businessInfo,
+				[name]: "",
+			});
+		}
 	};
 
-	const hasErrors = Object.values(errors).some((error) => error !== "");
+    const hasErrors = formHasErrors(errors);
 
-	const isFormComplete = Object.values([
+	const isFormComplete = isFormFieldsComplete([
 		formValues.companyName,
 		formValues.companyEmail,
 		formValues.address,
@@ -108,7 +127,7 @@ const BusinessInfoForm = () => {
 		formValues.city,
 		formValues.postalCode,
 		formValues.state,
-	]).every((value) => value !== "");
+	]);
 
     return (
 		<>

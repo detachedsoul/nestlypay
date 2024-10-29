@@ -35,7 +35,7 @@ const Index = (): JSX.Element => {
                     </div>
                 </Link>
 
-                <Link className="flex items-center gap-4 rounded-xl border-[1.5px] border-transparent bg-white/100 shadow-[0px_5px_10px_0px_rgba(0,_0,_0,_0.05)] hover:shadow-none hover:border-brand-blue/100 hover:bg-brand-blue/10 transition-colors duration-300 ease-in-out p-2" href="/auth/personal">
+                <Link className="flex items-center gap-4 rounded-xl border-[1.5px] border-transparent bg-white/100 shadow-[0px_5px_10px_0px_rgba(0,_0,_0,_0.05)] hover:shadow-none hover:border-brand-blue/100 hover:bg-brand-blue/10 transition-colors duration-300 ease-in-out p-2" href="/auth/personal/create-account">
                     <Image className="w-[3.6rem] h-[3.6rem] lg:w-12 lg:h-12" src={PersonalAuth} alt="" />
 
                     <div>
