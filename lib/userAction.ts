@@ -36,7 +36,7 @@ export const userLogin = async (_: any, data: FormData) => {
 			data: {
 				userID: userDetails.id,
 				sessionID: updatedUser.sessionID,
-				name: `${userDetails.firstName} ${userDetails.lastName}`,
+				name: userDetails.fullName,
 				email: userDetails.email,
 			},
 		};
