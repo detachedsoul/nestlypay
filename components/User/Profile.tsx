@@ -47,9 +47,9 @@ const Profile = (): JSX.Element => {
                 {imageUrl && (
                     <Image
                         className="absolute inset-0 w-full h-full object-cover object-center rounded-full cursor-pointer aspect-square"
-                        src={imageUrl}
+                        src={imageUrl ?? ""}
                         fill
-                        alt={authInfo?.name}
+                        alt={authInfo?.name ?? ""}
                     />
                 )}
 
