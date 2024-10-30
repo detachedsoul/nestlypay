@@ -1,6 +1,6 @@
 const ProfileSettings = (): JSX.Element => {
     return (
-        <form className="lg:w-1/2 lg:mx-auto settings-card">
+        <form className="lg:w-3/5 xl:w-1/2 lg:mx-auto settings-card">
             <h2 className="text-black/100 font-medium text-2xl/10">
                 Contact Information
             </h2>
@@ -11,11 +11,11 @@ const ProfileSettings = (): JSX.Element => {
 
             <div className="space-y-4 mt-8">
                 <label className="block" htmlFor="email">
-                    <input className="input" type="email" placeholder="Email Aaddress" name="email" />
+                    <input className="input" type="email" placeholder="Email Address" name="email" />
                 </label>
 
                 <label className="block" htmlFor="homeAddress">
-                    <input className="input" type="text" placeholder="Home One" name="homeAddress" />
+                    <input className="input" type="text" placeholder="Home Address" name="homeAddress" />
                 </label>
 
                 <div className="grid gap-8 lg:grid-cols-2">

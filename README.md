@@ -2,8 +2,6 @@
 
 This is an implementation of NestlyPay's website. This was done just for the fun of it. It's also still a work in progress.
 
-I am currently working on the authentication (login/registration) section of the website.
-
 ## Stack
 
 - Nextjs

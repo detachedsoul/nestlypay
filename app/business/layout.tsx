@@ -1,16 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import UserImage from "@/assets/img/user-img.jpg";
 import BusinessNavLink from "@/components/Business/BusinessNavLink";
 import SettingsDropdown from "@/components/User/SettingsDropdown";
 import NotificationsDropdown from "@/components/User/NotificationsDropdown";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LayoutDashboardIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const BusinessLayout = ({ children }: { children: React.ReactNode; }): JSX.Element => {
+    const pathname = usePathname();
+
     const [isOpen, setIsOpen] = useState(false);
 
     const [dropdownIsActive, setDropdownIsActive] = useState(false);
@@ -24,6 +26,10 @@ const BusinessLayout = ({ children }: { children: React.ReactNode; }): JSX.Eleme
             document.documentElement.classList.remove("overflow-hidden");
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        setDropdownIsActive(false);
+    }, [pathname]);
 
     return (
         <>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserIcon, SettingsIcon, LogOutIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Dispatch, SetStateAction } from "react";
 
 type dropdownProps = {
     isOpen: boolean;
@@ -11,8 +12,6 @@ type dropdownProps = {
 
 const SettingsDropdown: React.FC<dropdownProps> = ({ isOpen }: dropdownProps) => {
     const pathname = usePathname();
-
-    console.log(pathname)
 
     return (
         <div className={`bg-white absolute space-y-2 w-max right-0 top-[calc(100%+1.5rem)] z-[1024] py-4 rounded-lg transition-transform ease-in-out duration-500 shadow-2xl ${isOpen ? "translate-y-0" : "-translate-y-[200%]"}`}>

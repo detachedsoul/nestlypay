@@ -1,6 +1,6 @@
 const ProfilePreferences = (): JSX.Element => {
     return (
-        <form className="lg:w-1/2 lg:mx-auto settings-card">
+        <form className="lg:w-3/5 xl:w-1/2 lg:mx-auto settings-card">
             <h2 className="text-black/100 font-medium text-2xl/10">
                 Payments Preferences
             </h2>

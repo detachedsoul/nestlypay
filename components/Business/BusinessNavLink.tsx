@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
+import useAuth from "@/hooks/useAuth";
 import { useId, useEffect, Dispatch, SetStateAction } from "react";
 import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -34,11 +35,11 @@ const BusinessNavLink: React.FC<BusinessNavLink> = ({
 	isOpen,
 	setIsOpen,
 }: BusinessNavLink) => {
+    const { authInfo } = useAuth();
+
 	const pathname = usePathname();
 
 	const segment = useSelectedLayoutSegments();
-
-	console.log(pathname, segment);
 
 	useEffect(() => {
 		setIsOpen(false);
@@ -48,7 +49,7 @@ const BusinessNavLink: React.FC<BusinessNavLink> = ({
 			top: 0,
 			behavior: "smooth",
 		});
-	}, [pathname]);
+	}, [pathname, setIsOpen]);
 
 	const links: navLink[] = [
 		{
@@ -446,12 +447,12 @@ const BusinessNavLink: React.FC<BusinessNavLink> = ({
 						quality={100}
 					/>
 
-					<div className="-space-y-1">
-						<p className="font-medium text-black/100 text-lg/8">
-							Wisdom Ojimah
+					<div className="space-y-1">
+						<p className="font-medium text-black/100 text-lg/8 leading-5">
+							{authInfo?.name}
 						</p>
 
-						<p className="text-sm">ojimah@nestlypay.co</p>
+						<p className="text-sm">{authInfo?.email}</p>
 					</div>
 				</div>
 			</div>
