@@ -28,8 +28,6 @@ const LoginForm = () => {
 
 	const { setAuthInfo, authInfo } = useAuth();
 
-	console.log(authInfo);
-
 	useEffect(() => {
 		if (state.status === "success") {
 			const timer = setTimeout(() => {

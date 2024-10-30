@@ -11,6 +11,7 @@ type AuthInfo = {
 type AuthInfoState = {
 	authInfo: AuthInfo;
 	setAuthInfo: (info: AuthInfo) => void;
+	resetAuthInfo: () => void;
 };
 
 const useAuth = create<AuthInfoState>()(
@@ -19,14 +20,25 @@ const useAuth = create<AuthInfoState>()(
 			authInfo: {
 				sessionID: null,
 				userID: null,
-                name: null,
-                email: null
+				name: null,
+				email: null,
 			},
 
 			setAuthInfo: (info: AuthInfo) =>
 				set((state) => ({
 					...state,
 					authInfo: info,
+				})),
+
+			resetAuthInfo: () =>
+				set((state) => ({
+					...state,
+					authInfo: {
+						sessionID: null,
+						userID: null,
+						name: null,
+						email: null,
+					},
 				})),
 		}),
 		{
