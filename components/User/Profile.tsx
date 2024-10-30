@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import useAuth from "@/hooks/useAuth";
 import { useState, ChangeEvent } from "react";
 import { cn } from "@/lib/utils";
 
 const Profile = (): JSX.Element => {
-    const [imageUrl, setImageUrl] = useState<string>();
+    const { authInfo } = useAuth();
+
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     const showUploadedImage = (fileInputSelector: HTMLInputElement) => {
         const reader = new FileReader();
@@ -26,7 +29,7 @@ const Profile = (): JSX.Element => {
     };
 
     return (
-        <form className="space-y-6 lg:w-1/2 lg:mx-auto settings-card">
+        <form className="space-y-6 lg:w-3/5 xl:w-1/2 lg:mx-auto settings-card">
             <label className="h-28 w-28 mx-auto bg-black/100 rounded-full grid place-content-center cursor-pointer relative" htmlFor="profilePicture">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                     <mask className="[mask-type:alpha]" id="mask0_907_6573" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -41,31 +44,30 @@ const Profile = (): JSX.Element => {
 
                 <input type="file" className="h-full cursor-pointer opacity-0 absolute inset-0 w-full rounded-xl z-50" required id="profilePicture" name="profilePicture" onChange={handleImageChange} />
 
-                <Image
-                    className={`absolute inset-0 w-full h-full object-cover object-center rounded-full cursor-pointer aspect-square ${imageUrl ? 'opacity-100' : 'opacity-0'}`}
-                    src={imageUrl || ''}
-                    fill
-                    alt=""
-                />
+                {imageUrl && (
+                    <Image
+                        className="absolute inset-0 w-full h-full object-cover object-center rounded-full cursor-pointer aspect-square"
+                        src={imageUrl ?? ""}
+                        fill
+                        alt={authInfo?.name ?? ""}
+                    />
+                )}
+
             </label>
 
             <div className="flex items-center flex-wrap gap-4 place-content-center">
-                <button className={cn("btn bg-brand-blue text-white border-[1.5px] border-brand-blue font-medium hover:bg-brand-blue/60 hover:border-transparent py-3.5 rounded-lg inline-block")} type="button" onClick={() => setImageUrl("")}>
+                <button className={cn("btn bg-brand-blue text-white border-[1.5px] border-brand-blue font-medium hover:bg-brand-blue/60 hover:border-transparent py-3.5 rounded-lg inline-block")} type="button" onClick={() => setImageUrl(null)}>
                     Upload Image
                 </button>
 
-                <button className={cn("btn bg-white/100 border-[1.5px] border-[rgba(151,_151,_151,_1)] text-[rgba(151,_151,_151,_1)] font-medium hover:bg-[rgba(151,_151,_151,_1)] hover:text-white py-3.5 rounded-lg inline-block")} type="button" onClick={() => setImageUrl("")}>
+                <button className={cn("btn bg-white/100 border-[1.5px] border-[rgba(151,_151,_151,_1)] text-[rgba(151,_151,_151,_1)] font-medium hover:bg-[rgba(151,_151,_151,_1)] hover:text-white py-3.5 rounded-lg inline-block")} type="button" onClick={() => setImageUrl(null)}>
                     Delete
                 </button>
             </div>
 
             <div className="space-y-4">
-                <label className="w-full block" htmlFor="firstName">
-                    <input className="input" type="text" placeholder="First Name" name="firstName" />
-                </label>
-
-                <label className="w-full block" htmlFor="lastName">
-                    <input className="input" type="text" placeholder="Last Name" name="lastName" />
+                <label className="w-full block" htmlFor="fullName">
+                    <input className="input" type="text" placeholder="Full Name" name="fullName" />
                 </label>
 
                 <label className="w-full block" htmlFor="email">

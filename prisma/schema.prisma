@@ -1,17 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
-// datasource db {
-//     provider = "sqlite"
-//     url      = env("DATABASE_URL")
-// }
-
 datasource db {
-    provider  = "postgres"
+    provider  = "postgresql"
     url       = env("db_PRISMA_URL")
     directUrl = env("db_URL_NON_POOLING")
 }
@@ -34,9 +26,21 @@ model Business {
 }
 
 model User {
-    id        String @id @default(uuid())
-    fullName  String
-    email     String @unique
-    password  String
-    sessionID String @default(uuid())
+    id                     String  @id @default(uuid())
+    fullName               String
+    email                  String  @unique
+    password               String
+    sessionID              String  @default(uuid())
+    address                String?
+    city                   String?
+    country                String?
+    postalCode             String?
+    state                  String?
+    bankName               String?
+    accountNumber          String?
+    accountName            String?
+    acceptTransfer         Boolean @default(false)
+    acceptCrypto           Boolean @default(false)
+    receiveReceipt         Boolean @default(false)
+    customerReceiveReceipt Boolean @default(false)
 }

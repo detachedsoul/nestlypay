@@ -5,11 +5,17 @@ import UserImage from "@/assets/img/user-img.jpg";
 import UserNavLink from "@/components/User/UserNavLinks";
 import SettingsDropdown from "@/components/User/SettingsDropdown";
 import NotificationsDropdown from "@/components/User/NotificationsDropdown";
+import useAuth from "@/hooks/useAuth";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LayoutDashboardIcon, SearchIcon, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element => {
+    const { authInfo } = useAuth();
+
+    const pathname = usePathname();
+
     const [isOpen, setIsOpen] = useState(false);
 
     const [dropdownIsActive, setDropdownIsActive] = useState(false);
@@ -23,6 +29,10 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
             document.documentElement.classList.remove("overflow-hidden");
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        setDropdownIsActive(false);
+    }, [pathname]);
 
     return (
         <>
@@ -62,7 +72,7 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
                             setNotificationIsActive(false);
                             setDropdownIsActive(!dropdownIsActive);
                         }}>
-                            <Image className="size-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt="Wisdom Ojimah" />
+                            <Image className="size-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt={authInfo?.name ?? ""} />
                         </button>
 
                         <SettingsDropdown isOpen={dropdownIsActive} />
@@ -101,9 +111,8 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
 
                         <NotificationsDropdown isOpen={notificationsIsActive} />
 
-
                         <button type="button" aria-label="Toggle settings" onClick={() => setDropdownIsActive(!dropdownIsActive)}>
-                            <Image className="size-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt="Wisdom Ojimah" />
+                            <Image className="size-12 oject-center object-cover aspect-square rounded-full" src={UserImage} alt={authInfo?.name ?? ""} />
                         </button>
 
                         <SettingsDropdown isOpen={dropdownIsActive} />

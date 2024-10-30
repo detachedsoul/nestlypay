@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import DashboardLogo from "@/assets/img/dashboard-logo.png";
+import useAuth from "@/hooks/useAuth";
 import { useId, useEffect, Dispatch, SetStateAction } from "react";
 import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -30,12 +31,12 @@ type UserNavLink = {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const UserNavLink: React.FC<UserNavLink> = ({isOpen, setIsOpen}: UserNavLink) => {
+const UserNavLink: React.FC<UserNavLink> = ({ isOpen, setIsOpen }: UserNavLink) => {
+    const { authInfo } = useAuth();
+
     const pathname = usePathname();
 
     const segment = useSelectedLayoutSegments();
-
-    console.log(pathname, segment)
 
     useEffect(() => {
         setIsOpen(false);
@@ -45,7 +46,7 @@ const UserNavLink: React.FC<UserNavLink> = ({isOpen, setIsOpen}: UserNavLink) =>
             top: 0,
             behavior: "smooth"
         });
-    }, [pathname]);
+    }, [pathname, setIsOpen]);
 
     const links: navLink[] = [
         {
@@ -176,13 +177,13 @@ const UserNavLink: React.FC<UserNavLink> = ({isOpen, setIsOpen}: UserNavLink) =>
                 <div className="flex items-center gap-4">
                     <Image className="w-14 h-auto" src={DashboardLogo} alt="NestlyPay" quality={100} />
 
-                    <div className="-space-y-1">
-                        <p className="font-medium text-black/100 text-lg/8">
-                            Wisdom Ojimah
+                    <div className="space-y-1">
+                        <p className="font-medium text-black/100 text-lg/8 leading-5">
+                            {authInfo?.name}
                         </p>
 
                         <p className="text-sm">
-                            ojimah@nestlypay.co
+                            {authInfo?.email}
                         </p>
                     </div>
                 </div>
@@ -219,7 +220,7 @@ const UserNavLink: React.FC<UserNavLink> = ({isOpen, setIsOpen}: UserNavLink) =>
                                 "dashboard-link", {
                                 "bg-dashboard-navlink border-l-[6px] border-brand-blue": (pathname === navLink.route) || navLink?.relatedLinks?.includes(pathname)
                             })
-                        } href={navLink.route ? navLink.route : ""} key={navLink.id}>
+                        } href={navLink?.route ?? ""} key={navLink.id}>
                             {navLink.icon}
 
                             {navLink.routeName}
