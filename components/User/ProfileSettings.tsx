@@ -1,4 +1,12 @@
+"use client";
+
+import useUserDetails from "@/hooks/useUserDetails";
+
 const ProfileSettings = (): JSX.Element => {
+    const { details } = useUserDetails();
+
+    console.log(details);
+
     return (
         <form className="lg:w-3/5 xl:w-1/2 lg:mx-auto settings-card">
             <h2 className="text-black/100 font-medium text-2xl/10">

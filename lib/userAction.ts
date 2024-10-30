@@ -104,3 +104,35 @@ export const createUserAccount = async (_: any, data: FormData) => {
 		};
 	}
 };
+
+export const getUserDetails = async (data: {email: string | null; sessionID: string | null; name: string | null}) => {
+	try {
+		const getUserDetails = await prisma.user.findFirstOrThrow({
+			where: {
+				email: data.email ?? "",
+				sessionID: data.sessionID ?? "",
+				fullName: data.name ?? "",
+			},
+		});
+
+		return {
+			status: "success",
+			message: "User details retrieved successfully.",
+			data: getUserDetails,
+		};
+	} catch (error: any) {
+		if (error.name === "NotFoundError") {
+			return {
+				status: "error",
+				message: "Incorrect email and/or password",
+				data: null,
+			};
+		}
+
+		return {
+			status: "error",
+			message: error.message,
+			data: null,
+		};
+	}
+};
