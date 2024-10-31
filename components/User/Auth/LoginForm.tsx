@@ -5,6 +5,8 @@ import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import Alert from "@/components/Alert";
 import useAuth from "@/hooks/useAuth";
 import useForm from "@/hooks/useForm";
+import useUserDetails from "@/hooks/useUserDetails";
+import { getUserDetails } from "@/lib/userAction";
 import { useFormStatus } from "react-dom";
 import { useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
@@ -17,6 +19,8 @@ type FormValues = {
 };
 
 const LoginForm = () => {
+    const { setUserDetails } = useUserDetails();
+
 	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
 	const [formValues, setFormValues] = useState<FormValues>({
@@ -26,24 +30,41 @@ const LoginForm = () => {
 
 	const { state, formAction } = useForm(userLogin, true);
 
-	const { setAuthInfo, authInfo } = useAuth();
+	const { setAuthInfo } = useAuth();
 
 	useEffect(() => {
-		if (state.status === "success") {
-			const timer = setTimeout(() => {
-				setAuthInfo({
-					sessionID: state.data.sessionID,
-					userID: state.data.userID,
-					name: state.data.name,
-					email: state.data.email,
-				});
+		const fetchUserDetails = async () => {
+			const detailsParams = {
+				sessionID: state.data?.sessionID ?? "",
+				userID: state.data?.userID ?? "",
+				name: state.data?.name ?? "",
+				email: state.data?.email ?? "",
+			};
 
-				permanentRedirect("/user");
-			}, 3000);
+			const { data, status } = await getUserDetails(detailsParams);
 
-			return () => clearTimeout(timer);
-		}
-	}, [state, setAuthInfo]);
+			if (status === "success") {
+				setUserDetails(data);
+			}
+
+			if (state.status === "success") {
+				const timer = setTimeout(() => {
+					setAuthInfo({
+						sessionID: state.data.sessionID,
+						userID: state.data.userID,
+						name: state.data.name,
+						email: state.data.email,
+					});
+
+					permanentRedirect("/user");
+				}, 3000);
+
+				return () => clearTimeout(timer);
+			}
+		};
+
+		fetchUserDetails();
+	}, [state, setAuthInfo, setUserDetails]);
 
 	return (
 		<>

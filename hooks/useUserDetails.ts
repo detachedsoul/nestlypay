@@ -1,35 +1,91 @@
-import useAuth from "./useAuth";
-import { getUserDetails } from "@/lib/userAction";
-import { useEffect, useState } from "react";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-const useUserDetails = () => {
-    const { authInfo } = useAuth();
+type UserDetails = {
+    id: string;
+    fullName: string;
+    email: string;
+    password: string;
+    sessionID: string;
+    address: string | null;
+    city: string | null;
+    phoneNumber: string | null;
+    country: string | null;
+    postalCode: string | null;
+    state: string | null;
+    bankName: string | null;
+    accountNumber: string | null;
+    accountName: string | null;
+    acceptTransfer: boolean;
+    acceptCrypto: boolean;
+    receiveReceipt: boolean;
+    customerReceiveReceipt: boolean;
+} | null;
 
-    const [userDetails, setUserDetails] = useState({
-        status: "",
-        message: "",
-        data: null
-    });
-
-    useEffect(() => {
-        const fetchUserDetails = async () => {
-            if (!authInfo) {
-                return;
-            }
-
-            const {status, message, data} = await getUserDetails(authInfo);
-
-            setUserDetails({
-                status,
-                message,
-                data: data as keyof typeof data
-            });
-        };
-
-        fetchUserDetails();
-    }, [authInfo]);
-
-    return { details: userDetails };
+type UserDetailsState = {
+	userDetails: UserDetails;
+	setUserDetails: (info: UserDetails) => void;
 };
 
-export default useUserDetails;
+const useAuth = create<UserDetailsState>()(
+	persist(
+		(set) => ({
+			userDetails: {
+				id: "",
+				fullName: "",
+				email: "",
+				password: "",
+				sessionID: "",
+				address: null,
+				city: null,
+				phoneNumber: null,
+				country: null,
+				postalCode: null,
+				state: null,
+				bankName: null,
+				accountNumber: null,
+				accountName: null,
+				acceptTransfer: false,
+				acceptCrypto: false,
+				receiveReceipt: false,
+				customerReceiveReceipt: false,
+			},
+
+			setUserDetails: (details: UserDetails) =>
+				set((state) => ({
+					...state,
+					userDetails: details,
+				})),
+
+			resetUserDetails: () =>
+				set((state) => ({
+					...state,
+					userDetails: {
+						id: "",
+						fullName: "",
+						email: "",
+						password: "",
+						sessionID: "",
+						address: null,
+						city: null,
+						phoneNumber: null,
+						country: null,
+						postalCode: null,
+						state: null,
+						bankName: null,
+						accountNumber: null,
+						accountName: null,
+						acceptTransfer: false,
+						acceptCrypto: false,
+						receiveReceipt: false,
+						customerReceiveReceipt: false,
+					},
+				})),
+		}),
+		{
+			name: "user-details",
+		},
+	),
+);
+
+export default useAuth;
