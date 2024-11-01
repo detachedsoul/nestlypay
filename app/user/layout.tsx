@@ -36,7 +36,7 @@ const UserLayout = ({ children }: { children: React.ReactNode; }): JSX.Element =
 
     return (
         <>
-            <header className="sticky top-0 z-[1024]">
+            <header className="sticky top-0 z-50">
                 <div className="flex items-center gap-4 justify-between py-4 px-6 bg-white/100 border-b border-[rgba(241,_241,_241,_1)] lg:hidden">
                     <button className="bg-[#0c46d3]/[0.05] text-brand-blue rounded-lg p-1.5" type="button" aria-label="Toggle mobile navbar" onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? (

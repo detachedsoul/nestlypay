@@ -105,15 +105,16 @@ export const createUserAccount = async (_: any, data: FormData) => {
 	}
 };
 
-export const getUserDetails = async (data: {email: string | null; sessionID: string | null; name: string | null}) => {
+export const getUserDetails = async (data: { email: string; sessionID: string; name: string;  userID: string}) => {
 	try {
 		const getUserDetails = await prisma.user.findFirstOrThrow({
 			where: {
-				email: data.email ?? "",
-				sessionID: data.sessionID ?? "",
-				fullName: data.name ?? "",
+				email: data.email,
+				sessionID: data.sessionID,
+                fullName: data.name,
+                id: data.userID
 			},
-		});
+        });
 
 		return {
 			status: "success",
@@ -135,4 +136,40 @@ export const getUserDetails = async (data: {email: string | null; sessionID: str
 			data: null,
 		};
 	}
+};
+
+export const updateUserDetails = async (data: { email: string; sessionID: string; name: string;  userID: string}, formFields: Record<string, string | null | boolean>) => {
+    try {
+        for (const key in formFields) {
+            const value = formFields[key];
+
+            if (value === "") {
+                formFields[key] = null;
+            }
+        }
+
+        const updatedDetails = prisma.user.update({
+			data: {
+				...formFields,
+			},
+			where: {
+				email: data.email,
+				sessionID: data.sessionID,
+				fullName: data.name,
+				id: data.userID,
+			},
+		});
+
+        return {
+			status: "success" as const,
+			message: "Details updated successfully.",
+			data: updatedDetails,
+		};
+    } catch (error: any) {
+        return {
+			status: "error" as const,
+			message: error.message,
+			data: null,
+		};
+    }
 };

@@ -37,6 +37,7 @@ model User {
     postalCode             String?
     state                  String?
     bankName               String?
+    phoneNumber            String?
     accountNumber          String?
     accountName            String?
     acceptTransfer         Boolean @default(false)

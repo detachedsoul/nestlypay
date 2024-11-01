@@ -6,7 +6,10 @@ interface IForm {
 		message: string;
 		data: any;
 	};
-	formAction: (payload: FormData) => void;
+	formAction: (
+		payload: FormData | Record<string, string | null>,
+		formValues?: Record<string, string | null>,
+	) => void;
 }
 
 const initialState: {
