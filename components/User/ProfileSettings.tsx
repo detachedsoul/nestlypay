@@ -32,7 +32,6 @@ const ProfileSettings = (): JSX.Element => {
 	const { updateDetails, resetStatus } = useUpdateUserDetails();
 
 	const [formValues, setFormValues] = useState({
-		email: userDetails?.email ?? "",
 		address: userDetails?.address ?? "",
 		city: userDetails?.city ?? "",
 		postalCode: userDetails?.postalCode ?? "",
@@ -46,7 +45,6 @@ const ProfileSettings = (): JSX.Element => {
 	useEffect(() => {
 		if (userDetails) {
 			setFormValues({
-				email: userDetails.email ?? "",
 				address: userDetails.address ?? "",
 				city: userDetails.city ?? "",
 				postalCode: userDetails.postalCode ?? "",
@@ -235,8 +233,8 @@ const ProfileSettings = (): JSX.Element => {
 							type="email"
 							placeholder="Email Address"
 							name="email"
-							value={String(formValues.email)}
-							onChange={handleChange}
+							value={userDetails?.email}
+							disabled
 						/>
 					</label>
 
