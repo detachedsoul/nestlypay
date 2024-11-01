@@ -140,9 +140,43 @@ export const getUserDetails = async (data: { email: string; sessionID: string; n
 
 export const updateUserDetails = async (data: { email: string; sessionID: string; name: string;  userID: string}, formFields: Record<string, string | null | boolean>) => {
     try {
+        let updatedFields = { ...formFields };
+
+        for (const key in formFields) {
+            const value = updatedFields[key];
+
+            if (key === "email") {
+				const validatedFields = z.string().email().safeParse(value);
+
+				if (!validatedFields.success) {
+					return {
+						status: "error" as const,
+						message: `Error on email field. ${validatedFields.error.errors[0].message}`,
+					};
+				}
+
+				const userEmailExists = await prisma.user.findFirst({
+					where: {
+						email: String(value),
+					},
+				});
+
+				if (userEmailExists) {
+					return {
+						status: "error" as const,
+						message: "Email already exists.",
+					};
+				}
+			}
+
+            if (value === "") {
+                updatedFields[key] = null;
+            }
+        }
+
         const updatedDetails = prisma.user.update({
 			data: {
-				...formFields,
+				...updatedFields,
 			},
 			where: {
 				email: data.email,
@@ -153,13 +187,13 @@ export const updateUserDetails = async (data: { email: string; sessionID: string
 		});
 
         return {
-			status: "success",
+			status: "success" as const,
 			message: "Details updated successfully.",
 			data: updatedDetails,
 		};
     } catch (error: any) {
         return {
-			status: "error",
+			status: "error" as const,
 			message: error.message,
 			data: null,
 		};

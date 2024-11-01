@@ -7,6 +7,7 @@ import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import useForm from "@/hooks/useForm";
 import useAuth from "@/hooks/useAuth";
+import useUserDetails from "@/hooks/useUserDetails";
 import { createUserAccount } from "@/lib/userAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
@@ -31,7 +32,9 @@ type FormValues = {
 const CreateAccount = () => {
     const { state, formAction } = useForm(createUserAccount, true);
 
-    const { setAuthInfo, authInfo } = useAuth();
+    const { setAuthInfo } = useAuth();
+
+    const { setUserDetails } = useUserDetails();
 
     const [formValues, setFormValues] = useState({
         fullName: "",
@@ -89,12 +92,14 @@ const CreateAccount = () => {
 					email: formValues.email,
 				});
 
+				setUserDetails(state.data);
+
 				permanentRedirect("/user");
 			}, 2000);
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, formValues]);
+	}, [state, setAuthInfo, formValues, setUserDetails]);
 
     return (
 		<>

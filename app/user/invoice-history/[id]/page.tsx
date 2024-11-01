@@ -7,8 +7,6 @@ export const metadata: Metadata = {
 };
 
 const Index = async ({ params }: { params: Promise<{ id: string }> }) => {
-	console.log((await params).id);
-
 	return <InvoiceReceipt />;
 };
 
