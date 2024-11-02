@@ -4,7 +4,7 @@ import { updateUserDetails } from "@/lib/userAction";
 import { useState } from "react";
 
 const useUpdateUserDetails = () => {
-	const { setUserDetails, userDetails } = useUserDetails();
+	const { setUserDetails } = useUserDetails();
     const { authInfo, setAuthInfo } = useAuth();
 
 	const [resetStatus, setResetStatus] = useState<{
@@ -21,8 +21,8 @@ const useUpdateUserDetails = () => {
 		const detailsParams = {
 			sessionID: authInfo?.sessionID ?? "",
 			userID: authInfo?.userID ?? "",
-			name: authInfo?.name ?? "",
-			email: authInfo?.email ?? "",
+            email: authInfo?.email ?? "",
+            name: authInfo.email ?? ""
 		};
 
 		const { status, message, data } = await updateUserDetails(
@@ -31,13 +31,13 @@ const useUpdateUserDetails = () => {
 		);
 
 		if (status === "success" && data) {
-			setUserDetails(await data);
+			setUserDetails(data);
 
 			setAuthInfo({
-				sessionID: (await data)?.sessionID ?? "",
-				userID: (await data)?.id ?? "",
-				name: (await data)?.fullName ?? "",
-				email: (await data)?.email ?? "",
+				sessionID: data?.sessionID ?? "",
+				userID: data?.id ?? "",
+				name: data?.fullName ?? "",
+				email: data?.email ?? "",
 			});
 		}
 

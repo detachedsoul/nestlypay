@@ -7,12 +7,13 @@ import useAuth from "@/hooks/useAuth";
 import zodValidator from "@/lib/zodValidator";
 import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import useUserDetails from "@/hooks/userUserDetails";
 import { createBusinessAccount } from "@/lib/businessAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { z } from "zod";
-import { useRouter, permanentRedirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
 const schema = z.object({
 	password: z.string().min(1, "Password is required"),
@@ -27,6 +28,7 @@ type FormValues = {
 const CreateBusinessAccount = () => {
     const { businessInfo, setBusinessInfo } = useBusinessForm();
     const { setAuthInfo } = useAuth();
+    const { setUserDetails } = useUserDetails();
 	const { state, formAction } = useForm(createBusinessAccount, true);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -176,12 +178,14 @@ const CreateBusinessAccount = () => {
 
 				localStorage.removeItem("business-info");
 
+                setUserDetails(state.data);
+
 				permanentRedirect("/business");
 			}, 2000);
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, businessInfo]);
+	}, [state, setAuthInfo, businessInfo, setUserDetails]);
 
 	if (isLoading) {
 		return null;

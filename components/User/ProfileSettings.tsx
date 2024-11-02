@@ -303,7 +303,7 @@ const ProfileSettings = (): JSX.Element => {
 									)}
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select country"
 									styles={customStyles}
@@ -318,16 +318,18 @@ const ProfileSettings = (): JSX.Element => {
 								<div className="py-7 px-4 bg-brand-blue/20 animate-pulse rounded-lg"></div>
 							)}
 
-							{countriesError && (
+							{countriesError && !countriesIsLoading && (
 								<Select
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select country"
 									styles={customStyles}
 									name="country"
-									noOptionsMessage={() => countriesError}
+									noOptionsMessage={() =>
+										String(countriesError)
+									}
 								/>
 							)}
 						</label>
@@ -369,7 +371,7 @@ const ProfileSettings = (): JSX.Element => {
 									)}
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select state"
 									styles={customStyles}
@@ -384,7 +386,7 @@ const ProfileSettings = (): JSX.Element => {
 								<Select
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select state"
 									styles={customStyles}
@@ -395,16 +397,16 @@ const ProfileSettings = (): JSX.Element => {
 								/>
 							)}
 
-							{statesError && (
+							{statesError && !statesIsLoading && (
 								<Select
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select state"
 									styles={customStyles}
 									name="state"
-									noOptionsMessage={() => statesError}
+									noOptionsMessage={() => String(statesError)}
 								/>
 							)}
 
@@ -451,7 +453,7 @@ const ProfileSettings = (): JSX.Element => {
 									)}
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select city"
 									styles={customStyles}
@@ -466,7 +468,7 @@ const ProfileSettings = (): JSX.Element => {
 								<Select
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select city"
 									styles={customStyles}
@@ -477,16 +479,16 @@ const ProfileSettings = (): JSX.Element => {
 								/>
 							)}
 
-							{citiesError && (
+							{citiesError && !citiesIsLoading && (
 								<Select
 									isSearchable
 									className={cn(
-										"input-select px-0 py-[0.6rem]",
+										"input-select px-0 py-[0.52rem]",
 									)}
 									placeholder="Select city"
 									styles={customStyles}
 									name="city"
-									noOptionsMessage={() => citiesError}
+									noOptionsMessage={() => String(citiesError)}
 								/>
 							)}
 

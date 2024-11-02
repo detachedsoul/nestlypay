@@ -1,59 +1,53 @@
-import { z, ZodObject, ZodTypeAny } from "zod";
+import { z, ZodObject, ZodTypeAny, ZodEffects } from "zod";
 
 interface IZodValidator<T> {
-	name: keyof T;
-	value: string;
-	formValues: T;
-	schema: ZodObject<{ [key in keyof T]: ZodTypeAny }>;
-};
+    name: keyof T;
+    value: string;
+    formValues: T;
+    schema:
+        | ZodObject<{ [key in keyof T]: ZodTypeAny }>
+        | ZodEffects<ZodObject<{ [key in keyof T]: ZodTypeAny }>>;
+}
 
 const zodValidation = <T,>({ name, value, formValues, schema }: IZodValidator<T>) => {
     let initialErrors: Partial<Record<keyof T, string>> = {};
 
-	const initialValue = formValues;
+    const updatedFormValues = {
+        ...formValues,
+        [name]: value,
+    };
 
-	try {
-		schema.shape[name].parse(value);
-
-		const errors = {
-			...initialErrors,
-			[name]: "",
-		};
-
-		const formValue = {
-			...initialValue,
-			[name]: value,
-		};
+    try {
+        schema.parse(updatedFormValues);
 
         return {
-			errors: errors,
-			formValue: formValue,
-		};
-	} catch (err) {
-		if (err instanceof z.ZodError) {
-			const fieldError = err.errors[0]?.message;
-
-            const errors = {
-				...initialErrors,
-				[name]: fieldError,
-			};
-
-            const formValue = {
-				...initialValue,
-				[name]: "",
-			};
+            errors: {
+                ...initialErrors,
+                [name]: "",
+            },
+            formValue: updatedFormValues,
+        };
+    } catch (err) {
+        if (err instanceof z.ZodError) {
+            const fieldError = err.errors.find(e => e.path.includes(name as string))?.message;
 
             return {
-				errors: errors,
-				formValue: formValue,
-			};
-		}
+                errors: {
+                    ...initialErrors,
+                    [name]: fieldError || "",
+                },
+                formValue: {
+                    ...formValues,
+                    [name]: "",
+                },
+            };
+        }
     }
 
     return {
-		errors: initialErrors,
-		formValue: initialValue,
-	};
+        errors: initialErrors,
+        formValue: formValues,
+    };
 };
 
 export default zodValidation;
