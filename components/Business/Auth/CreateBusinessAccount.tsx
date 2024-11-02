@@ -7,7 +7,7 @@ import useAuth from "@/hooks/useAuth";
 import zodValidator from "@/lib/zodValidator";
 import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
-import useUserDetails from "@/hooks/userUserDetails";
+import useUserDetails from "@/hooks/useUserDetails";
 import { createBusinessAccount } from "@/lib/businessAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
