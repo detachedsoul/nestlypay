@@ -6,6 +6,7 @@ import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
 import Select, { SingleValue } from "react-select";
 import useFetch from "@/hooks/useFetch";
 import FormInput from "@/components/FormInput";
+import FormSelect from "@/components/FormSelect";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -70,58 +71,6 @@ const ProfileSettings = (): JSX.Element => {
 		}));
 	};
 
-	const customStyles = {
-		control: (base: any, state: any) => ({
-			...base,
-			color: "rgba(0, 0, 0, 0.7)",
-			backgroundColor: "rgba(255, 255, 255, 1)",
-			border: "none",
-			borderRadius: "0.5rem",
-			paddingLeft: "1rem",
-			paddingRight: "1rem",
-			paddingTop: "0",
-			paddingBottom: "0",
-			width: "100%",
-			fontWeight: "500",
-			cursor: "pointer",
-			boxShadow: state.isFocused ? "none" : "none",
-		}),
-		option: (base: any, state: any) => ({
-			...base,
-			"backgroundColor": state.isSelected
-				? "rgba(12, 70, 211, 0.08)"
-				: "white",
-			"color": state.isSelected
-				? "rgb(0 0 0 / 0.7)"
-				: "rgba(151, 151, 151, 1)",
-			"cursor": "pointer",
-			"paddingLeft": "1.5rem",
-			"paddingRight": "1.5rem",
-			"paddingTop": "0.75rem",
-			"paddingBottom": "0.75rem",
-			"&:hover": {
-				backgroundColor: "rgba(12, 70, 211, 0.08)",
-				color: "rgb(0 0 0 / 0.7)",
-			},
-		}),
-		singleValue: (base: any) => ({
-			...base,
-			color: "rgba(0, 0, 0, 0.7)",
-		}),
-		placeholder: (base: any) => ({
-			...base,
-			color: "rgba(151, 151, 151, 1)",
-		}),
-		menu: (base: any) => ({
-			...base,
-			borderRadius: "0.5rem",
-			border: "1px solid rgba(12, 70, 211, 0.2)",
-			boxShadow: "none",
-			overflow: "hidden",
-			zIndex: 50,
-		}),
-	};
-
 	const {
 		data: countries,
 		error: countriesError,
@@ -147,7 +96,7 @@ const ProfileSettings = (): JSX.Element => {
 	);
 
 	const handleCountryChange = (
-		selectedOption: SingleValue<{ label: string; value: string }>,
+		selectedOption: SingleValue<Record<string, any>>,
 	) => {
 		setFormValues((prevValues) => ({
 			...prevValues,
@@ -157,8 +106,8 @@ const ProfileSettings = (): JSX.Element => {
 		setCountryIso(selectedOption ? selectedOption.value : "");
 	};
 
-    const handleStateChange = (
-		selectedOption: SingleValue<{ label: string; value: string }>,
+	const handleStateChange = (
+		selectedOption: SingleValue<Record<string, any>>,
 	) => {
 		setFormValues((prevValues) => ({
 			...prevValues,
@@ -168,8 +117,8 @@ const ProfileSettings = (): JSX.Element => {
 		setStateIso(selectedOption ? selectedOption.value : "");
 	};
 
-    const handleCityChange = (
-		selectedOption: SingleValue<{ label: string }>,
+	const handleCityChange = (
+		selectedOption: SingleValue<Record<string, any>>,
 	) => {
 		setFormValues((prevValues) => ({
 			...prevValues,
@@ -177,38 +126,38 @@ const ProfileSettings = (): JSX.Element => {
 		}));
 	};
 
-    useEffect(() => {
-        if (formValues.country) {
-            setCountryIso(
+	useEffect(() => {
+		if (formValues.country && countries) {
+			setCountryIso(
 				countries?.find(
 					(country: { name: string }) =>
 						country.name === formValues.country,
 				)?.iso2,
 			);
-        }
-    }, [countries, formValues]);
+		}
+	}, [countries, formValues]);
 
-    useEffect(() => {
-        if (formValues.state && !states?.error) {
-            setStateIso(
+	useEffect(() => {
+		if (formValues.state && !states?.error) {
+			setStateIso(
 				states?.find(
 					(state: { name: string }) =>
 						state.name === formValues.state,
 				)?.iso2,
 			);
-        }
-    }, [states, formValues, countryIso]);
+		}
+	}, [states, formValues, countryIso]);
 
-    useEffect(() => {
-        if (formValues.city && !states?.error) {
-            setStateIso(
+	useEffect(() => {
+		if (formValues.city && !states?.error) {
+			setStateIso(
 				states?.find(
 					(state: { name: string }) =>
 						state.name === formValues.state,
 				)?.iso2,
 			);
-        }
-    }, [states, formValues, stateIso]);
+		}
+	}, [states, formValues, stateIso]);
 
 	return (
 		<>
@@ -270,67 +219,36 @@ const ProfileSettings = (): JSX.Element => {
 							className="block"
 							htmlFor="country"
 						>
-							{countries && (
-								<Select
-									value={
-										countries?.find(
-											(country: { name: string }) =>
-												country.name ===
-												formValues.country,
-										)
-											? {
-													label: formValues.country,
-													value: countries.find(
-														(country: {
-															name: string;
-														}) =>
-															country.name ===
-															formValues.country,
-													)?.iso2,
-												}
-											: null
-									}
-									onChange={handleCountryChange}
-									options={countries?.map(
-										(country: {
-											name: string;
-											iso2: string;
-										}) => ({
-											label: country.name,
-											value: country.iso2,
-										}),
-									)}
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select country"
-									styles={customStyles}
-									name="country"
-									noOptionsMessage={() =>
-										"No country found. Try searching for another country"
-									}
-								/>
-							)}
-
-							{countriesIsLoading && (
-								<div className="py-7 px-4 bg-brand-blue/20 animate-pulse rounded-lg"></div>
-							)}
-
-							{countriesError && !countriesIsLoading && (
-								<Select
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select country"
-									styles={customStyles}
-									name="country"
-									noOptionsMessage={() =>
-										String(countriesError)
-									}
-								/>
-							)}
+							<FormSelect
+								data={countries}
+								displayValues={{
+									label: "name",
+									value: "iso2",
+								}}
+								onChange={handleCountryChange}
+								value={
+									countries?.find(
+										(country: { name: string }) =>
+											country.name === formValues.country,
+									)
+										? {
+												label: formValues.country,
+												value: countries.find(
+													(country: {
+														name: string;
+													}) =>
+														country.name ===
+														formValues.country,
+												)?.iso2,
+											}
+										: null
+								}
+								placeholder="Select country"
+								name="country"
+								noOptionsMessage="No country found. Try searching for another country"
+								errorMsg={String(countriesError)}
+								isLoading={countriesIsLoading}
+							/>
 						</label>
 					</div>
 
@@ -339,161 +257,72 @@ const ProfileSettings = (): JSX.Element => {
 							className="block"
 							htmlFor="state"
 						>
-							{states && !states?.error && (
-								<Select
-									value={
-										states?.find(
-											(state: { name: string }) =>
-												state.name === formValues.state,
-										)
-											? {
-													label: formValues.state,
-													value: states.find(
-														(state: {
-															name: string;
-														}) =>
-															state.name ===
-															formValues.state,
-													)?.iso2,
-												}
-											: null
-									}
-									onChange={handleStateChange}
-									options={states?.map(
-										(state: {
-											name: string;
-											iso2: string;
-										}) => ({
-											label: state.name,
-											value: state.iso2,
-										}),
-									)}
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select state"
-									styles={customStyles}
-									name="state"
-									noOptionsMessage={() =>
-										"No state found. Try searching for another state"
-									}
-								/>
-							)}
-
-							{states?.error && (
-								<Select
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select state"
-									styles={customStyles}
-									name="state"
-									noOptionsMessage={() =>
-										"Select a country to fetch cities or try searching for another state"
-									}
-								/>
-							)}
-
-							{statesError && !statesIsLoading && (
-								<Select
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select state"
-									styles={customStyles}
-									name="state"
-									noOptionsMessage={() => String(statesError)}
-								/>
-							)}
-
-							{statesIsLoading && (
-								<div className="py-7 px-4 bg-brand-blue/20 animate-pulse rounded-lg"></div>
-							)}
+							<FormSelect
+								data={states}
+								displayValues={{
+									label: "name",
+									value: "iso2",
+								}}
+								onChange={handleStateChange}
+								value={
+									!states?.error &&
+									states?.find(
+										(state: { name: string }) =>
+											state.name === formValues.state,
+									)
+										? {
+												label: formValues.state,
+												value: states.find(
+													(state: { name: string }) =>
+														state.name ===
+														formValues.state,
+												)?.iso2,
+											}
+										: null
+								}
+								placeholder="Select state"
+								name="state"
+								noOptionsMessage="Select a country to fetch states or try searching for another state"
+								errorMsg={String(statesError)}
+								isLoading={statesIsLoading}
+								errorObjectMsg="Select a country to fetch states"
+							/>
 						</label>
 
 						<label
 							className="block"
 							htmlFor="city"
 						>
-							{cities && !cities?.error && (
-								<Select
-									value={
-										cities?.find(
-											(city: { name: string }) =>
-												city.name === formValues.city,
-										)
-											? {
-													label: cities.find(
-														(city: {
-															name: string;
-														}) =>
-															city.name ===
-															formValues.city,
-													)?.name,
-													value: cities.find(
-														(city: {
-															name: string;
-														}) =>
-															city.name ===
-															formValues.city,
-													)?.name,
-												}
-											: null
-									}
-									onChange={handleCityChange}
-									options={cities?.map(
-										(city: { name: string }) => ({
-											label: city.name,
-											value: city.name,
-										}),
-									)}
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select city"
-									styles={customStyles}
-									name="city"
-									noOptionsMessage={() =>
-										"No city found. Try searching for another city"
-									}
-								/>
-							)}
-
-							{cities?.error && (
-								<Select
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select city"
-									styles={customStyles}
-									name="city"
-									noOptionsMessage={() =>
-										"Select a country and state to fetch cities"
-									}
-								/>
-							)}
-
-							{citiesError && !citiesIsLoading && (
-								<Select
-									isSearchable
-									className={cn(
-										"input-select px-0 py-[0.52rem]",
-									)}
-									placeholder="Select city"
-									styles={customStyles}
-									name="city"
-									noOptionsMessage={() => String(citiesError)}
-								/>
-							)}
-
-							{citiesIsLoading && (
-								<div className="py-7 px-4 bg-brand-blue/20 animate-pulse rounded-lg"></div>
-							)}
+							<FormSelect
+								data={cities}
+								displayValues={{
+									label: "name",
+									value: "name",
+								}}
+								onChange={handleCityChange}
+								value={
+									!cities?.error &&
+									cities?.find(
+										(city: { name: string }) =>
+											city.name === formValues.city,
+									)
+										? {
+												label: formValues.city,
+												value: cities.find(
+													(city: { name: string }) =>
+														city.name ===
+														formValues.city,
+												)?.name,
+											}
+										: null
+								}
+								placeholder="Select city"
+								name="city"
+								noOptionsMessage="No city found. Try searching for another city"
+								errorMsg={String(citiesError)}
+								isLoading={citiesIsLoading}
+								errorObjectMsg="Select a country and state to fetch cities"
+							/>
 						</label>
 					</div>
 

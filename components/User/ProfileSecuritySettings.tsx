@@ -45,8 +45,6 @@ const ProfileSecuritySettings = (): JSX.Element => {
 		confirmPassword: "",
 	});
 
-	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 

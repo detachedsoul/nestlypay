@@ -151,7 +151,6 @@ const ProfileAccountSettings = (): JSX.Element => {
 							type="text"
 							placeholder="Account Name"
 							error={errors.accountName}
-							maxLength={10}
 						/>
 					</label>
 
