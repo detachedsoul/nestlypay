@@ -7,10 +7,11 @@ import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import useForm from "@/hooks/useForm";
 import useAuth from "@/hooks/useAuth";
+import useUserDetails from "@/hooks/useUserDetails";
+import FormInput from "@/components/FormInput";
 import { createUserAccount } from "@/lib/userAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { z } from "zod";
 import { permanentRedirect } from "next/navigation";
 
@@ -31,7 +32,9 @@ type FormValues = {
 const CreateAccount = () => {
     const { state, formAction } = useForm(createUserAccount, true);
 
-    const { setAuthInfo, authInfo } = useAuth();
+    const { setAuthInfo } = useAuth();
+
+    const { setUserDetails } = useUserDetails();
 
     const [formValues, setFormValues] = useState({
         fullName: "",
@@ -39,7 +42,6 @@ const CreateAccount = () => {
         password: ""
     });
 
-    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
     const [errors, setErrors] = useState<Partial<FormValues>>({
 		fullName: "",
@@ -57,7 +59,6 @@ const CreateAccount = () => {
 			schema: schema,
 		});
 
-		setFormValues(formValue);
 		setErrors(errors);
 	};
 
@@ -89,12 +90,14 @@ const CreateAccount = () => {
 					email: formValues.email,
 				});
 
+				setUserDetails(state.data);
+
 				permanentRedirect("/user");
 			}, 2000);
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, formValues]);
+	}, [state, setAuthInfo, formValues, setUserDetails]);
 
     return (
 		<>
@@ -107,7 +110,8 @@ const CreateAccount = () => {
 				</h1>
 
 				<p className="mt-1">
-					Tell us a bit about you. Provide your legal name, and work mail.
+					Tell us a bit about you. Provide your legal name, and work
+					mail.
 				</p>
 
 				<div className="space-y-8 mt-8 sm:space-y-0 sm:grid sm:gap-8 sm:grid-cols-2 lg:grid-cols-1 lg:block lg:space-y-8">
@@ -115,78 +119,46 @@ const CreateAccount = () => {
 						className="block"
 						htmlFor="fullName"
 					>
-						<input
-							className="input"
+						<FormInput
 							type="text"
 							placeholder="Full Name"
 							name="fullName"
 							value={formValues.fullName}
 							onBlur={handleBlur}
 							onChange={handleChange}
+							error={errors.fullName}
 						/>
-
-						{errors.fullName && (
-							<p className="text-brand-red mt-2">
-								{errors.fullName}
-							</p>
-						)}
 					</label>
 
 					<label
 						className="block"
 						htmlFor="email"
 					>
-						<input
-							className="input"
+						<FormInput
 							type="email"
 							placeholder="Email Address"
 							name="email"
 							value={formValues.email}
 							onBlur={handleBlur}
 							onChange={handleChange}
+							error={errors.email}
 						/>
-
-						{errors.email && (
-							<p className="text-brand-red mt-2">
-								{errors.email}
-							</p>
-						)}
 					</label>
 
 					<label
 						className="block relative"
 						htmlFor="password"
 					>
-						<input
-							className="input pr-16"
-							type={passwordIsVisible ? "text" : "password"}
+						<FormInput
+							type="password"
 							placeholder="Password"
 							name="password"
 							value={formValues.password}
-							onBlur={handleBlur}
 							onChange={handleChange}
+							onBlur={handleChange}
+							className="pr-16"
+							error={errors.password}
 						/>
-
-						<button
-							className="right-6 top-4 absolute"
-							type="button"
-							aria-label="Toggle password visibility"
-							onClick={() =>
-								setPasswordIsVisible(!passwordIsVisible)
-							}
-						>
-							{passwordIsVisible ? (
-								<EyeIcon strokeWidth={1} />
-							) : (
-								<EyeOffIcon strokeWidth={1} />
-							)}
-						</button>
-
-						{errors.password && (
-							<p className="text-brand-red mt-2">
-								{errors.password}
-							</p>
-						)}
 					</label>
 
 					<SubmitButton

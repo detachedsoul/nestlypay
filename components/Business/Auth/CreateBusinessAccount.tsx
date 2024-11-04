@@ -7,12 +7,13 @@ import useAuth from "@/hooks/useAuth";
 import zodValidator from "@/lib/zodValidator";
 import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import useUserDetails from "@/hooks/useUserDetails";
+import FormInput from "@/components/FormInput";
 import { createBusinessAccount } from "@/lib/businessAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { z } from "zod";
-import { useRouter, permanentRedirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
 const schema = z.object({
 	password: z.string().min(1, "Password is required"),
@@ -27,13 +28,12 @@ type FormValues = {
 const CreateBusinessAccount = () => {
     const { businessInfo, setBusinessInfo } = useBusinessForm();
     const { setAuthInfo } = useAuth();
+    const { setUserDetails } = useUserDetails();
 	const { state, formAction } = useForm(createBusinessAccount, true);
 
     const [isLoading, setIsLoading] = useState(true);
 
     const [formData, setFormData] = useState<FormData>(new FormData());
-
-	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
 	const [formValues, setFormValues] = useState<FormValues>({
 		password: "",
@@ -55,7 +55,6 @@ const CreateBusinessAccount = () => {
 			schema: schema,
 		});
 
-		setFormValues(formValue);
 		setErrors(errors);
 
 		if (!errors[name as keyof FormValues]) {
@@ -176,12 +175,14 @@ const CreateBusinessAccount = () => {
 
 				localStorage.removeItem("business-info");
 
+                setUserDetails(state.data);
+
 				permanentRedirect("/business");
 			}, 2000);
 
 			return () => clearTimeout(timer);
 		}
-	}, [state, setAuthInfo, businessInfo]);
+	}, [state, setAuthInfo, businessInfo, setUserDetails]);
 
 	if (isLoading) {
 		return null;
@@ -192,20 +193,20 @@ const CreateBusinessAccount = () => {
 			<form
 				className="w-full"
 				action={async (data) => {
-                    const mergedFormData = new FormData();
+					const mergedFormData = new FormData();
 
-                    // Append all entries from data
-                    for (const [key, value] of formData.entries()) {
-                        mergedFormData.append(key, value);
-                    }
+					// Append all entries from data
+					for (const [key, value] of formData.entries()) {
+						mergedFormData.append(key, value);
+					}
 
-                    // Append all entries from formData (values from Zustand store)
-                    for (const [key, value] of data.entries()) {
-                        mergedFormData.append(key, value);
-                    }
+					// Append all entries from formData (values from Zustand store)
+					for (const [key, value] of data.entries()) {
+						mergedFormData.append(key, value);
+					}
 
-                    return formAction(mergedFormData);
-                }}
+					return formAction(mergedFormData);
+				}}
 			>
 				<h1 className="text-black/100 font-medium text-2xl/10">
 					One Last Step
@@ -221,72 +222,30 @@ const CreateBusinessAccount = () => {
 						className="block relative"
 						htmlFor="password"
 					>
-						<input
-							className="input pr-16"
-							type={passwordIsVisible ? "text" : "password"}
+						<FormInput
+							type="password"
 							placeholder="Password"
 							name="password"
 							value={formValues.password}
 							onChange={handleChange}
 							onBlur={handleBlur}
+							error={errors.password}
 						/>
-
-						<button
-							className="right-6 top-4 absolute"
-							type="button"
-							aria-label="Toggle password visibility"
-							onClick={() =>
-								setPasswordIsVisible(!passwordIsVisible)
-							}
-						>
-							{passwordIsVisible ? (
-								<EyeIcon strokeWidth={1} />
-							) : (
-								<EyeOffIcon strokeWidth={1} />
-							)}
-						</button>
-
-						{errors.password && (
-							<p className="text-brand-red mt-2">
-								{errors.password}
-							</p>
-						)}
 					</label>
 
 					<label
 						className="block relative"
 						htmlFor="confirmPassword"
 					>
-						<input
-							className="input pr-16"
-							type={passwordIsVisible ? "text" : "password"}
+						<FormInput
+							type="password"
 							placeholder="Confirm Password"
 							name="confirmPassword"
 							value={formValues.confirmPassword}
 							onChange={handleChange}
 							onBlur={handleBlur}
+							error={errors.confirmPassword}
 						/>
-
-						<button
-							className="right-6 top-4 absolute"
-							type="button"
-							aria-label="Toggle password visibility"
-							onClick={() =>
-								setPasswordIsVisible(!passwordIsVisible)
-							}
-						>
-							{passwordIsVisible ? (
-								<EyeIcon strokeWidth={1} />
-							) : (
-								<EyeOffIcon strokeWidth={1} />
-							)}
-						</button>
-
-						{errors.confirmPassword && (
-							<p className="text-brand-red mt-2">
-								{errors.confirmPassword}
-							</p>
-						)}
 					</label>
 
 					<SubmitButton

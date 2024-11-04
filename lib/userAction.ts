@@ -105,15 +105,16 @@ export const createUserAccount = async (_: any, data: FormData) => {
 	}
 };
 
-export const getUserDetails = async (data: {email: string | null; sessionID: string | null; name: string | null}) => {
+export const getUserDetails = async (data: { email: string; sessionID: string; name: string;  userID: string}) => {
 	try {
 		const getUserDetails = await prisma.user.findFirstOrThrow({
 			where: {
-				email: data.email ?? "",
-				sessionID: data.sessionID ?? "",
-				fullName: data.name ?? "",
+				email: data.email,
+				sessionID: data.sessionID,
+                fullName: data.name,
+                id: data.userID
 			},
-		});
+        });
 
 		return {
 			status: "success",
@@ -131,6 +132,89 @@ export const getUserDetails = async (data: {email: string | null; sessionID: str
 
 		return {
 			status: "error",
+			message: error.message,
+			data: null,
+		};
+	}
+};
+
+export const updateUserDetails = async (data: { email: string; sessionID: string; name: string;  userID: string}, formFields: Record<string, string | null | boolean>) => {
+    try {
+		let updatedFields = { ...formFields };
+
+		for (const key in formFields) {
+			const value = updatedFields[key];
+
+			if (key === "phoneNumber" && value !== "") {
+				const validatedFields = z
+					.string()
+					.regex(
+						/^(?:\+234|234|0)\d{10}$/,
+						"Phone number must be a valid Nigerian phone number",
+					)
+					.optional()
+					.safeParse(value);
+
+				if (!validatedFields.success) {
+					return {
+						status: "error" as const,
+						message: `Error on phone number field. ${validatedFields.error.errors[0].message}`,
+					};
+				}
+			}
+
+            if (key === "accountNumber" && value !== "") {
+				const validatedFields = z
+					.string()
+					.regex(
+						/^\d{10}$/,
+						"Account number must ba a number and exactly 10 digits",
+					)
+					.max(10, "Account number must be exactly 10 digits")
+					.optional()
+					.safeParse(value);
+
+				if (!validatedFields.success) {
+					return {
+						status: "error" as const,
+						message: `Error on account number field. ${validatedFields.error.errors[0].message}`,
+					};
+				}
+			}
+
+			if (value === "") {
+				updatedFields[key] = null;
+			}
+		}
+
+		const updatedDetails = await prisma.user.update({
+			data: {
+				...updatedFields,
+			},
+			where: {
+				email: data.email,
+				sessionID: data.sessionID,
+				fullName: data.name,
+				id: data.userID,
+			},
+		});
+
+		return {
+			status: "success" as const,
+			message: "Details updated successfully.",
+			data: updatedDetails,
+		};
+	} catch (error: any) {
+		if (error.code === "P2025") {
+			return {
+				status: "error" as const,
+				message:
+					"The user details could not be found. Please check your input and try again, or login again.",
+			};
+		}
+
+		return {
+			status: "error" as const,
 			message: error.message,
 			data: null,
 		};
