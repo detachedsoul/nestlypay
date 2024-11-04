@@ -4,6 +4,7 @@ import useBusinessForm from "@/hooks/useBusinessForm";
 import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import zodValidator from "@/lib/zodValidator";
+import FormInput from "@/components/FormInput";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { z } from "zod";
@@ -135,57 +136,45 @@ const BusinessInfoForm = () => {
 				className="block"
 				htmlFor="companyName"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="text"
 					placeholder="Company Name"
 					name="companyName"
 					value={formValues.companyName}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.companyName}
 				/>
-
-				{errors.companyName && (
-					<p className="text-brand-red mt-2">{errors.companyName}</p>
-				)}
 			</label>
 
 			<label
 				className="block"
 				htmlFor="companyEmail"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="email"
 					placeholder="Company Email"
 					name="companyEmail"
 					value={formValues.companyEmail}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.companyEmail}
 				/>
-
-				{errors.companyEmail && (
-					<p className="text-brand-red mt-2">{errors.companyEmail}</p>
-				)}
 			</label>
 
 			<label
 				className="block sm:col-span-2"
 				htmlFor="address"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="text"
 					placeholder="Address"
 					name="address"
 					value={formValues.address}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.address}
 				/>
-
-				{errors.address && (
-					<p className="text-brand-red mt-2">{errors.address}</p>
-				)}
 			</label>
 
 			<div className="grid gap-8 sm:col-span-2 sm:grid-cols-2">
@@ -241,21 +230,15 @@ const BusinessInfoForm = () => {
 					className="block"
 					htmlFor="postalCode"
 				>
-					<input
-						className="input"
+					<FormInput
 						type="text"
 						placeholder="Postal Code"
 						name="postalCode"
 						value={formValues.postalCode}
 						onChange={handleChange}
 						onBlur={handleBlur}
+						error={errors.postalCode}
 					/>
-
-					{errors.postalCode && (
-						<p className="text-brand-red mt-2">
-							{errors.postalCode}
-						</p>
-					)}
 				</label>
 
 				<label
@@ -290,19 +273,15 @@ const BusinessInfoForm = () => {
 				className="block sm:col-span-2"
 				htmlFor="website"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="text"
 					placeholder="Website (Optional)"
 					name="website"
 					value={formValues.website}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.website}
 				/>
-
-				{errors.website && (
-					<p className="text-brand-red mt-2">{errors.website}</p>
-				)}
 			</label>
 
 			<button

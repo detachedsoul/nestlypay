@@ -5,10 +5,10 @@ import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
 import zodValidator from "@/lib/zodValidator";
 import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import FormInput from "@/components/FormInput";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { z } from "zod";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 const schema = z
 	.object({
@@ -109,64 +109,27 @@ const ProfileSecuritySettings = (): JSX.Element => {
 						className="block relative"
 						htmlFor="newPassword"
 					>
-						<input
-							className="input"
-							type={passwordIsVisible ? "text" : "password"}
-							placeholder="New Password"
+						<FormInput
 							name="password"
 							value={formValues.password}
+							type="password"
 							onChange={handleChange}
+							placeholder="New Password"
 						/>
-
-						<button
-							className="right-6 top-4 absolute"
-							type="button"
-							aria-label="Toggle password visibility"
-							onClick={() =>
-								setPasswordIsVisible(!passwordIsVisible)
-							}
-						>
-							{passwordIsVisible ? (
-								<EyeIcon strokeWidth={1} />
-							) : (
-								<EyeOffIcon strokeWidth={1} />
-							)}
-						</button>
 					</label>
 
 					<label
 						className="block relative"
 						htmlFor="confirmPassword"
 					>
-						<input
-							className="input"
-							type={passwordIsVisible ? "text" : "password"}
-							placeholder="Confirm Password"
+						<FormInput
 							name="confirmPassword"
 							value={formValues.confirmPassword}
+							type="password"
 							onChange={handleChange}
+							placeholder="Confirm Password"
+							error={errors.confirmPassword}
 						/>
-
-						<button
-							className="right-6 top-4 absolute"
-							type="button"
-							aria-label="Toggle password visibility"
-							onClick={() =>
-								setPasswordIsVisible(!passwordIsVisible)
-							}
-						>
-							{passwordIsVisible ? (
-								<EyeIcon strokeWidth={1} />
-							) : (
-								<EyeOffIcon strokeWidth={1} />
-							)}
-						</button>
-
-						{errors.confirmPassword && (
-							<p className="text-brand-red mt-2">
-								{errors.confirmPassword}
-							</p>
-						)}
 					</label>
 
 					<SubmitButton

@@ -1,17 +1,24 @@
 "use client";
 
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import FormInput from "@/components/FormInput";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 const LoginFormChild = () => {
-    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-
 	const [formValues, setFormValues] = useState({
 		email: "",
 		password: "",
     });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+
+		setFormValues((prevValues) => ({
+			...prevValues,
+			[name]: value,
+		}));
+	};
 
     const isFormComplete = isFormFieldsComplete(formValues);
 
@@ -23,18 +30,12 @@ const LoginFormChild = () => {
 				className="block"
 				htmlFor="email"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="email"
 					placeholder="Email Address"
 					name="email"
 					value={formValues.email}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						setFormValues({
-							...formValues,
-							email: e.target.value,
-						})
-					}
+					onChange={handleChange}
 				/>
 			</label>
 
@@ -42,32 +43,13 @@ const LoginFormChild = () => {
 				className="block relative"
 				htmlFor="password"
 			>
-				<input
-					className="input pr-16"
-					type={passwordIsVisible ? "text" : "password"}
+				<FormInput
+					type="password"
 					placeholder="Password"
 					name="password"
 					value={formValues.password}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						setFormValues({
-							...formValues,
-							password: e.target.value,
-						})
-					}
+					onChange={handleChange}
 				/>
-
-				<button
-					className="right-6 top-4 absolute"
-					type="button"
-					aria-label="Toggle password visibility"
-					onClick={() => setPasswordIsVisible(!passwordIsVisible)}
-				>
-					{passwordIsVisible ? (
-						<EyeIcon strokeWidth={1} />
-					) : (
-						<EyeOffIcon strokeWidth={1} />
-					)}
-				</button>
 			</label>
 
 			<button

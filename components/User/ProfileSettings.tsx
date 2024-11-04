@@ -5,6 +5,7 @@ import useUserDetails from "@/hooks/useUserDetails";
 import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
 import Select, { SingleValue } from "react-select";
 import useFetch from "@/hooks/useFetch";
+import FormInput from "@/components/FormInput";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -242,8 +243,7 @@ const ProfileSettings = (): JSX.Element => {
 						className="block"
 						htmlFor="address"
 					>
-						<input
-							className="input"
+						<FormInput
 							type="text"
 							placeholder="Home Address"
 							name="address"
@@ -257,8 +257,7 @@ const ProfileSettings = (): JSX.Element => {
 							className="block"
 							htmlFor="postalCode"
 						>
-							<input
-								className="input"
+							<FormInput
 								type="text"
 								placeholder="Postal Code"
 								name="postalCode"

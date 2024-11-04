@@ -5,6 +5,7 @@ import useUserDetails from "@/hooks/useUserDetails";
 import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
 import zodValidator from "@/lib/zodValidator";
 import formHasErrors from "@/lib/formHasErrors";
+import FormInput from "@/components/FormInput";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { z } from "zod";
@@ -114,61 +115,44 @@ const ProfileAccountSettings = (): JSX.Element => {
 						className="block"
 						htmlFor="bankName"
 					>
-						<input
-							className="input"
-							type="text"
-							placeholder="Bank Name"
+						<FormInput
 							name="bankName"
 							value={formValues.bankName}
+							type="text"
 							onChange={handleChange}
+							placeholder="Bank Name"
+							error={errors.bankName}
 						/>
-
-						{errors.bankName && (
-							<p className="text-brand-red mt-2">
-								{errors.bankName}
-							</p>
-						)}
 					</label>
 
 					<label
 						className="block"
 						htmlFor="accountNumber"
 					>
-						<input
-							className="input"
-							type="text"
-							placeholder="Account Number"
+						<FormInput
 							name="accountNumber"
-							maxLength={10}
 							value={formValues.accountNumber}
+							type="text"
 							onChange={handleChange}
+							placeholder="Account Number"
+							error={errors.accountNumber}
+							maxLength={10}
 						/>
-
-						{errors.accountNumber && (
-							<p className="text-brand-red mt-2">
-								{errors.accountNumber}
-							</p>
-						)}
 					</label>
 
 					<label
 						className="block"
 						htmlFor="accountName"
 					>
-						<input
-							className="input"
-							type="text"
-							placeholder="Account Name"
+						<FormInput
 							name="accountName"
 							value={formValues.accountName}
 							onChange={handleChange}
+							type="text"
+							placeholder="Account Name"
+							error={errors.accountName}
+							maxLength={10}
 						/>
-
-						{errors.accountName && (
-							<p className="text-brand-red mt-2">
-								{errors.accountName}
-							</p>
-						)}
 					</label>
 
 					<SubmitButton errors={errors} />

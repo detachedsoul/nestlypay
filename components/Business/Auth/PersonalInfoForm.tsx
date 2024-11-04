@@ -4,6 +4,7 @@ import useBusinessForm from "@/hooks/useBusinessForm";
 import zodValidator from "@/lib/zodValidator";
 import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
+import FormInput from "@/components/FormInput";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { z } from "zod";
@@ -102,57 +103,45 @@ const PersonalInfoForm = (): JSX.Element => {
 				className="block"
 				htmlFor="firstName"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="text"
 					placeholder="First Name"
 					name="firstName"
 					value={formValues.firstName}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.firstName}
 				/>
-
-				{errors.firstName && (
-					<p className="text-brand-red mt-2">{errors.firstName}</p>
-				)}
 			</label>
 
 			<label
 				className="block"
 				htmlFor="lastName"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="text"
 					placeholder="Last Name"
 					name="lastName"
 					value={formValues.lastName}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.lastName}
 				/>
-
-				{errors.lastName && (
-					<p className="text-brand-red mt-2">{errors.lastName}</p>
-				)}
 			</label>
 
 			<label
 				className="block sm:col-span-2"
 				htmlFor="email"
 			>
-				<input
-					className="input"
+				<FormInput
 					type="email"
 					placeholder="Email Address"
 					name="email"
 					value={formValues.email}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					error={errors.email}
 				/>
-
-				{errors.email && (
-					<p className="text-brand-red mt-2">{errors.email}</p>
-				)}
 			</label>
 
 			<button

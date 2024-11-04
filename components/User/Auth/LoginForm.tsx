@@ -6,10 +6,10 @@ import Alert from "@/components/Alert";
 import useAuth from "@/hooks/useAuth";
 import useForm from "@/hooks/useForm";
 import useUserDetails from "@/hooks/useUserDetails";
+import FormInput from "@/components/FormInput";
 import { getUserDetails } from "@/lib/userAction";
 import { useFormStatus } from "react-dom";
 import { useEffect, useState } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { userLogin } from "@/lib/userAction";
 import { permanentRedirect } from "next/navigation";
 
@@ -21,8 +21,6 @@ type FormValues = {
 const LoginForm = () => {
     const { setUserDetails } = useUserDetails();
 
-	const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-
 	const [formValues, setFormValues] = useState<FormValues>({
 		email: "",
 		password: "",
@@ -31,6 +29,15 @@ const LoginForm = () => {
 	const { state, formAction } = useForm(userLogin, true);
 
 	const { setAuthInfo } = useAuth();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+
+        setFormValues((prevValues) => ({
+			...prevValues,
+			[name]: value,
+		}));
+	};
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
@@ -83,20 +90,12 @@ const LoginForm = () => {
 						className="block"
 						htmlFor="email"
 					>
-						<input
-							className="input"
+						<FormInput
 							type="email"
 							placeholder="Email Address"
 							name="email"
 							value={formValues.email}
-							onChange={(
-								e: React.ChangeEvent<HTMLInputElement>,
-							) =>
-								setFormValues({
-									...formValues,
-									email: e.target.value,
-								})
-							}
+							onChange={handleChange}
 						/>
 					</label>
 
@@ -104,36 +103,14 @@ const LoginForm = () => {
 						className="block relative"
 						htmlFor="password"
 					>
-						<input
-							className="input pr-16"
-							type={passwordIsVisible ? "text" : "password"}
+						<FormInput
+							type="password"
 							placeholder="Password"
 							name="password"
 							value={formValues.password}
-							onChange={(
-								e: React.ChangeEvent<HTMLInputElement>,
-							) =>
-								setFormValues({
-									...formValues,
-									password: e.target.value,
-								})
-							}
+							onChange={handleChange}
+							className="pr-16"
 						/>
-
-						<button
-							className="right-6 top-4 absolute"
-							type="button"
-							aria-label="Toggle password visibility"
-							onClick={() =>
-								setPasswordIsVisible(!passwordIsVisible)
-							}
-						>
-							{passwordIsVisible ? (
-								<EyeIcon strokeWidth={1} />
-							) : (
-								<EyeOffIcon strokeWidth={1} />
-							)}
-						</button>
 					</label>
 
 					<SubmitButton formValues={formValues} />
