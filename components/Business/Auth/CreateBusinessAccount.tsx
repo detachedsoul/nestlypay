@@ -55,7 +55,6 @@ const CreateBusinessAccount = () => {
 			schema: schema,
 		});
 
-		setFormValues(formValue);
 		setErrors(errors);
 
 		if (!errors[name as keyof FormValues]) {

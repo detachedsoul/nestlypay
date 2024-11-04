@@ -48,7 +48,6 @@ const PersonalInfoForm = (): JSX.Element => {
 			schema: schema,
 		});
 
-        setFormValues(formValue);
         setErrors(errors);
 
         if (!errors[name as keyof FormValues]) {
@@ -96,6 +95,8 @@ const PersonalInfoForm = (): JSX.Element => {
 
     const hasErrors = formHasErrors(errors);
 	const isFormComplete = isFormFieldsComplete(formValues);
+
+    console.log(formValues)
 
 	return (
 		<>

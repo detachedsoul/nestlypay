@@ -59,7 +59,6 @@ const CreateAccount = () => {
 			schema: schema,
 		});
 
-		setFormValues(formValue);
 		setErrors(errors);
 	};
 

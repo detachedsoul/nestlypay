@@ -3,13 +3,12 @@
 import Alert from "@/components/Alert";
 import useUserDetails from "@/hooks/useUserDetails";
 import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
-import Select, { SingleValue } from "react-select";
+import { SingleValue } from "react-select";
 import useFetch from "@/hooks/useFetch";
 import FormInput from "@/components/FormInput";
 import FormSelect from "@/components/FormSelect";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 
 const fetcher = async (url: string) => {
 	const headers = new Headers();

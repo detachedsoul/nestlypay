@@ -22,7 +22,7 @@ const useUpdateUserDetails = () => {
 			sessionID: authInfo?.sessionID ?? "",
 			userID: authInfo?.userID ?? "",
             email: authInfo?.email ?? "",
-            name: authInfo.email ?? ""
+            name: authInfo?.name ?? ""
 		};
 
 		const { status, message, data } = await updateUserDetails(
