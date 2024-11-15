@@ -50,20 +50,34 @@ export const createClientAccount = async (data: {
 				fullName: data.userName,
 				id: data.userID,
 			},
-		});
+        });
 
 		if (getUserDetails) {
-			const userClientExists = await prisma.userClients.findFirstOrThrow({
+			const userClientEmailExists = await prisma.userClients.findFirst({
 				where: {
 					email: data.clientEmail,
 					customerID: data.userID,
 				},
 			});
 
-			if (userClientExists) {
+			if (userClientEmailExists) {
 				return {
 					status: "error" as const,
 					message: "Client with this email already exists.",
+				};
+            }
+
+            const userClientPhoneNumberExists = await prisma.userClients.findFirst({
+				where: {
+					phoneNumber: data.phoneNumber,
+					customerID: data.userID,
+				},
+			});
+
+			if (userClientPhoneNumberExists) {
+				return {
+					status: "error" as const,
+					message: "Client with this phone number already exists.",
 				};
 			}
 
@@ -92,11 +106,11 @@ export const createClientAccount = async (data: {
 			message: "An error occured. Please try again later.",
 			data: null,
 		};
-	} catch (error: any) {
+    } catch (error: any) {
 		if (error.name === "NotFoundError") {
 			return {
 				status: "error" as const,
-				message: "Invalid user/session ID. Please login again.",
+				message: "Invalid user or session ID. Please log in again.",
 				data: null,
 			};
 		}

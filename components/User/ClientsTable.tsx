@@ -8,8 +8,6 @@ import { useState } from "react";
 import { Trash2Icon, FilePenLineIcon } from "lucide-react";
 
 const ClientsTable = (): JSX.Element => {
-    const { authInfo } = useAuth();
-
     const [popupIsActive, setPopupIsActive] = useState(false);
     const [modalType, setModalType] = useState<"Delete" | "Edit" | "Add Client" | "">("");
 
@@ -33,7 +31,7 @@ const ClientsTable = (): JSX.Element => {
                     <thead className="text-left">
                         <tr>
                             <th className="text-black/100 font-medium py-3 pr-8">
-
+                                {""}
                             </th>
 
                             <th className="text-black/100 font-medium py-3 pr-8">

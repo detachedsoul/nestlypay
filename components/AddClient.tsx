@@ -87,7 +87,15 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 
     useEffect(() => {
         if (resetStatus.status === "success") {
-            toggleModal(false);
+            setFormValues({
+				fullName: "",
+				email: "",
+				phoneNumber: "",
+            });
+
+            setTimeout(() => {
+                toggleModal(false);
+            }, 5000);
         }
     }, [resetStatus.status, toggleModal]);
 
