@@ -15,15 +15,15 @@ export const userLogin = async (_: any, data: FormData) => {
 	try {
 		const userDetails = await prisma.user.findUniqueOrThrow({
 			where: {
-				email: data.get("email")?.toString() ?? "" ?? "",
-				password: data.get("password")?.toString() ?? "" ?? "",
+				email: data.get("email")?.toString() ?? "",
+				password: data.get("password")?.toString() ?? "",
 			},
 		});
 
 		const updatedUser = await prisma.user.update({
 			where: {
-				email: data.get("email")?.toString() ?? "" ?? "",
-				password: data.get("password")?.toString() ?? "" ?? "",
+				email: data.get("email")?.toString() ?? "",
+				password: data.get("password")?.toString() ?? "",
 			},
 			data: {
 				sessionID: crypto.randomUUID(),
@@ -73,7 +73,7 @@ export const createUserAccount = async (_: any, data: FormData) => {
 
 		const userEmailExists = await prisma.user.findFirst({
 			where: {
-				email: data.get("email")?.toString() ?? "" ?? "",
+				email: data.get("email")?.toString() ?? "",
 			},
 		});
 

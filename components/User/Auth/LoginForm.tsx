@@ -7,10 +7,9 @@ import useAuth from "@/hooks/useAuth";
 import useForm from "@/hooks/useForm";
 import useUserDetails from "@/hooks/useUserDetails";
 import FormInput from "@/components/FormInput";
-import { getUserDetails } from "@/lib/userAction";
+import { getUserDetails, userLogin } from "@/actions/userAction";
 import { useFormStatus } from "react-dom";
 import { useEffect, useState } from "react";
-import { userLogin } from "@/lib/userAction";
 import { permanentRedirect } from "next/navigation";
 
 type FormValues = {

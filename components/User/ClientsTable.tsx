@@ -1,11 +1,15 @@
 "use client";
 
 import PopupWrapper from "@/components/PopupWrapper";
+import useAuth from "@/hooks/useAuth";
+import AddClient from "@/components/AddClient";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Trash2Icon, FilePenLineIcon } from "lucide-react";
 
 const ClientsTable = (): JSX.Element => {
+    const { authInfo } = useAuth();
+
     const [popupIsActive, setPopupIsActive] = useState(false);
     const [modalType, setModalType] = useState<"Delete" | "Edit" | "Add Client" | "">("");
 
@@ -155,29 +159,7 @@ const ClientsTable = (): JSX.Element => {
                     )}
 
                     {modalType === "Add Client" && (
-                        <>
-                            <form className="space-y-4">
-                                <h2 className="font-medium text-black/100 text-xl/10">
-                                    Add Client
-                                </h2>
-
-                                <label className="w-full block" htmlFor="fullName">
-                                    <input className="input" type="text" placeholder="Full Name" name="fullName" />
-                                </label>
-
-                                <label className="w-full block" htmlFor="email">
-                                    <input className="input" type="email" placeholder="Email Address" name="email" />
-                                </label>
-
-                                <label className="w-full block" htmlFor="phoneNumber">
-                                    <input className="input" type="text" placeholder="Phone Number" name="phoneNumber" />
-                                </label>
-
-                                <button className={cn("submit-btn bg-brand-blue text-white border-[1.5px] border-brand-blue font-medium hover:bg-brand-blue/60 hover:border-transparent py-4 rounded-lg block w-full")} type="button" onClick={() => setPopupIsActive(false)}>
-                                    Add Client
-                                </button>
-                            </form>
-                        </>
+                        <AddClient toggleModal={setPopupIsActive} />
                     )}
                 </div>
             </PopupWrapper>

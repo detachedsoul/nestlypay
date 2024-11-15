@@ -1,6 +1,6 @@
 import useUserDetails from "@/hooks/useUserDetails";
 import useAuth from "@/hooks/useAuth";
-import { updateUserDetails } from "@/lib/userAction";
+import { updateUserDetails } from "@/actions/userAction";
 import { useState } from "react";
 
 const useUpdateUserDetails = () => {

@@ -165,6 +165,9 @@ export const createBusinessAccount = async (_: any, data: FormData) => {
 		}
 
 		const companyNameExists = await prisma.business.findFirst({
+			omit: {
+				password: true,
+			},
 			where: {
 				companyName: data.get("companyName")?.toString() ?? "" ?? "",
 			},
@@ -184,7 +187,10 @@ export const createBusinessAccount = async (_: any, data: FormData) => {
 			};
 		}
 
-		const createAccount = await prisma.business.create({
+        const createAccount = await prisma.business.create({
+			omit: {
+				password: true,
+			},
 			data: {
 				firstName: data.get("firstName")?.toString() ?? "",
 				lastName: data.get("lastName")?.toString() ?? "",

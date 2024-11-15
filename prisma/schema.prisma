@@ -1,5 +1,6 @@
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -26,11 +27,11 @@ model Business {
 }
 
 model User {
-    id                     String  @id @default(uuid())
+    id                     String        @id @default(uuid())
     fullName               String
-    email                  String  @unique
+    email                  String        @unique
     password               String
-    sessionID              String  @default(uuid())
+    sessionID              String        @default(uuid())
     address                String?
     city                   String?
     country                String?
@@ -40,8 +41,20 @@ model User {
     phoneNumber            String?
     accountNumber          String?
     accountName            String?
-    acceptTransfer         Boolean @default(false)
-    acceptCrypto           Boolean @default(false)
-    receiveReceipt         Boolean @default(false)
-    customerReceiveReceipt Boolean @default(false)
+    acceptTransfer         Boolean       @default(false)
+    acceptCrypto           Boolean       @default(false)
+    receiveReceipt         Boolean       @default(false)
+    customerReceiveReceipt Boolean       @default(false)
+    clients                UserClients[]
+}
+
+model UserClients {
+    id          String   @id @default(uuid())
+    fullName    String
+    email       String
+    phoneNumber String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+    customer    User     @relation(fields: [customerID], references: [id])
+    customerID  String
 }

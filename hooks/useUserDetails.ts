@@ -5,7 +5,6 @@ type UserDetails = {
     id: string;
     fullName: string;
     email: string;
-    password: string;
     sessionID: string;
     address: string | null;
     city: string | null;
@@ -34,7 +33,6 @@ const useAuth = create<UserDetailsState>()(
 				id: "",
 				fullName: "",
 				email: "",
-				password: "",
 				sessionID: "",
 				address: null,
 				city: null,
@@ -64,7 +62,6 @@ const useAuth = create<UserDetailsState>()(
 						id: "",
 						fullName: "",
 						email: "",
-						password: "",
 						sessionID: "",
 						address: null,
 						city: null,

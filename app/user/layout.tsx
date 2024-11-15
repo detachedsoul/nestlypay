@@ -3,7 +3,7 @@
 import Image from "next/image";
 import UserImage from "@/assets/img/user-img.jpg";
 import UserNavLink from "@/components/User/UserNavLinks";
-import SettingsDropdown from "@/components/User/SettingsDropdown";
+import SettingsDropdown from "@/components/SettingsDropdown";
 import NotificationsDropdown from "@/components/User/NotificationsDropdown";
 import useAuth from "@/hooks/useAuth";
 import { usePathname } from "next/navigation";

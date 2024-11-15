@@ -50,6 +50,7 @@ const SettingsDropdown: React.FC<dropdownProps> = ({ isOpen }: dropdownProps) =>
 				className="flex items-center gap-3 text-brand-red font-medium hover:bg-brand-red/10 border-l-[6px] border-transparent hover:border-brand-red pl-4 py-2.5 pr-16 mt-8"
 				onClick={() => {
                     localStorage.removeItem("auth-info");
+                    localStorage.removeItem("user-details");
 
                     if (pathname.split("/")[1] === "user") {
                         permanentRedirect("/auth/personal/sign-in");
