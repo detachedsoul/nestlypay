@@ -72,7 +72,7 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 
 		setFormValues((prevValues) => ({
 			...prevValues,
-			[name]: value.trim(),
+			[name]: value,
 		}));
 
 		const { errors } = zodValidator({
