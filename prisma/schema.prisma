@@ -10,12 +10,12 @@ datasource db {
 }
 
 model Business {
-    id           String  @id @default(uuid())
+    id           String   @id @default(uuid())
     firstName    String
     lastName     String
-    email        String  @unique
-    companyName  String  @unique
-    companyEmail String  @unique
+    email        String   @unique
+    companyName  String   @unique
+    companyEmail String   @unique
     address      String
     city         String
     state        String
@@ -23,7 +23,9 @@ model Business {
     country      String
     website      String?
     password     String
-    sessionID    String  @default(uuid())
+    sessionID    String   @default(uuid())
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 }
 
 model User {
@@ -45,6 +47,8 @@ model User {
     acceptCrypto           Boolean       @default(false)
     receiveReceipt         Boolean       @default(false)
     customerReceiveReceipt Boolean       @default(false)
+    createdAt              DateTime      @default(now())
+    updatedAt              DateTime      @updatedAt
     clients                UserClients[]
 }
 
@@ -54,7 +58,7 @@ model UserClients {
     email       String
     phoneNumber String
     createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
     customer    User     @relation(fields: [customerID], references: [id])
     customerID  String
 }

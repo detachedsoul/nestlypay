@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
 	createClientAccount,
 	deleteClientAccount,
+	updateClientAccount,
 } from "@/actions/userClientsAction";
 
 const useClient = () => {
@@ -31,6 +32,25 @@ const useClient = () => {
 		return { status, message };
     };
 
+    const updateClient = async (formValues: {
+		userName: string;
+		userEmail: string;
+		sessionID: string;
+		userID: string;
+		clientName: string;
+		clientEmail: string;
+		phoneNumber: string;
+        clientID: string
+	}) => {
+		const { status, message } = await updateClientAccount(formValues);
+
+		setResetStatus({ status, message });
+
+		setTimeout(() => setResetStatus({ status: "", message: "" }), 5000);
+
+		return { status, message };
+    };
+
     const deleteClient = async (formValues: {
 		userName: string;
 		userEmail: string;
@@ -47,7 +67,7 @@ const useClient = () => {
 		return { status, message };
 	};
 
-	return { createClient, deleteClient, resetStatus };
+	return { createClient, deleteClient, updateClient, resetStatus };
 };
 
 export default useClient;

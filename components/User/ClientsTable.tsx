@@ -5,8 +5,10 @@ import TableLoading from "@/components/TableLoading";
 import useAuth from "@/hooks/useAuth";
 import AddClient from "@/components/AddClient";
 import DeleteClient from "@/components/DeleteClient";
+import EditClient from "@/components/EditClient";
 import NotFoundIcon from "@/assets/img/not-found-danger-icon.svg";
 import Image from "next/image";
+import formatDate from "@/lib/formatDate";
 import { usePrismaFetch } from "@/hooks/useFetch";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -58,7 +60,7 @@ const ClientsTable = () => {
 		createdAt: new Date(),
 		updatedAt: new Date(),
 		customerID: "",
-    });
+	});
 
 	const {
 		data: clients,
@@ -151,6 +153,14 @@ const ClientsTable = () => {
 									</th>
 
 									<th className="text-black/100 font-medium py-3 pr-8">
+										Created Date
+									</th>
+
+									<th className="text-black/100 font-medium py-3 pr-8">
+										Last Updated
+									</th>
+
+									<th className="text-black/100 font-medium py-3 pr-8">
 										Action
 									</th>
 								</tr>
@@ -184,6 +194,14 @@ const ClientsTable = () => {
 
 											<td className="py-3 pr-8 text-black/80">
 												{client.phoneNumber}
+											</td>
+
+											<td className="py-3 pr-8 text-black/80">
+												{formatDate(client.createdAt)}
+											</td>
+
+											<td className="py-3 pr-8 text-black/80">
+												{formatDate(client.updatedAt)}
 											</td>
 
 											<td className="py-3 pr-8 text-black/80">
@@ -257,8 +275,7 @@ const ClientsTable = () => {
 							}}
 						>
 							Add New Client
-                        </button>{" "}
-
+						</button>{" "}
 						button to add a client.
 					</p>
 				</div>
@@ -278,71 +295,10 @@ const ClientsTable = () => {
 					)}
 
 					{modalType === "Edit" && (
-						<>
-							<form className="space-y-4">
-								<h2 className="font-medium text-black/100 text-xl/10">
-									Edit Client
-								</h2>
-
-								<label
-									className="w-full block"
-									htmlFor="fullName"
-								>
-									<input
-										className="input"
-										type="text"
-										placeholder="Full Name"
-										name="fullName"
-									/>
-								</label>
-
-								<label
-									className="w-full block"
-									htmlFor="email"
-								>
-									<input
-										className="input"
-										type="email"
-										placeholder="Email Address"
-										name="email"
-									/>
-								</label>
-
-								<label
-									className="w-full block"
-									htmlFor="phoneNumber"
-								>
-									<input
-										className="input"
-										type="text"
-										placeholder="Phone Number"
-										name="phoneNumber"
-									/>
-								</label>
-
-								<div className="flex items-center justify-between gap-4">
-									<button
-										className={cn(
-											"btn bg-white/100 border-[1.5px] text-brand-blue border-brand-blue font-medium hover:bg-brand-blue hover:text-white py-3 rounded-lg inline-block",
-										)}
-										type="button"
-										onClick={() => setPopupIsActive(false)}
-									>
-										Cancel
-									</button>
-
-									<button
-										className={cn(
-											"btn bg-brand-blue text-white border-[1.5px] border-brand-blue font-medium hover:bg-brand-blue/60 hover:border-transparent py-3 rounded-lg inline-block",
-										)}
-										type="button"
-										onClick={() => setPopupIsActive(false)}
-									>
-										Update
-									</button>
-								</div>
-							</form>
-						</>
+						<EditClient
+							toggleModal={setPopupIsActive}
+							selectedClient={selectedClient}
+						/>
 					)}
 
 					{modalType === "Add Client" && (

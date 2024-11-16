@@ -10,8 +10,14 @@ import useClient from "@/hooks/useClient";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { z } from "zod";
 
-interface IAddClient {
+interface IEditClient {
 	toggleModal: Dispatch<SetStateAction<boolean>>;
+	selectedClient: {
+		phoneNumber: string;
+		email: string;
+		fullName: string;
+        id: string
+	};
 }
 
 const schema = z.object({
@@ -36,16 +42,16 @@ type FormValues = {
 	fullName: string;
 };
 
-const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
+const EditClient: React.FC<IEditClient> = ({ toggleModal, selectedClient }) => {
     const { authInfo } = useAuth();
 
-    const { createClient, resetStatus } = useClient();
+    const { updateClient, resetStatus } = useClient();
 
 	const [formValues, setFormValues] = useState({
-		fullName: "",
-		email: "",
-		phoneNumber: "",
-    });
+		fullName: selectedClient.fullName,
+		email: selectedClient.email,
+		phoneNumber: selectedClient.phoneNumber,
+	});
 
     const [errors, setErrors] = useState<Partial<FormValues>>({
 		fullName: "",
@@ -88,12 +94,6 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 
     useEffect(() => {
         if (resetStatus.status === "success") {
-			setFormValues({
-				fullName: "",
-				email: "",
-				phoneNumber: "",
-			});
-
 			setPending(false);
 
 			setTimeout(() => {
@@ -117,9 +117,10 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
             clientName: formValues.fullName,
             clientEmail: formValues.email,
             phoneNumber: formValues.phoneNumber,
+            clientID: selectedClient.id
         };
 
-		await createClient(data);
+		await updateClient(data);
 	};
 
 	return (
@@ -132,7 +133,7 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 				}}
 			>
 				<h2 className="font-medium text-black/100 text-xl/10">
-					Add Client
+					Edit Client Details
 				</h2>
 
 				<label
@@ -214,9 +215,9 @@ export const SubmitButton = ({
 			type="submit"
 			disabled={hasErrors || !isFormComplete || pending}
 		>
-			{pending ? "Adding client, please hold on..." : "Add Client"}
+			{pending ? "Updating client details..." : "Update"}
 		</button>
 	);
 };
 
-export default AddClient;
+export default EditClient;

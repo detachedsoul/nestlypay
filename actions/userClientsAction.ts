@@ -176,6 +176,114 @@ export const fetchClient = async ({
 	}
 };
 
+export const updateClientAccount = async (data: {
+	userName: string;
+	userEmail: string;
+	sessionID: string;
+	userID: string;
+	clientName: string;
+	clientEmail: string;
+    phoneNumber: string;
+    clientID: string
+}) => {
+	try {
+		const validatedFields = createClientSchema.safeParse({
+			fullName: data.clientName.trim(),
+			email: data.clientEmail.trim(),
+			phoneNumber: data.phoneNumber.trim(),
+		});
+
+		if (!validatedFields.success) {
+			return {
+				status: "error" as const,
+				message: `Error on ${validatedFields.error.errors[0].path[0]} field. ${validatedFields.error.errors[0].message}`,
+			};
+		}
+
+		const getUserDetails = await prisma.user.findFirstOrThrow({
+			where: {
+				email: data.userEmail,
+				sessionID: data.sessionID,
+				fullName: data.userName,
+				id: data.userID,
+			},
+		});
+
+		if (getUserDetails) {
+			const userClientEmailExists = await prisma.userClients.findFirst({
+				where: {
+					email: data.clientEmail,
+					customerID: data.userID,
+				},
+			});
+
+			if (
+				userClientEmailExists &&
+				userClientEmailExists.id !== data.clientID
+			) {
+				return {
+					status: "error" as const,
+					message: "Client with this email already exists.",
+				};
+			}
+
+			const userClientPhoneNumberExists =
+				await prisma.userClients.findFirst({
+					where: {
+						phoneNumber: data.phoneNumber,
+						customerID: data.userID,
+					},
+				});
+
+			if (
+				userClientPhoneNumberExists &&
+				userClientPhoneNumberExists.id !== data.clientID
+			) {
+				return {
+					status: "error" as const,
+					message: "Client with this phone number already exists.",
+				};
+			}
+
+			const updateClient = await prisma.userClients.update({
+				data: {
+					fullName: data.clientName,
+					email: data.clientEmail,
+					phoneNumber: data.phoneNumber,
+                },
+                where: {
+                    id: data.clientID
+                }
+			});
+
+			return {
+				status: "success" as const,
+				message: "Client details updated successfully.",
+				data: updateClient,
+			};
+		}
+
+		return {
+			status: "error" as const,
+			message: "An error occured. Please try again later.",
+			data: null,
+		};
+	} catch (error: any) {
+		if (error.name === "NotFoundError") {
+			return {
+				status: "error" as const,
+				message: "Invalid user or session ID. Please log in again.",
+				data: null,
+			};
+		}
+
+		return {
+			status: "error" as const,
+			message: error.message,
+		};
+	}
+};
+
 export const deleteClientAccount = async ({
 	userEmail,
 	sessionID,
