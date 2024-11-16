@@ -25,7 +25,7 @@
     }
 
     .submit-btn {
-        @apply input bg-brand-blue text-white hover:bg-brand-blue/80 transition-colors duration-300 ease-in-out disabled:bg-brand-blue/30 disabled:cursor-not-allowed disabled:animate-pulse
+        @apply input bg-brand-blue text-white hover:bg-brand-blue/80 transition-colors duration-300 ease-in-out disabled:bg-brand-blue/30 disabled:cursor-not-allowed
     }
 
     .dashboard-link {

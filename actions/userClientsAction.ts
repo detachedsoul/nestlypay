@@ -1,7 +1,6 @@
 "use server";
 
 import prisma from "./db";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const createClientSchema = z.object({
@@ -92,8 +91,6 @@ export const createClientAccount = async (data: {
 					},
 				},
 			});
-
-			revalidatePath("/user/clients");
 
 			return {
 				status: "success" as const,

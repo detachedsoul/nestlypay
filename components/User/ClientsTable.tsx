@@ -79,7 +79,7 @@ const ClientsTable = () => {
 				userName: authInfo?.name ?? "",
 				userID: authInfo?.userID ?? "",
 			}),
-		refreshInterval: popupIsActive ? 100 : 5000,
+		refreshInterval: 1000,
 	});
 
 	return (
@@ -97,7 +97,7 @@ const ClientsTable = () => {
 						setPopupIsActive(true);
 					}}
 				>
-					Add New Clients
+					Add New Client
 				</button>
 			</div>
 
@@ -256,7 +256,7 @@ const ClientsTable = () => {
 								setPopupIsActive(true);
 							}}
 						>
-							Add New Clients
+							Add New Client
                         </button>{" "}
 
 						button to add a client.

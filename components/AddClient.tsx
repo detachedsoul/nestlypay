@@ -52,7 +52,9 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 		fullName: "",
 		email: "",
 		phoneNumber: "",
-	});
+    });
+
+    const [pending, setPending] = useState(false);
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -87,17 +89,27 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 
     useEffect(() => {
         if (resetStatus.status === "success") {
-            // toggleModal(false);
+			setFormValues({
+				fullName: "",
+				email: "",
+				phoneNumber: "",
+			});
 
-            setFormValues({
-                fullName: "",
-                email: "",
-                phoneNumber: "",
-            });
+			setPending(false);
+
+			setTimeout(() => {
+				toggleModal(false);
+			}, 5000);
+        } else {
+            if (resetStatus.status === "error") {
+				setPending(false);
+			}
         }
     }, [resetStatus, toggleModal]);
 
     const handleSubmit = async () => {
+        setPending(true);
+
         const data = {
             userEmail: authInfo?.email ?? "",
             userName: authInfo?.name ?? "",
@@ -115,7 +127,10 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 		<>
 			<form
 				className="space-y-4"
-				action={handleSubmit}
+				onSubmit={(e) => {
+					e.preventDefault();
+					handleSubmit();
+				}}
 			>
 				<h2 className="font-medium text-black/100 text-xl/10">
 					Add Client
@@ -170,6 +185,7 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 				<SubmitButton
 					errors={errors}
 					formValues={formValues}
+					pending={pending}
 				/>
 			</form>
 
@@ -184,17 +200,14 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 export const SubmitButton = ({
 	errors,
 	formValues,
+	pending,
 }: {
 	errors: Partial<FormValues>;
 	formValues: FormValues;
+	pending: boolean;
 }) => {
-    const { pending } = useFormStatus();
-
-
 	const hasErrors = formHasErrors(errors);
-    const isFormComplete = isFormFieldsComplete(formValues);
-
-    console.log(pending, formValues, hasErrors, isFormComplete)
+	const isFormComplete = isFormFieldsComplete(formValues);
 
 	return (
 		<button

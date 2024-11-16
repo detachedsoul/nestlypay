@@ -34,7 +34,7 @@ const DeleteClient: React.FC<IDeleteClient> = ({ toggleModal, clientID }) => {
 		if (resetStatus.status === "success") {
             setTimeout(() => {
                 toggleModal(false);
-            }, 1000);
+            }, 5000);
 		}
 	}, [resetStatus, toggleModal]);
 
@@ -95,7 +95,7 @@ const DeleteClient: React.FC<IDeleteClient> = ({ toggleModal, clientID }) => {
 					}}
 					disabled={isLoading}
 				>
-					{isLoading ? "Deleting client" : "Delete"}
+					{isLoading ? "Deleting client..." : "Delete"}
 				</button>
 			</div>
 
