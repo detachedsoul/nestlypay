@@ -12,11 +12,22 @@ import { z } from "zod";
 
 interface IEditClient {
 	toggleModal: Dispatch<SetStateAction<boolean>>;
+	resetSelectedClient: Dispatch<
+		SetStateAction<{
+			email: string;
+			id: string;
+			fullName: string;
+			phoneNumber: string;
+			createdAt: Date;
+			updatedAt: Date;
+			customerID: string;
+		}>
+	>;
 	selectedClient: {
 		phoneNumber: string;
 		email: string;
 		fullName: string;
-        id: string
+		id: string;
 	};
 }
 
@@ -42,10 +53,13 @@ type FormValues = {
 	fullName: string;
 };
 
-const EditClient: React.FC<IEditClient> = ({ toggleModal, selectedClient }) => {
-    const { authInfo } = useAuth();
+const EditClient: React.FC<IEditClient> = ({
+	toggleModal,
+	selectedClient
+}) => {
+	const { authInfo } = useAuth();
 
-    const { updateClient, resetStatus } = useClient();
+	const { updateClient, resetStatus } = useClient();
 
 	const [formValues, setFormValues] = useState({
 		fullName: selectedClient.fullName,
@@ -53,13 +67,13 @@ const EditClient: React.FC<IEditClient> = ({ toggleModal, selectedClient }) => {
 		phoneNumber: selectedClient.phoneNumber,
 	});
 
-    const [errors, setErrors] = useState<Partial<FormValues>>({
+	const [errors, setErrors] = useState<Partial<FormValues>>({
 		fullName: "",
 		email: "",
 		phoneNumber: "",
-    });
+	});
 
-    const [pending, setPending] = useState(false);
+	const [pending, setPending] = useState(false);
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -92,33 +106,41 @@ const EditClient: React.FC<IEditClient> = ({ toggleModal, selectedClient }) => {
 		setErrors(errors);
 	};
 
-    useEffect(() => {
-        if (resetStatus.status === "success") {
+	useEffect(() => {
+		setFormValues({
+			fullName: selectedClient.fullName,
+			email: selectedClient.email,
+			phoneNumber: selectedClient.phoneNumber,
+		});
+	}, [selectedClient]);
+
+	useEffect(() => {
+		if (resetStatus.status === "success") {
 			setPending(false);
 
 			setTimeout(() => {
 				toggleModal(false);
 			}, 5000);
-        } else {
-            if (resetStatus.status === "error") {
+		} else {
+			if (resetStatus.status === "error") {
 				setPending(false);
 			}
-        }
-    }, [resetStatus, toggleModal]);
+		}
+	}, [resetStatus, toggleModal]);
 
-    const handleSubmit = async () => {
-        setPending(true);
+	const handleSubmit = async () => {
+		setPending(true);
 
-        const data = {
-            userEmail: authInfo?.email ?? "",
-            userName: authInfo?.name ?? "",
-            sessionID: authInfo?.sessionID ?? "",
-            userID: authInfo?.userID ?? "",
-            clientName: formValues.fullName,
-            clientEmail: formValues.email,
-            phoneNumber: formValues.phoneNumber,
-            clientID: selectedClient.id
-        };
+		const data = {
+			userEmail: authInfo?.email ?? "",
+			userName: authInfo?.name ?? "",
+			sessionID: authInfo?.sessionID ?? "",
+			userID: authInfo?.userID ?? "",
+			clientName: formValues.fullName,
+			clientEmail: formValues.email,
+			phoneNumber: formValues.phoneNumber,
+			clientID: selectedClient.id,
+		};
 
 		await updateClient(data);
 	};

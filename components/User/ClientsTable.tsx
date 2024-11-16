@@ -60,7 +60,7 @@ const ClientsTable = () => {
 		createdAt: new Date(),
 		updatedAt: new Date(),
 		customerID: "",
-	});
+    });
 
 	const {
 		data: clients,
@@ -153,7 +153,7 @@ const ClientsTable = () => {
 									</th>
 
 									<th className="text-black/100 font-medium py-3 pr-8">
-										Created Date
+										Created At
 									</th>
 
 									<th className="text-black/100 font-medium py-3 pr-8">
@@ -297,7 +297,7 @@ const ClientsTable = () => {
 					{modalType === "Edit" && (
 						<EditClient
 							toggleModal={setPopupIsActive}
-							selectedClient={selectedClient}
+                            selectedClient={selectedClient}
 						/>
 					)}
 
