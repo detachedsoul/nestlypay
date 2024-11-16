@@ -9,7 +9,7 @@ import useForm from "@/hooks/useForm";
 import useAuth from "@/hooks/useAuth";
 import useUserDetails from "@/hooks/useUserDetails";
 import FormInput from "@/components/FormInput";
-import { createUserAccount } from "@/lib/userAction";
+import { createUserAccount } from "@/actions/userAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { z } from "zod";
@@ -52,7 +52,7 @@ const CreateAccount = () => {
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 
-		const { errors, formValue } = zodValidator({
+		const { errors } = zodValidator({
 			name: name as keyof FormValues,
 			value: value,
 			formValues: formValues,

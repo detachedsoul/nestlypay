@@ -5,7 +5,7 @@ import Link from "next/link";
 import Alert from "@/components/Alert";
 import useForm from "@/hooks/useForm";
 import useAuth from "@/hooks/useAuth";
-import { businessLogin } from "@/lib/businessAction";
+import { businessLogin } from "@/actions/businessAction";
 import { permanentRedirect } from "next/navigation";
 import { useEffect } from "react";
 

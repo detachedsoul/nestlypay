@@ -1,6 +1,7 @@
 "use client";
 
 import Alert from "@/components/Alert";
+import FormInput from "@/components/FormInput";
 import UserIcon from "@/components/UserIcon";
 import useUserDetails from "@/hooks/useUserDetails";
 import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
@@ -47,22 +48,6 @@ const Profile = (): JSX.Element => {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-
-		if (value === "") {
-			setFormValues((prevValues) => {
-				setErrors((prevErrors) => ({
-					...prevErrors,
-					[name]: "",
-				}));
-
-				return {
-					...prevValues,
-					[name]: value,
-				};
-			});
-
-			return;
-		}
 
 		setFormValues((prevValues) => {
 			const { errors } = zodValidator({
@@ -175,21 +160,15 @@ const Profile = (): JSX.Element => {
 						className="block"
 						htmlFor="fullName"
 					>
-						<input
-							className="input"
+						<FormInput
 							type="text"
-							placeholder="Enter full name"
+							placeholder="Enter full Name"
 							name="fullName"
-							value={String(formValues.fullName)}
-                            onChange={handleChange}
-                            onBlur={handleChange}
+							value={formValues.fullName}
+							onBlur={handleChange}
+							onChange={handleChange}
+							error={errors.fullName}
 						/>
-
-						{errors.fullName && (
-							<p className="text-brand-red mt-2">
-								{errors.fullName}
-							</p>
-						)}
 					</label>
 
 					<label
@@ -210,28 +189,21 @@ const Profile = (): JSX.Element => {
 						className="block"
 						htmlFor="phoneNumber"
 					>
-						<input
-							className="input"
+						<FormInput
 							type="text"
-							placeholder="Phone number"
+							placeholder="Phone Number"
 							name="phoneNumber"
-							value={String(formValues.phoneNumber)}
-                            onChange={handleChange}
-                            maxLength={14}
+							value={formValues.phoneNumber}
+							onBlur={handleChange}
+							onChange={handleChange}
+							error={errors.phoneNumber}
+							maxLength={14}
 						/>
-
-						{errors.phoneNumber && (
-							<p className="text-brand-red mt-2">
-								{errors.phoneNumber}
-							</p>
-						)}
 					</label>
 
-					<SubmitButton
-						errors={errors}
-					/>
+					<SubmitButton errors={errors} />
 				</div>
-            </form>
+			</form>
 
 			<Alert
 				statusType={resetStatus.status}

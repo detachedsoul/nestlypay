@@ -9,7 +9,7 @@ import formHasErrors from "@/lib/formHasErrors";
 import isFormFieldsComplete from "@/lib/isFormFieldsComplete";
 import useUserDetails from "@/hooks/useUserDetails";
 import FormInput from "@/components/FormInput";
-import { createBusinessAccount } from "@/lib/businessAction";
+import { createBusinessAccount } from "@/actions/businessAction";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { z } from "zod";

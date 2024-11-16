@@ -3,7 +3,7 @@
 import Image from "next/image";
 import UserImage from "@/assets/img/user-img.jpg";
 import BusinessNavLink from "@/components/Business/BusinessNavLink";
-import SettingsDropdown from "@/components/User/SettingsDropdown";
+import SettingsDropdown from "@/components/SettingsDropdown";
 import NotificationsDropdown from "@/components/User/NotificationsDropdown";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";

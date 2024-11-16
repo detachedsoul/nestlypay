@@ -96,8 +96,6 @@ const PersonalInfoForm = (): JSX.Element => {
     const hasErrors = formHasErrors(errors);
 	const isFormComplete = isFormFieldsComplete(formValues);
 
-    console.log(formValues)
-
 	return (
 		<>
 			<label

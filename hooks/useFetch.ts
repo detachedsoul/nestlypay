@@ -10,4 +10,25 @@ const useFetch = (url: string, fetcher: any, options?: any) => {
     };
 };
 
+export const usePrismaFetch = ({
+	key,
+    fetcher,
+    refreshInterval
+}: {
+	key: any;
+        fetcher: any;
+    refreshInterval?: number
+}) => {
+	const { data, error, isLoading } = useSWR(key, fetcher, {
+		refreshInterval: refreshInterval,
+	});
+
+	return {
+		data,
+		error,
+		isLoading,
+	};
+};
+
+
 export default useFetch;
