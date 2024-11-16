@@ -29,7 +29,7 @@ export const createClientAccount = async (data: {
 	clientEmail: string;
 	phoneNumber: string;
 }) => {
-    try {
+	try {
 		const validatedFields = createClientSchema.safeParse({
 			fullName: data.clientName.trim(),
 			email: data.clientEmail.trim(),
@@ -50,7 +50,7 @@ export const createClientAccount = async (data: {
 				fullName: data.userName,
 				id: data.userID,
 			},
-        });
+		});
 
 		if (getUserDetails) {
 			const userClientEmailExists = await prisma.userClients.findFirst({
@@ -65,14 +65,15 @@ export const createClientAccount = async (data: {
 					status: "error" as const,
 					message: "Client with this email already exists.",
 				};
-            }
+			}
 
-            const userClientPhoneNumberExists = await prisma.userClients.findFirst({
-				where: {
-					phoneNumber: data.phoneNumber,
-					customerID: data.userID,
-				},
-			});
+			const userClientPhoneNumberExists =
+				await prisma.userClients.findFirst({
+					where: {
+						phoneNumber: data.phoneNumber,
+						customerID: data.userID,
+					},
+				});
 
 			if (userClientPhoneNumberExists) {
 				return {
@@ -106,7 +107,7 @@ export const createClientAccount = async (data: {
 			message: "An error occured. Please try again later.",
 			data: null,
 		};
-    } catch (error: any) {
+	} catch (error: any) {
 		if (error.name === "NotFoundError") {
 			return {
 				status: "error" as const,
@@ -122,8 +123,18 @@ export const createClientAccount = async (data: {
 	}
 };
 
-export const fetchClient = async ({userEmail, sessionID, userName, userID}: {userEmail: string, sessionID: string, userName: string, userID: string}) => {
-    try {
+export const fetchClient = async ({
+	userEmail,
+	sessionID,
+	userName,
+	userID,
+}: {
+	userEmail: string;
+	sessionID: string;
+	userName: string;
+	userID: string;
+}) => {
+	try {
 		const getUserDetails = await prisma.user.findFirstOrThrow({
 			where: {
 				email: userEmail,
@@ -131,23 +142,95 @@ export const fetchClient = async ({userEmail, sessionID, userName, userID}: {use
 				fullName: userName,
 				id: userID,
 			},
-        });
+		});
 
-        if (getUserDetails) {
-            const getClients = await prisma.userClients.findMany({
+		if (getUserDetails) {
+			const getClients = await prisma.userClients.findMany({
 				where: {
-					customerID: userID
+					customerID: userID,
 				},
-            });
+			});
 
+			return {
+				status: "success" as const,
+				message: "Clients retrieved successfully.",
+				data: getClients,
+			};
+		}
+
+		return {
+			status: "error" as const,
+			message: "An error occured. Please try again later.",
+			data: null,
+		};
+	} catch (error: any) {
+		if (error.name === "NotFoundError") {
+			return {
+				status: "error" as const,
+				message: "Invalid user or session ID. Please log in again.",
+				data: null,
+			};
+		}
+
+		return {
+			status: "error" as const,
+			message: error.message,
+		};
+	}
+};
+
+export const deleteClientAccount = async ({
+	userEmail,
+	sessionID,
+	userName,
+	userID,
+	clientID,
+}: {
+	userEmail: string;
+	sessionID: string;
+	userName: string;
+	userID: string;
+	clientID: string;
+}) => {
+	try {
+		const getUserDetails = await prisma.user.findFirstOrThrow({
+			where: {
+				email: userEmail,
+				sessionID: sessionID,
+				fullName: userName,
+				id: userID,
+			},
+		});
+
+		const deleteClient = await prisma.userClients.findFirst({
+			where: {
+				id: clientID,
+			},
+		});
+
+        if (!deleteClient) {
             return {
-                status: "success" as const,
-                message: "Clients retrieved successfully.",
-                data: getClients,
-            };
-        }
+				status: "error" as const,
+				message: "Client not found.",
+				data: null,
+			};
+		}
 
-        return {
+		if (getUserDetails) {
+			const deleteClient = await prisma.userClients.delete({
+				where: {
+					id: clientID,
+				},
+			});
+
+			return {
+				status: "success" as const,
+				message: "Client deleted successfully.",
+				data: deleteClient,
+			};
+		}
+
+		return {
 			status: "error" as const,
 			message: "An error occured. Please try again later.",
 			data: null,

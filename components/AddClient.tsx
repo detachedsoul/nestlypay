@@ -87,17 +87,15 @@ const AddClient: React.FC<IAddClient> = ({ toggleModal }) => {
 
     useEffect(() => {
         if (resetStatus.status === "success") {
-            setFormValues({
-				fullName: "",
-				email: "",
-				phoneNumber: "",
-            });
+            // toggleModal(false);
 
-            setTimeout(() => {
-                toggleModal(false);
-            }, 5000);
+            setFormValues({
+                fullName: "",
+                email: "",
+                phoneNumber: "",
+            });
         }
-    }, [resetStatus.status, toggleModal]);
+    }, [resetStatus, toggleModal]);
 
     const handleSubmit = async () => {
         const data = {
@@ -190,10 +188,13 @@ export const SubmitButton = ({
 	errors: Partial<FormValues>;
 	formValues: FormValues;
 }) => {
-	const { pending } = useFormStatus();
+    const { pending } = useFormStatus();
+
 
 	const hasErrors = formHasErrors(errors);
-	const isFormComplete = isFormFieldsComplete(formValues);
+    const isFormComplete = isFormFieldsComplete(formValues);
+
+    console.log(pending, formValues, hasErrors, isFormComplete)
 
 	return (
 		<button
