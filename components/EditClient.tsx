@@ -12,17 +12,6 @@ import { z } from "zod";
 
 interface IEditClient {
 	toggleModal: Dispatch<SetStateAction<boolean>>;
-	resetSelectedClient: Dispatch<
-		SetStateAction<{
-			email: string;
-			id: string;
-			fullName: string;
-			phoneNumber: string;
-			createdAt: Date;
-			updatedAt: Date;
-			customerID: string;
-		}>
-	>;
 	selectedClient: {
 		phoneNumber: string;
 		email: string;
