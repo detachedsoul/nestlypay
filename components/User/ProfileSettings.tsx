@@ -3,10 +3,10 @@
 import Alert from "@/components/Alert";
 import useUserDetails from "@/hooks/useUserDetails";
 import useUpdateUserDetails from "@/hooks/useUpdateUserDetails";
-import { SingleValue } from "react-select";
 import useFetch from "@/hooks/useFetch";
 import FormInput from "@/components/FormInput";
 import FormSelect from "@/components/FormSelect";
+import { SingleValue } from "react-select";
 import { useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 

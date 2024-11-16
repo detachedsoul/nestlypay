@@ -121,3 +121,49 @@ export const createClientAccount = async (data: {
 		};
 	}
 };
+
+export const fetchClient = async ({userEmail, sessionID, userName, userID}: {userEmail: string, sessionID: string, userName: string, userID: string}) => {
+    try {
+		const getUserDetails = await prisma.user.findFirstOrThrow({
+			where: {
+				email: userEmail,
+				sessionID: sessionID,
+				fullName: userName,
+				id: userID,
+			},
+        });
+
+        if (getUserDetails) {
+            const getClients = await prisma.userClients.findMany({
+				where: {
+					customerID: userID
+				},
+            });
+
+            return {
+                status: "success" as const,
+                message: "Clients retrieved successfully.",
+                data: getClients,
+            };
+        }
+
+        return {
+			status: "error" as const,
+			message: "An error occured. Please try again later.",
+			data: null,
+		};
+	} catch (error: any) {
+		if (error.name === "NotFoundError") {
+			return {
+				status: "error" as const,
+				message: "Invalid user or session ID. Please log in again.",
+				data: null,
+			};
+		}
+
+		return {
+			status: "error" as const,
+			message: error.message,
+		};
+	}
+};
