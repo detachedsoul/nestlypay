@@ -62,3 +62,14 @@ model UserClients {
     customer    User     @relation(fields: [customerID], references: [id])
     customerID  String
 }
+
+model UserTransactions {
+    id            String   @id @default(uuid())
+    fullName      String
+    email         String
+    amount        Int
+    date          DateTime @default(now())
+    status        String
+    paymentMethod String
+    invoiceID     String
+}
