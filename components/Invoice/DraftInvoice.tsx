@@ -5,8 +5,8 @@ import InvoiceSample from "@/assets/img/invoice-sample.png";
 
 const DraftInvoice = () => {
     return (
-		<div className="space-y-[30px]">
-			<h2 className="font-medium text-lg/[36px] text-black/100">
+		<div className="space-y-[1.875rem]">
+			<h2 className="font-medium text-lg/[2.25rem] text-black/100">
 				Recent Invoices
 			</h2>
 
@@ -24,7 +24,11 @@ const DraftInvoice = () => {
 				</div>
 
 				{Array.from({ length: 3 }).map((_, index: number) => (
-					<Link className="space-y-4" key={index} href={`/user/my-invoices/${index}`}>
+					<Link
+						className="space-y-4"
+						key={index}
+						href={`/user/my-invoices/${index}`}
+					>
 						<div className="rounded-[10px] w-full h-40">
 							<Image
 								className="rounded-[10px] w-full h-full"
