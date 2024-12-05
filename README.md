@@ -7,6 +7,8 @@ This is an implementation of NestlyPay's website. This was done just for the fun
 - Nextjs
 - Prisma
 - TypesScript
+- Zustand
+- SWR
 
 ## Live demo
 
