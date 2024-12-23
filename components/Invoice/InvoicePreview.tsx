@@ -1,12 +1,35 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/img/hero-image.png";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-const InvoicePreview = () => {
+interface IInvoicePreview {
+    isOpen: boolean;
+    toggleIsOpen: Dispatch<SetStateAction<boolean>>
+};
+
+const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
+    useEffect(() => {
+        isOpen
+            ? (document.querySelector("body")!.style!.overflow = "hidden")
+            : (document.querySelector("body")!.style!.overflow = "auto");
+    }, [isOpen]);
+
 	return (
-		<div className="fixed inset-0 h-screen bg-black/50 z-[1024] backdrop-blur-[2px] flex flex-col place-content-center overflow-y-auto custom-scrollbar p-4">
-			<div className="h-screen lg:mx-auto lg:w-1/2">
-				<div className="w-full bg-white">
+		<div
+			className={cn(
+				"fixed inset-0 h-full bg-black/50 z-[1024] backdrop-blur-[2px] place-content-center",
+				{
+					"animate-fadeIn grid": isOpen,
+					"animate-fadeOut hidden": !isOpen,
+				},
+			)}
+		>
+			<div className="h-svh p-4 w-svw overflow-y-auto custom-scrollbar lg:px-0">
+				<div className="w-full bg-white lg:mx-auto lg:w-1/2">
 					<div className="bg-[rgba(0,_153,_70,_1)] h-[0.625rem]"></div>
 
 					<div className="p-[1.875rem]">
@@ -180,7 +203,7 @@ const InvoicePreview = () => {
 
 						<div className="flex items-center gap-4 justify-between mt-16 lg:mt-24">
 							<p className="font-medium text-sm/4 text-[rgba(25,_24,_26,_1)]">
-								Thanks for being a NestlyPay customer 😅
+								Thanks for being a NestlyPay customer 🤗
 							</p>
 
 							<p className="text-sm/4">
@@ -200,11 +223,11 @@ const InvoicePreview = () => {
 					</div>
 				</div>
 
-				<div className="flex items-center gap-4 flex-wrap mt-16 place-content-end">
+				<div className="flex items-center gap-4 flex-wrap mt-16 place-content-end lg:mx-auto lg:w-1/2">
 					<button
 						className="btn bg-white/100 border-2 border-brand-blue font-medium text-brand-blue hover:bg-brand-blue hover:text-white hover:border-transparent py-3.5 px-8 rounded-lg inline-block"
 						type="button"
-						onClick={() => console.log("Got here")}
+						onClick={() => toggleIsOpen(false)}
 					>
 						Edit
 					</button>

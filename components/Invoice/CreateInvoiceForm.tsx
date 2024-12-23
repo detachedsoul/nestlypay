@@ -15,6 +15,7 @@ interface FormField {
 const CreateInvoiceForm = () => {
 	const { userDetails } = useUserDetails();
 
+    const [previewIsOpen, setPreviewIsOpen] = useState(false);
 	const [issueDate, setIssueDate] = useState<Date | string>("");
 	const [dueDate, setDueDate] = useState<Date | string>("");
 
@@ -398,7 +399,7 @@ const CreateInvoiceForm = () => {
                     <button
                         className="btn bg-white/100 border-2 border-brand-blue font-medium text-brand-blue hover:bg-brand-blue hover:text-white hover:border-transparent py-3.5 px-8 rounded-lg inline-block"
                         type="button"
-                        onClick={() => console.log("Got here")}
+                        onClick={() => setPreviewIsOpen(true)}
                     >
                         Preview
                     </button>
@@ -412,7 +413,7 @@ const CreateInvoiceForm = () => {
                 </div>
             </form>
 
-            <InvoicePreview />
+            <InvoicePreview isOpen={previewIsOpen} toggleIsOpen={setPreviewIsOpen} />
         </>
 	);
 };
