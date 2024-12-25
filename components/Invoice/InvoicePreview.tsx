@@ -3,15 +3,47 @@
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/img/hero-image.png";
+import formatMoney from "@/lib/formatMoney";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface IInvoicePreview {
-    isOpen: boolean;
-    toggleIsOpen: Dispatch<SetStateAction<boolean>>
+	isOpen: boolean;
+	toggleIsOpen: Dispatch<SetStateAction<boolean>>;
+	data: {
+		userInfo: {
+			name: string;
+			email: string;
+			phoneNumber: string;
+		};
+		clientInfo: {
+			name: string;
+			email: string;
+			phoneNumber: string;
+		};
+		items:
+			| [
+					{
+						itemName: string;
+						itemDescription: string;
+						quantity: string;
+						amount: number;
+					},
+			  ]
+			| {
+					itemName: string;
+					itemDescription: string;
+					quantity: string;
+					amount: number;
+			  }[];
+		imageSrc: string;
+		issueDate: string;
+		netWorth: number;
+		totalAmount: number;
+	} | null;
 };
 
-const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
+const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen, data}) => {
     useEffect(() => {
         isOpen
             ? (document.querySelector("body")!.style!.overflow = "hidden")
@@ -35,13 +67,15 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
 					<div className="p-[1.875rem]">
 						<div className="flex items-center gap-4 justify-between mb-6">
 							<Image
-								className="w-32 h-14 object-center aspect-video"
-								src={Logo}
+								className="w-32 h-14 object-center aspect-video object-cover"
+								src={data?.imageSrc || Logo}
 								alt="NestlyPay"
+								width={128}
+								height={100}
 							/>
 
 							<p className="font-medium text-sm/5 -tracking-[5%] text-[rgba(34,_34,_52,_1)]">
-								Date: 04/07/2022
+								Date: {data?.issueDate || ""}
 							</p>
 						</div>
 
@@ -53,15 +87,15 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
 
 								<div className="space-y-[0.375rem]">
 									<p className="text-[rgba(34,_34,_52,_1)] text-sm/5 font-medium">
-										Dominic Praise
+										{data?.userInfo?.name}
 									</p>
 
 									<p className="text-[rgba(34,_34,_52,_1)] text-xs font-[450]">
-										dominic@nestlypay.co
+										{data?.userInfo?.email}
 									</p>
 
 									<p className="text-brand-green text-xs">
-										+234900000000
+										{data?.userInfo?.phoneNumber}
 									</p>
 								</div>
 							</div>
@@ -73,15 +107,15 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
 
 								<div className="space-y-[0.375rem]">
 									<p className="text-[rgba(34,_34,_52,_1)] text-sm/5 font-medium">
-										The Hype Agency
+										{data?.clientInfo?.name}
 									</p>
 
 									<p className="text-[rgba(34,_34,_52,_1)] text-xs font-[450]">
-										hello@thehypehq.com
+										{data?.clientInfo?.email}
 									</p>
 
 									<p className="text-brand-green text-xs">
-										+234800000000
+										{data?.clientInfo?.phoneNumber}
 									</p>
 								</div>
 							</div>
@@ -115,59 +149,28 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
 									</thead>
 
 									<tbody>
-										<tr className="border border-[rgba(235,_242,_254,_1)] last:border-t-0">
-											<td className="py-3 px-4 text-black/80">
-												Brand Design
-											</td>
+										{data?.items?.map((item) => (
+											<tr
+												className="border border-[rgba(235,_242,_254,_1)] last:border-t-0"
+												key={item.itemName}
+											>
+												<td className="py-3 px-4 text-black/80">
+													{item.itemName}
+												</td>
 
-											<td className="py-3 px-4 text-black/80">
-												Design
-											</td>
+												<td className="py-3 px-4 text-black/80">
+													{item.itemDescription}
+												</td>
 
-											<td className="py-3 px-4 text-black/80">
-												1
-											</td>
+												<td className="py-3 px-4 text-black/80">
+													{item.quantity}
+												</td>
 
-											<td className="py-3 px-4 text-black/80">
-												₦ 150,000.00
-											</td>
-										</tr>
-
-										<tr className="border border-[rgba(235,_242,_254,_1)] last:border-t-0">
-											<td className="py-3 px-4 text-black/80">
-												Graphic Design
-											</td>
-
-											<td className="py-3 px-4 text-black/80">
-												Design
-											</td>
-
-											<td className="py-3 px-4 text-black/80">
-												1
-											</td>
-
-											<td className="py-3 px-4 text-black/80">
-												₦ 150,000.00
-											</td>
-										</tr>
-
-										<tr className="border border-[rgba(235,_242,_254,_1)] last:border-t-0">
-											<td className="py-3 px-4 text-black/80">
-												Mobile App Development
-											</td>
-
-											<td className="py-3 px-4 text-black/80">
-												Engineering
-											</td>
-
-											<td className="py-3 px-4 text-black/80">
-												5
-											</td>
-
-											<td className="py-3 px-4 text-black/80">
-												₦ 150,000.00
-											</td>
-										</tr>
+												<td className="py-3 px-4 text-black/80">
+													{formatMoney(item.amount)}
+												</td>
+											</tr>
+										))}
 									</tbody>
 								</table>
 							</div>
@@ -178,16 +181,14 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
 								<p>Net Worth</p>
 
 								<p className="font-medium text-black/80">
-									₦ 900,00.00
+									{formatMoney(String(data?.netWorth || ""))}
 								</p>
 							</div>
 
-							<div className="flex items-center gap-4 justify-between text-xs">
-								<p>Sub</p>
+							<div className="flex items-center gap-4 justify-between">
+								<p>Tax</p>
 
-								<p className="font-medium text-black/80">
-									₦ 200,00.00
-								</p>
+								<p className="font-medium text-black/80">1%</p>
 							</div>
 
 							<div className="flex items-center gap-4 justify-between">
@@ -196,7 +197,9 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen}) => {
 								</p>
 
 								<p className="font-medium text-black/100">
-									₦ 200,00.00
+									{formatMoney(
+										String(data?.totalAmount || ""),
+									)}
 								</p>
 							</div>
 						</div>

@@ -6,20 +6,91 @@ import BluePlusIcon from "@/components/BluePlusIcon";
 import useUserDetails from "@/hooks/useUserDetails";
 import InvoiceDate from "./InvoiceDate";
 import InvoicePreview from "./InvoicePreview";
-import { useState, ChangeEvent } from "react";
+import formatMoney from "@/lib/formatMoney";
+import { useState, ChangeEvent, useEffect } from "react";
+import { format } from "date-fns";
+import { z } from "zod";
 
 interface FormField {
 	[key: string]: string;
 }
 
+interface InvoiceData {
+	userInfo: {
+		name: string;
+		email: string;
+		phoneNumber: string;
+	};
+	clientInfo: {
+		name: string;
+		email: string;
+		phoneNumber: string;
+	};
+	items:
+		| [
+				{
+					itemName: string;
+					itemDescription: string;
+					quantity: string;
+					amount: number;
+				},
+		  ]
+		| {
+				itemName: string;
+				itemDescription: string;
+				quantity: string;
+				amount: number;
+		  }[];
+	imageSrc: string;
+	issueDate: string;
+	netWorth: number;
+	totalAmount: number;
+}
+
+const userInfoSchema = z.object({
+	name: z.string(),
+	email: z.string().email(),
+	phoneNumber: z.string(),
+});
+
+const clientInfoSchema = z.object({
+	name: z.string(),
+	email: z.string().email(),
+	phoneNumber: z.string(),
+});
+
+const itemSchema = z.object({
+	itemName: z.string(),
+	itemDescription: z.string(),
+	quantity: z.string(),
+	amount: z.number(),
+});
+
+const InvoiceDataSchema = z.object({
+	userInfo: userInfoSchema,
+	clientInfo: clientInfoSchema,
+	items: z.array(itemSchema).or(itemSchema),
+	imageSrc: z.string(),
+	issueDate: z.string(),
+	netWorth: z.number(),
+	totalAmount: z.number(),
+});
+
 const CreateInvoiceForm = () => {
 	const { userDetails } = useUserDetails();
 
-    const [previewIsOpen, setPreviewIsOpen] = useState(false);
+	const [previewIsOpen, setPreviewIsOpen] = useState(false);
+
 	const [issueDate, setIssueDate] = useState<Date | string>("");
 	const [dueDate, setDueDate] = useState<Date | string>("");
 
-	const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+	// Added form fields
+	const [items, setItems] = useState<FormField[]>([]);
+
+	const [totalPrice, setTotalPrice] = useState(0);
+	const [previewData, setPreviewData] = useState<InvoiceData | null>(null);
 
 	const [formValues, setFormValues] = useState<{
 		phoneNumber: string;
@@ -38,42 +109,45 @@ const CreateInvoiceForm = () => {
 		itemName: string;
 		itemDescription: string;
 		quantity: string;
-		amount: string;
+		amount: number;
 	}>({
 		itemName: "",
 		itemDescription: "",
 		quantity: "",
-		amount: "",
+		amount: 0,
 	});
 
-	// Added form fields
-	const [items, setItems] = useState<FormField[]>([]);
-
 	const addField = () => {
-        setItems((prev) => {
-            return [
-                ...prev,
-
-                { name: "" },
-            ];
-        });
+		setItems((prev) => {
+			return [...prev, { name: "" }];
+		});
 	};
 
-	const handleItemChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-        const { name, value } = e.target;
+	const handleItemChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number,
+	) => {
+		const { name, value } = e.target;
+
+		const isAmountField = name.startsWith("amount-");
+
+		if (isAmountField) {
+			const numericValue = Number(value);
+
+			if (isNaN(numericValue) || numericValue < 0) {
+				return;
+			}
+		}
 
 		setItems((prev) => {
-            const fields = [...prev];
+			const updatedFields = [...prev];
 
-            fields[index].name = name;
+			updatedFields[index] = {
+				...updatedFields[index],
+				[name]: value,
+            };
 
-            const updatedFields = [...fields];
-
-            updatedFields[index][name] = value;
-
-            return [
-                ...updatedFields
-            ];
+			return updatedFields;
 		});
     };
 
@@ -82,7 +156,7 @@ const CreateInvoiceForm = () => {
 
 		reader.onload = (e: ProgressEvent<FileReader>) => {
 			const target = e.target as FileReader;
-			setImageUrl(target.result as string);
+			setImageSrc(target.result as string);
 		};
 
 		if (fileInputSelector.files && fileInputSelector.files[0]) {
@@ -93,11 +167,9 @@ const CreateInvoiceForm = () => {
 	const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const fileInputSelector = e.target as HTMLInputElement;
 		showUploadedImage(fileInputSelector);
-    };
+	};
 
-    const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 
 		if (value === "") {
@@ -119,7 +191,9 @@ const CreateInvoiceForm = () => {
 		});
 	};
 
-    const handleInvoiceItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInvoiceItemChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+	) => {
 		const { name, value } = e.target;
 
 		if (value === "") {
@@ -133,288 +207,385 @@ const CreateInvoiceForm = () => {
 			return;
 		}
 
+        if ((name === "amount" && isNaN(Number(value))) || Number(value) < 0) {
+			return;
+		}
+
 		setInvoiceItem((prevValues) => {
 			return {
 				...prevValues,
 				[name]: value,
 			};
 		});
-	};
+    };
 
-    return (
-        <>
-            <form className="bg-white/100 rounded-[1.875rem] space-y-11 py-10 px-8">
-                <div className="grid gap-5 items-center sm:grid-cols-2">
-                    <div className="w-auto md:mr-auto inline-block relative cursor-pointer rounded-[0.313rem] hover:bg-[#979797]/5 hover:text-[#979797] transition-colors ease-in-out duration-300 group">
-                        <label
-                            className="rounded-[0.313rem] cursor-pointer relative block dashed-border"
-                            htmlFor="logo"
-                        >
-                            <span className="sr-only">Upload logo</span>
+    const isInvoiceData = InvoiceDataSchema.safeParse(previewData);
 
-                            <div className="flex items-center gap-3 py-3.5 px-6 relative">
-                                <div className="shrink-0">
-                                    <svg
-                                        width="22"
-                                        height="16"
-                                        viewBox="0 0 22 16"
-                                        fill="none"
-                                    >
-                                        <path
-                                            className="fill-[#979797] group-hover:fill-[#979797]"
-                                            d="M5.5 16C3.98333 16 2.68767 15.475 1.613 14.425C0.537667 13.375 0 12.0917 0 10.575C0 9.275 0.391667 8.11667 1.175 7.1C1.95833 6.08333 2.98333 5.43333 4.25 5.15C4.66667 3.61667 5.5 2.375 6.75 1.425C8 0.475 9.41667 0 11 0C12.95 0 14.604 0.679 15.962 2.037C17.3207 3.39567 18 5.05 18 7C19.15 7.13333 20.1043 7.629 20.863 8.487C21.621 9.34567 22 10.35 22 11.5C22 12.75 21.5627 13.8127 20.688 14.688C19.8127 15.5627 18.75 16 17.5 16H12C11.45 16 10.9793 15.8043 10.588 15.413C10.196 15.021 10 14.55 10 14V8.85L8.4 10.4L7 9L11 5L15 9L13.6 10.4L12 8.85V14H17.5C18.2 14 18.7917 13.7583 19.275 13.275C19.7583 12.7917 20 12.2 20 11.5C20 10.8 19.7583 10.2083 19.275 9.725C18.7917 9.24167 18.2 9 17.5 9H16V7C16 5.61667 15.5127 4.43733 14.538 3.462C13.5627 2.48733 12.3833 2 11 2C9.61667 2 8.43767 2.48733 7.463 3.462C6.48767 4.43733 6 5.61667 6 7H5.5C4.53333 7 3.70833 7.34167 3.025 8.025C2.34167 8.70833 2 9.53333 2 10.5C2 11.4667 2.34167 12.2917 3.025 12.975C3.70833 13.6583 4.53333 14 5.5 14H8V16H5.5Z"
-                                        />
-                                    </svg>
-                                </div>
+    useEffect(() => {
+		const newTotalPrice = items.reduce((total, item, idx) => {
+			const amountKey = `amount-${idx + 1}`;
 
-                                <div>
-                                    <p className="font-[450] text-sm/6">
-                                        Upload Logo
-                                    </p>
+			const amount = Number(item[amountKey]);
 
-                                    <p className="text-[0.625rem]/[1.125rem]">
-                                        Recommended size 300x90 (png, jpg)
-                                    </p>
-                                </div>
-                            </div>
+			return !isNaN(amount) && amount >= 0 ? total + amount : total;
+		}, 0);
 
-                            <input
-                                type="file"
-                                accept=".png,.jpg"
-                                className="h-full cursor-pointer opacity-0 absolute inset-0 w-full rounded-[0.313rem] z-50"
-                                id="logo"
-                                name="logo"
-                                onChange={handleImageChange}
-                            />
+		setTotalPrice(newTotalPrice + Number(invoiceItem.amount));
+	}, [items, invoiceItem.amount]);
 
-                            {imageUrl && (
-                                <Image
-                                    className="absolute inset-0 w-full h-full object-cover object-center rounded-[0.313rem] cursor-pointer aspect-square"
-                                    src={imageUrl ?? ""}
-                                    fill
-                                    alt=""
-                                />
-                            )}
-                        </label>
-                    </div>
+    const validationResult = InvoiceDataSchema.safeParse(previewData);
 
-                    <div className="grid gap-5 grid-cols-2">
-                        <InvoiceDate
-                            text="Issue Date"
-                            date={issueDate}
-                            setDate={setIssueDate}
-                        />
-                        <InvoiceDate
-                            text="Due Date"
-                            date={dueDate}
-                            setDate={setDueDate}
-                        />
-                    </div>
-                </div>
+	if (validationResult.success) {
+		console.log("Validation passed:", validationResult.data);
+	} else {
+		console.log("Validation failed:", validationResult.error.errors);
+	}
 
-                <div className="grid gap-8 sm:grid-cols-2 md:gap-10 lg:gap-20">
-                    <div className="grid gap-4">
-                        <h2 className="font-bold text-xl/10 text-black/100">
-                            Bill From
-                        </h2>
+    console.log(previewData);
 
-                        <input
-                            className="input"
-                            name="name"
-                            value={userDetails?.fullName ?? ""}
-                            type="text"
-                            placeholder="Full Name"
-                            disabled
-                        />
+	return (
+		<>
+			<form className="bg-white/100 rounded-[1.875rem] space-y-11 py-10 px-8">
+				<div className="grid gap-5 items-center sm:grid-cols-2">
+					<div className="w-auto md:mr-auto inline-block relative cursor-pointer rounded-[0.313rem] hover:bg-[#979797]/5 hover:text-[#979797] transition-colors ease-in-out duration-300 group">
+						<label
+							className="rounded-[0.313rem] cursor-pointer relative block dashed-border"
+							htmlFor="logo"
+						>
+							<span className="sr-only">Upload logo</span>
 
-                        <input
-                            className="input"
-                            name="email"
-                            value={userDetails?.email ?? ""}
-                            type="email"
-                            placeholder="Email Address"
-                            disabled
-                        />
+							<div className="flex items-center gap-3 py-3.5 px-6 relative">
+								<div className="shrink-0">
+									<svg
+										width="22"
+										height="16"
+										viewBox="0 0 22 16"
+										fill="none"
+									>
+										<path
+											className="fill-[#979797] group-hover:fill-[#979797]"
+											d="M5.5 16C3.98333 16 2.68767 15.475 1.613 14.425C0.537667 13.375 0 12.0917 0 10.575C0 9.275 0.391667 8.11667 1.175 7.1C1.95833 6.08333 2.98333 5.43333 4.25 5.15C4.66667 3.61667 5.5 2.375 6.75 1.425C8 0.475 9.41667 0 11 0C12.95 0 14.604 0.679 15.962 2.037C17.3207 3.39567 18 5.05 18 7C19.15 7.13333 20.1043 7.629 20.863 8.487C21.621 9.34567 22 10.35 22 11.5C22 12.75 21.5627 13.8127 20.688 14.688C19.8127 15.5627 18.75 16 17.5 16H12C11.45 16 10.9793 15.8043 10.588 15.413C10.196 15.021 10 14.55 10 14V8.85L8.4 10.4L7 9L11 5L15 9L13.6 10.4L12 8.85V14H17.5C18.2 14 18.7917 13.7583 19.275 13.275C19.7583 12.7917 20 12.2 20 11.5C20 10.8 19.7583 10.2083 19.275 9.725C18.7917 9.24167 18.2 9 17.5 9H16V7C16 5.61667 15.5127 4.43733 14.538 3.462C13.5627 2.48733 12.3833 2 11 2C9.61667 2 8.43767 2.48733 7.463 3.462C6.48767 4.43733 6 5.61667 6 7H5.5C4.53333 7 3.70833 7.34167 3.025 8.025C2.34167 8.70833 2 9.53333 2 10.5C2 11.4667 2.34167 12.2917 3.025 12.975C3.70833 13.6583 4.53333 14 5.5 14H8V16H5.5Z"
+										/>
+									</svg>
+								</div>
 
-                        <FormInput
-                            name="phoneNumber"
-                            value={formValues?.phoneNumber ?? ""}
-                            type="text"
-                            placeholder="Phone Number"
-                            onChange={handleChange}
-                        />
-                    </div>
+								<div>
+									<p className="font-[450] text-sm/6">
+										Upload Logo
+									</p>
 
-                    <div className="grid gap-4">
-                        <h2 className="font-bold text-xl/10 text-black/100">
-                            Client Information
-                        </h2>
+									<p className="text-[0.625rem]/[1.125rem]">
+										Recommended size 300x90 (png, jpg)
+									</p>
+								</div>
+							</div>
 
-                        <FormInput
-                            name="clientName"
-                            value={formValues?.clientName}
-                            type="text"
-                            placeholder="Client or Company Name"
-                            onChange={handleChange}
-                        />
+							<input
+								type="file"
+								accept=".png,.jpg"
+								className="h-full cursor-pointer opacity-0 absolute inset-0 w-full rounded-[0.313rem] z-50"
+								id="logo"
+								name="logo"
+								onChange={handleImageChange}
+							/>
 
-                        <FormInput
-                            name="clientEmail"
-                            value={formValues?.clientEmail}
-                            type="text"
-                            placeholder="Client or Company Email"
-                            onChange={handleChange}
-                        />
+							{imageSrc && (
+								<Image
+									className="absolute inset-0 w-full h-full object-cover object-center rounded-[0.313rem] cursor-pointer aspect-square"
+									src={imageSrc ?? ""}
+									fill
+									alt=""
+								/>
+							)}
+						</label>
+					</div>
 
-                        <FormInput
-                            name="clientPhoneNumber"
-                            value={formValues?.clientPhoneNumber}
-                            type="text"
-                            placeholder="Client or Company Phone Number"
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
+					<div className="grid gap-5 grid-cols-2">
+						<InvoiceDate
+							text="Issue Date"
+							date={issueDate}
+							setDate={setIssueDate}
+						/>
 
-                <div className="space-y-4">
-                    <h2 className="font-bold text-xl/10 text-black/100">
-                        Item Details
-                    </h2>
+						<InvoiceDate
+							text="Due Date"
+							date={dueDate}
+							setDate={setDueDate}
+						/>
+					</div>
+				</div>
 
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-12 gap-4 border-b border-[rgba(241,_241,_241,_1)] last:border-0 pb-4 md:pb-0 md:border-0">
-                            <FormInput
-                                className="col-span-12 sm:col-span-2 md:col-span-3"
-                                name="itemName"
-                                value={invoiceItem.itemName}
-                                type="text"
-                                placeholder="Item Name"
-                                onChange={handleInvoiceItemChange}
-                            />
+				<div className="grid gap-8 sm:grid-cols-2 md:gap-10 lg:gap-20">
+					<div className="grid gap-4">
+						<h2 className="font-bold text-xl/10 text-black/100">
+							Bill From
+						</h2>
 
-                            <FormInput
-                                className="col-span-12 sm:col-span-2 md:col-span-5"
-                                name="itemDescription"
-                                value={invoiceItem.itemDescription}
-                                type="text"
-                                placeholder="Item Description"
-                                onChange={handleInvoiceItemChange}
-                            />
+						<input
+							className="input"
+							name="name"
+							value={userDetails?.fullName ?? ""}
+							type="text"
+							placeholder="Full Name"
+							disabled
+						/>
 
-                            <FormInput
-                                className="col-span-6 sm:col-span-2"
-                                name="quantity"
-                                value={invoiceItem.quantity}
-                                type="text"
-                                placeholder="Quantity"
-                                onChange={handleInvoiceItemChange}
-                            />
+						<input
+							className="input"
+							name="email"
+							value={userDetails?.email ?? ""}
+							type="email"
+							placeholder="Email Address"
+							disabled
+						/>
 
-                            <FormInput
-                                className="col-span-6 sm:col-span-2"
-                                name="amount"
-                                value={invoiceItem.amount}
-                                type="text"
-                                placeholder="Amount"
-                                onChange={handleInvoiceItemChange}
-                            />
-                        </div>
+						<FormInput
+							name="phoneNumber"
+							value={formValues?.phoneNumber ?? ""}
+							type="text"
+							placeholder="Phone Number"
+							onChange={handleChange}
+						/>
+					</div>
 
-                        {items.map((field: FormField, index: number) => (
-                            <div
-                                className="grid grid-cols-12 gap-4 border-b border-[rgba(241,_241,_241,_1)] last:border-0 pb-4 md:pb-0 md:border-0"
-                                key={index}
-                            >
-                                <FormInput
-                                    className="col-span-12 sm:col-span-2 md:col-span-3"
-                                    name={`ItemName-${index + 1}`}
-                                    value={`${field[`ItemName-${index + 1}`] ?? ""}`}
-                                    type="text"
-                                    placeholder="Item Name"
-                                    onChange={(e) => handleItemChange(e, index)}
-                                />
+					<div className="grid gap-4">
+						<h2 className="font-bold text-xl/10 text-black/100">
+							Client Information
+						</h2>
 
-                                <FormInput
-                                    className="col-span-12 sm:col-span-2 md:col-span-5"
-                                    name={`itemDescription-${index + 1}`}
-                                    value={`${field[`itemDescription-${index + 1}`] ?? ""}`}
-                                    type="text"
-                                    placeholder="Item Description"
-                                    onChange={(e) => handleItemChange(e, index)}
-                                />
+						<FormInput
+							name="clientName"
+							value={formValues?.clientName}
+							type="text"
+							placeholder="Client or Company Name"
+							onChange={handleChange}
+						/>
 
-                                <FormInput
-                                    className="col-span-6 sm:col-span-2"
-                                    name={`quantity-${index + 1}`}
-                                    value={`${field[`quantity-${index + 1}`] ?? ""}`}
-                                    type="text"
-                                    placeholder="Quantity"
-                                    onChange={(e) => handleItemChange(e, index)}
-                                />
+						<FormInput
+							name="clientEmail"
+							value={formValues?.clientEmail}
+							type="text"
+							placeholder="Client or Company Email"
+							onChange={handleChange}
+						/>
 
-                                <FormInput
-                                    className="col-span-6 sm:col-span-2"
-                                    name={`amount-${index + 1}`}
-                                    value={`${field[`amount-${index + 1}`] ?? ""}`}
-                                    type="text"
-                                    placeholder="Amount"
-                                    onChange={(e) => handleItemChange(e, index)}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+						<FormInput
+							name="clientPhoneNumber"
+							value={formValues?.clientPhoneNumber}
+							type="text"
+							placeholder="Client or Company Phone Number"
+							onChange={handleChange}
+						/>
+					</div>
+				</div>
 
-                <div className="grid place-content-end">
-                    <button
-                        type="button"
-                        aria-label="Add more items"
-                        onClick={addField}
-                    >
-                        <BluePlusIcon />
-                    </button>
-                </div>
+				<div className="space-y-4">
+					<h2 className="font-bold text-xl/10 text-black/100">
+						Item Details
+					</h2>
 
-                <div className="rounded-md bg-[rgba(245,_245,_245,_1)] p-4 mt-24 lg:mt-32 space-y-4 lg:w-2/5 lg:ml-auto">
-                    <div className="flex items-center gap-4 justify-between text-sm">
-                        <p>Net Worth</p>
+					<div className="grid gap-4 md:gap-8">
+						<div className="grid grid-cols-12 items-end gap-4 border-b border-[rgba(241,_241,_241,_1)] last:border-0 pb-4 md:pb-0 md:border-0">
+							<FormInput
+								className="col-span-12 sm:col-span-2 md:col-span-3"
+								name="itemName"
+								value={invoiceItem.itemName}
+								type="text"
+								placeholder="Item Name"
+								onChange={handleInvoiceItemChange}
+							/>
 
-                        <p className="font-medium text-black/80">₦ 900,00.00</p>
-                    </div>
+							<FormInput
+								className="col-span-12 sm:col-span-2 md:col-span-5"
+								name="itemDescription"
+								value={invoiceItem.itemDescription}
+								type="text"
+								placeholder="Item Description"
+								onChange={handleInvoiceItemChange}
+							/>
 
-                    <div className="flex items-center gap-4 justify-between text-xs">
-                        <p>Sub</p>
+							<FormInput
+								className="col-span-6 sm:col-span-2"
+								name="quantity"
+								value={invoiceItem.quantity}
+								type="text"
+								placeholder="Quantity"
+								onChange={handleInvoiceItemChange}
+							/>
 
-                        <p className="font-medium text-black/80">₦ 200,00.00</p>
-                    </div>
+							<div className="col-span-6 sm:col-span-2 space-y-1">
+								<span>
+									{formatMoney(String(invoiceItem.amount))}
+								</span>
 
-                    <div className="flex items-center gap-4 justify-between">
-                        <p className="font-medium text-black/100">TOTAL</p>
+								<FormInput
+									name="amount"
+									value={
+										Number(invoiceItem.amount) > 0
+											? String(invoiceItem.amount)
+											: ""
+									}
+									type="text"
+									placeholder="Amount"
+									onChange={handleInvoiceItemChange}
+								/>
+							</div>
+						</div>
 
-                        <p className="font-medium text-black/100">₦ 200,00.00</p>
-                    </div>
-                </div>
+						{items.map((field: FormField, index: number) => (
+							<div
+								className="grid grid-cols-12 gap-4 items-end border-b border-[rgba(241,_241,_241,_1)] last:border-0 pb-4 md:pb-0 md:border-0"
+								key={index}
+							>
+								<FormInput
+									className="col-span-12 sm:col-span-2 md:col-span-3"
+									name={`itemName-${index + 1}`}
+									value={`${field[`itemName-${index + 1}`] ?? ""}`}
+									type="text"
+									placeholder="Item Name"
+									onChange={(e) => handleItemChange(e, index)}
+								/>
 
-                <div className="flex items-center gap-4 flex-wrap mt-8 place-content-end">
-                    <button
-                        className="btn bg-white/100 border-2 border-brand-blue font-medium text-brand-blue hover:bg-brand-blue hover:text-white hover:border-transparent py-3.5 px-8 rounded-lg inline-block"
-                        type="button"
-                        onClick={() => setPreviewIsOpen(true)}
-                    >
-                        Preview
-                    </button>
+								<FormInput
+									className="col-span-12 sm:col-span-2 md:col-span-5"
+									name={`itemDescription-${index + 1}`}
+									value={`${field[`itemDescription-${index + 1}`] ?? ""}`}
+									type="text"
+									placeholder="Item Description"
+									onChange={(e) => handleItemChange(e, index)}
+								/>
 
-                    <button
-                        className="btn bg-brand-blue border-2 border-transparent font-medium text-white hover:bg-brand-blue/70 hover:text-white hover:border-transparent py-3.5 px-8 rounded-lg inline-block"
-                        type="button"
-                    >
-                        Send
-                    </button>
-                </div>
-            </form>
+								<FormInput
+									className="col-span-6 sm:col-span-2"
+									name={`quantity-${index + 1}`}
+									value={`${field[`quantity-${index + 1}`] ?? ""}`}
+									type="text"
+									placeholder="Quantity"
+									onChange={(e) => handleItemChange(e, index)}
+								/>
 
-            <InvoicePreview isOpen={previewIsOpen} toggleIsOpen={setPreviewIsOpen} />
-        </>
+								<div className="col-span-6 sm:col-span-2 space-y-1">
+									<span>
+										{formatMoney(
+											field[`amount-${index + 1}`] ?? "",
+										)}
+									</span>
+
+									<FormInput
+										name={`amount-${index + 1}`}
+										value={`${field[`amount-${index + 1}`] ?? ""}`}
+										type="text"
+										placeholder="Amount"
+										onChange={(e) =>
+											handleItemChange(e, index)
+										}
+									/>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div className="grid place-content-end">
+					<button
+						type="button"
+						aria-label="Add more items"
+						onClick={addField}
+					>
+						<BluePlusIcon />
+					</button>
+				</div>
+
+				<div className="rounded-md bg-[rgba(245,_245,_245,_1)] p-4 mt-24 lg:mt-32 space-y-4 lg:w-2/5 lg:ml-auto">
+					<div className="flex items-center gap-4 justify-between text-sm">
+						<p>Net Worth</p>
+
+						<p className="font-medium text-black/80">
+							{formatMoney(String(totalPrice))}
+						</p>
+					</div>
+
+					<div className="flex items-center gap-4 justify-between">
+						<p>Tax</p>
+
+						<p className="font-medium text-black/80">1%</p>
+					</div>
+
+					<div className="flex items-center gap-4 justify-between">
+						<p className="font-medium text-black/100">TOTAL</p>
+
+						<p className="font-medium text-black/100">
+							{formatMoney(
+								String(totalPrice - totalPrice * 0.01),
+							)}
+						</p>
+					</div>
+				</div>
+
+				<div className="flex items-center gap-4 flex-wrap mt-8 place-content-end">
+					<button
+						className="btn bg-white/100 border-2 border-brand-blue font-medium text-brand-blue hover:bg-brand-blue hover:text-white disabled:pointer-events-none disabled:hover:cursor-not-allowed hover:border-transparent py-3.5 px-8 rounded-lg inline-block"
+						type="button"
+						onClick={() => {
+							const formattedItems: {
+								itemName: string;
+								itemDescription: string;
+								quantity: string;
+								amount: number;
+							}[] = [];
+
+							items.map((item, index) => {
+								formattedItems.push({
+									itemName: item[`itemName-${index + 1}`],
+									itemDescription:
+										item[`itemDescription-${index + 1}`],
+									quantity: item[`quantity-${index + 1}`],
+									amount: Number(item[`amount-${index + 1}`]),
+								});
+							});
+
+							setPreviewData({
+								userInfo: {
+									name: userDetails?.fullName || "",
+									email: userDetails?.email || "",
+									phoneNumber: formValues.phoneNumber,
+								},
+								clientInfo: {
+									name: formValues.clientName,
+									email: formValues.clientEmail,
+									phoneNumber: formValues.clientPhoneNumber,
+								},
+								items: [...formattedItems, invoiceItem],
+								imageSrc: imageSrc ?? "",
+								netWorth: totalPrice,
+								issueDate: format(
+									issueDate !== "" ? issueDate : new Date(),
+									"MMM d, yyyy",
+								),
+								totalAmount: totalPrice - totalPrice * 0.01,
+							});
+
+							setPreviewIsOpen(true);
+						}}
+					>
+						Preview
+					</button>
+
+					<button
+						className="btn bg-brand-blue border-2 border-transparent font-medium text-white hover:bg-brand-blue/70 hover:text-white hover:border-transparent py-3.5 px-8 rounded-lg inline-block"
+						type="button"
+					>
+						Send
+					</button>
+				</div>
+			</form>
+
+			<InvoicePreview
+				isOpen={previewIsOpen}
+				toggleIsOpen={setPreviewIsOpen}
+				data={previewData}
+			/>
+		</>
 	);
 };
 

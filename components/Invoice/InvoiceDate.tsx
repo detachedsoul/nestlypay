@@ -23,9 +23,9 @@ const InvoiceDate: React.FC<IDate> = ({ text, date, setDate }) => {
 		<Popover>
 			<PopoverTrigger asChild>
 				<Button
-					variant={"outline"}
+					variant="outline"
 					className={cn(
-						"btn py-7 bg-white/100 border-black/10 text-base px-10 font-medium text-[#979797] hover:bg-[#979797]/5 hover:text-[#979797] lg:py-6 group",
+						"btn py-2.5 h-auto bg-white/100 border-black/10 text-base px-10 font-medium text-[#979797] hover:bg-[#979797]/5 hover:text-[#979797] lg:px-0 group",
 						{
 							"text-muted-foreground": !date,
 						},
