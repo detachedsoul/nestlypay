@@ -235,14 +235,6 @@ const CreateInvoiceForm = () => {
 
     const validationResult = InvoiceDataSchema.safeParse(previewData);
 
-	if (validationResult.success) {
-		console.log("Validation passed:", validationResult.data);
-	} else {
-		console.log("Validation failed:", validationResult.error.errors);
-	}
-
-    console.log(previewData);
-
 	return (
 		<>
 			<form className="bg-white/100 rounded-[1.875rem] space-y-11 py-10 px-8">

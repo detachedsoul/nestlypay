@@ -167,7 +167,9 @@ const InvoicePreview: React.FC<IInvoicePreview> = ({isOpen, toggleIsOpen, data})
 												</td>
 
 												<td className="py-3 px-4 text-black/80">
-													{formatMoney(item.amount)}
+													{formatMoney(
+														String(item.amount),
+													)}
 												</td>
 											</tr>
 										))}
