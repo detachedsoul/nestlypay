@@ -12,20 +12,6 @@ import {
 } from 'chart.js';
 import { Line } from "react-chartjs-2";
 
-// Generate fake data for testing purposes
-const generateRandomData = (numPoints: number, min: number, max: number) => {
-    const data = [];
-    for (let i = 0; i < numPoints; i++) {
-        const credit = Math.floor(Math.random() * (max - min + 1)) + min;
-
-        const debit = Math.floor(Math.random() * (max - min + 1)) + min;
-
-        data.push({ credit, debit });
-    }
-
-    return data;
-};
-
 const Statistics = (): JSX.Element => {
     ChartJS.register(
         CategoryScale,
@@ -77,10 +63,13 @@ const Statistics = (): JSX.Element => {
     };
 
     return (
-        <div className="overflow-x-auto custom-scrollbar w-full h-[300px] lg:h-[400px]">
-            <Line data={data} options={options} />
-        </div>
-    );
+		<div className="overflow-x-auto custom-scrollbar w-full h-[300px] lg:h-[400px]">
+			<Line
+				data={data}
+				options={options}
+			/>
+		</div>
+	);
 };
 
 export default Statistics;

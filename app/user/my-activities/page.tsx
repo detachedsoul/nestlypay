@@ -1,10 +1,8 @@
-import TransactionHistory from "@/components/User/TransactionHistory";
-import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "NestlyPay | Transaction History",
-    description: "View your transaction history"
+    title: "NestlyPay | Activity History",
+    description: "View your activity history"
 };
 
 const Index = (): JSX.Element => {

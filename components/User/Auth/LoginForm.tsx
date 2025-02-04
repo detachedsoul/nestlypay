@@ -45,6 +45,7 @@ const LoginForm = () => {
 				userID: state.data?.userID ?? "",
 				name: state.data?.name ?? "",
 				email: state.data?.email ?? "",
+				imageUrl: state.data?.profilePicture ?? "",
 			};
 
 			const { data, status } = await getUserDetails(detailsParams);
@@ -60,6 +61,7 @@ const LoginForm = () => {
 						userID: state.data.userID,
 						name: state.data.name,
 						email: state.data.email,
+						imageUrl: state.data.profilePicture,
 					});
 
 					permanentRedirect("/user");

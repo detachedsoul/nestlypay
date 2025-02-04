@@ -23,7 +23,7 @@ const useUpdateUserDetails = () => {
 			userID: authInfo?.userID ?? "",
             email: authInfo?.email ?? "",
             name: authInfo?.name ?? ""
-		};
+        };
 
 		const { status, message, data } = await updateUserDetails(
 			detailsParams,
@@ -38,6 +38,7 @@ const useUpdateUserDetails = () => {
 				userID: data?.id ?? "",
 				name: data?.fullName ?? "",
 				email: data?.email ?? "",
+				imageUrl: data?.profilePicture ?? "",
 			});
 		}
 

@@ -6,6 +6,7 @@ type AuthInfo = {
 	sessionID: string | null;
     name: string | null;
     email: string | null;
+    imageUrl: string | null;
 };
 
 type AuthInfoState = {
@@ -22,6 +23,7 @@ const useAuth = create<AuthInfoState>()(
 				userID: null,
 				name: null,
 				email: null,
+				imageUrl: null,
 			},
 
 			setAuthInfo: (info: AuthInfo) =>
@@ -38,6 +40,7 @@ const useAuth = create<AuthInfoState>()(
 						userID: null,
 						name: null,
 						email: null,
+						imageUrl: null,
 					},
 				})),
 		}),

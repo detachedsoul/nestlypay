@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const circularSTD = localFont({
@@ -47,6 +48,8 @@ export default function RootLayout({
 				className={`antialiased scroll-smooth text-base font-normal text-black/70 selection:bg-brand-blue selection:text-white break-words [word-break:break-word] [word-wrap:break-word] ${circularSTD.className}`}
 			>
 				{children}
+
+				<SpeedInsights />
 			</body>
 		</html>
 	);
