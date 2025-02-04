@@ -22,7 +22,10 @@ const schema = z.object({
 		.min(2, "Full name must be at least 2 characters"),
 	phoneNumber: z
 		.string()
-		.regex(/^(?:\+234|234|0)\d{10}$/, "Phone number must be a valid Nigerian phone number")
+		.regex(
+			/^(?:\+234|234|0)\d{10}$/,
+			"Phone number must be a valid Nigerian phone number",
+		)
 		.optional(),
 });
 
@@ -32,21 +35,27 @@ type FormValues = {
 };
 
 const Profile = (): JSX.Element => {
-    const { authInfo } = useAuth();
-    const { userDetails } = useUserDetails();
+	const { authInfo } = useAuth();
+	const { userDetails } = useUserDetails();
 	const { updateDetails, resetStatus } = useUpdateUserDetails();
+
+	const [isUploading, setIsUploading] = useState(false);
 
 	const [formValues, setFormValues] = useState({
 		fullName: userDetails?.fullName ?? "",
 		phoneNumber: userDetails?.phoneNumber ?? "",
 	});
 
-    const [errors, setErrors] = useState<Partial<FormValues>>({
+	const [errors, setErrors] = useState<Partial<FormValues>>({
 		fullName: "",
 		phoneNumber: "",
 	});
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
+	const handleChange = (
+		e:
+			| React.ChangeEvent<HTMLInputElement>
+			| React.FocusEvent<HTMLInputElement>,
+	) => {
 		const { name, value } = e.target;
 
 		setFormValues((prevValues) => {
@@ -66,40 +75,47 @@ const Profile = (): JSX.Element => {
 		});
 	};
 
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-    const showUploadedImage = (fileInputSelector: HTMLInputElement) => {
-        const reader = new FileReader();
+	const showUploadedImage = (fileInputSelector: HTMLInputElement) => {
+		const reader = new FileReader();
 
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-            const target = e.target as FileReader;
-            setImageUrl(target.result as string);
-        };
+		reader.onload = (e: ProgressEvent<FileReader>) => {
+			const target = e.target as FileReader;
+			setImageUrl(target.result as string);
+		};
 
-        if (fileInputSelector.files && fileInputSelector.files[0]) {
-            reader.readAsDataURL(fileInputSelector.files[0]);
-        }
-    };
+		if (fileInputSelector.files && fileInputSelector.files[0]) {
+			reader.readAsDataURL(fileInputSelector.files[0]);
+		}
+	};
 
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const fileInputSelector = e.target as HTMLInputElement;
-        showUploadedImage(fileInputSelector);
+
+		showUploadedImage(fileInputSelector);
     };
 
-    useEffect(() => {
+    const handleUpdate = async () => {
+		await updateDetails(formValues);
+	};
+
+	useEffect(() => {
 		if (userDetails) {
 			setFormValues({
 				fullName: userDetails?.fullName ?? "",
-                phoneNumber: userDetails?.phoneNumber ?? "",
+				phoneNumber: userDetails?.phoneNumber ?? "",
 			});
 		}
 	}, [userDetails]);
 
-	const handleUpdate = async () => {
-		await updateDetails(formValues);
-	};
+	useEffect(() => {
+		if (resetStatus.status === "success") {
+            setImageUrl(null);
+        }
+    }, [resetStatus]);
 
-    return (
+	return (
 		<>
 			<form
 				className="space-y-6 lg:w-3/5 xl:w-1/2 lg:mx-auto settings-card"
@@ -123,10 +139,16 @@ const Profile = (): JSX.Element => {
 						onChange={handleImageChange}
 					/>
 
-					{imageUrl && (
+					{(imageUrl || authInfo?.imageUrl) && (
 						<Image
 							className="absolute inset-0 w-full h-full object-cover object-center rounded-full cursor-pointer aspect-square"
-							src={imageUrl ?? ""}
+							src={
+								imageUrl
+									? imageUrl
+									: authInfo?.imageUrl
+										? authInfo.imageUrl
+										: ""
+							}
 							fill
 							alt={authInfo?.name ?? ""}
 						/>
@@ -136,12 +158,19 @@ const Profile = (): JSX.Element => {
 				<div className="flex items-center flex-wrap gap-4 place-content-center">
 					<button
 						className={cn(
-							"btn bg-brand-blue text-white border-[1.5px] border-brand-blue font-medium hover:bg-brand-blue/60 hover:border-transparent py-3.5 rounded-lg inline-block",
+							"submit-btn w-auto btn bg-brand-blue text-white border-[1.5px] border-brand-blue font-medium hover:bg-brand-blue/60 hover:border-transparent py-3.5 rounded-lg inline-block",
 						)}
 						type="button"
-						onClick={() => setImageUrl(null)}
+						disabled={!imageUrl || isUploading}
+						onClick={async () => {
+							setIsUploading(true);
+
+							await updateDetails({ profilePicture: imageUrl });
+
+                            setIsUploading(false);
+						}}
 					>
-						Upload Image
+						{isUploading ? "Uploading image..." : "Upload Image"}
 					</button>
 
 					<button
@@ -213,11 +242,7 @@ const Profile = (): JSX.Element => {
 	);
 };
 
-export const SubmitButton = ({
-	errors,
-}: {
-	errors: Partial<FormValues>;
-}) => {
+export const SubmitButton = ({ errors }: { errors: Partial<FormValues> }) => {
 	const { pending } = useFormStatus();
 
 	const hasErrors = formHasErrors(errors);

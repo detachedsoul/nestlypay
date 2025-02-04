@@ -171,6 +171,7 @@ const CreateBusinessAccount = () => {
 					userID: state.data.id,
 					name: `${businessInfo.firstName} ${businessInfo.lastName}`,
 					email: businessInfo.email,
+					imageUrl: state.data.profilePicture,
 				});
 
 				localStorage.removeItem("business-info");

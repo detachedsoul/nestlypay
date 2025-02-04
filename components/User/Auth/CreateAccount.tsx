@@ -88,6 +88,7 @@ const CreateAccount = () => {
 					userID: state.data.id,
 					name: formValues.fullName,
 					email: formValues.email,
+					imageUrl: state.data.profilePicture,
 				});
 
 				setUserDetails(state.data);

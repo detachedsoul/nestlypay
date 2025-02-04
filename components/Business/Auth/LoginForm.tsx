@@ -21,7 +21,8 @@ const LoginForm = () => {
 					sessionID: state.data.sessionID,
 					userID: state.data.userID,
 					name: state.data.name,
-                    email: state.data.email
+                    email: state.data.email,
+                    imageUrl: state.data.profilePicture
                 });
 
                 permanentRedirect("/business");
